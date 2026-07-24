@@ -1,0 +1,335 @@
+/*=========================================================
+PROYECTO: ATLAS
+
+ARCHIVO: estilos.css
+
+VERSIÓN: 1.0.0
+
+FUNCIÓN:
+Estilos generales del proyecto.
+
+=========================================================*/
+
+
+
+/*=========================================================
+RESET GENERAL
+=========================================================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--color-fondo);
+    color:var(--color-blanco);
+    font-family:var(--fuente-principal);
+    overflow-x:hidden;
+}
+
+
+
+/*=========================================================
+IMÁGENES
+=========================================================*/
+
+img{
+    display:block;
+    width:100%;
+}
+
+
+
+/*=========================================================
+ENLACES
+=========================================================*/
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+
+
+/*=========================================================
+LISTAS
+=========================================================*/
+
+ul{
+    list-style:none;
+}
+
+
+
+/*=========================================================
+BOTONES
+=========================================================*/
+
+button{
+
+    cursor:pointer;
+
+    border:none;
+
+    outline:none;
+
+    font-family:inherit;
+
+}
+
+
+
+/*=========================================================
+CONTENEDOR PRINCIPAL
+=========================================================*/
+
+.container{
+
+    width:90%;
+
+    max-width:var(--ancho-maximo);
+
+    margin:auto;
+
+}
+
+
+
+/*=========================================================
+TÍTULOS
+=========================================================*/
+
+h1,h2,h3,h4{
+
+    font-family:var(--fuente-titulos);
+
+    letter-spacing:2px;
+
+    font-weight:500;
+
+}
+
+
+
+/*=========================================================
+SCROLL PERSONALIZADO
+=========================================================*/
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#090909;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--color-azul);
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:var(--color-hover);
+
+}
+
+
+
+/*=========================================================
+SELECCIÓN DE TEXTO
+=========================================================*/
+
+::selection{
+
+    background:var(--color-azul);
+
+    color:white;
+
+}
+/*=========================================================
+HEADER
+=========================================================*/
+
+#header{
+
+    position: sticky;
+    top: 0;
+
+    width: 100%;
+
+    background: rgba(11,11,11,.85);
+
+    backdrop-filter: blur(12px);
+
+    border-bottom:1px solid var(--color-linea);
+
+    z-index:999;
+
+}
+
+
+.header-container{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    height:80px;
+
+}
+
+
+.logo h1{
+
+    font-size:2rem;
+
+    color:var(--color-blanco);
+
+    letter-spacing:6px;
+
+    cursor:pointer;
+
+}
+
+
+.menu{
+
+    display:flex;
+
+    gap:35px;
+
+}
+
+
+.menu a{
+
+    color:var(--color-blanco);
+
+    font-size:.95rem;
+
+    transition:var(--transicion);
+
+    position:relative;
+
+}
+
+
+.menu a:hover{
+
+    color:var(--color-azul);
+
+}
+
+
+.menu a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-8px;
+
+    width:0;
+
+    height:2px;
+
+    background:var(--color-azul);
+
+    transition:var(--transicion);
+
+}
+
+
+.menu a:hover::after{
+
+    width:100%;
+
+}
+
+
+.acciones{
+
+    display:flex;
+
+    gap:15px;
+
+}
+
+
+.btn-icono{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    background:transparent;
+
+    color:var(--color-blanco);
+
+    border:1px solid var(--color-linea);
+
+    transition:var(--transicion);
+
+    position:relative;
+
+}
+
+
+.btn-icono:hover{
+
+    background:var(--color-azul);
+
+    transform:translateY(-3px);
+
+}
+
+
+.contador{
+
+    position:absolute;
+
+    top:-6px;
+
+    right:-6px;
+
+    width:20px;
+
+    height:20px;
+
+    border-radius:50%;
+
+    background:var(--color-plateado);
+
+    color:#000;
+
+    font-size:.75rem;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:bold;
+
+}

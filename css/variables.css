@@ -1,0 +1,79 @@
+/*=========================================================
+PROYECTO: ATLAS
+
+ARCHIVO: variables.css
+
+VERSIÓN: 1.0.0
+
+FUNCIÓN:
+Variables globales del proyecto.
+
+AQUÍ PUEDES CAMBIAR:
+✔️ Colores
+✔️ Tipografías
+✔️ Tamaños
+✔️ Bordes
+✔️ Animaciones
+
+=========================================================*/
+
+:root{
+
+    /* ==========================================
+       COLORES
+    ========================================== */
+
+    --color-fondo: #0B0B0B;
+    --color-fondo-secundario: #121212;
+
+    --color-blanco: #F5F5F5;
+
+    --color-azul: #5F738A;
+
+    --color-plateado: #BFC5CC;
+
+    --color-linea: rgba(255,255,255,.08);
+
+    --color-hover: #7D93AA;
+
+
+
+    /* ==========================================
+       TIPOGRAFÍAS
+    ========================================== */
+
+    --fuente-principal: 'Inter', sans-serif;
+
+    --fuente-titulos: 'Oswald', sans-serif;
+
+
+
+    /* ==========================================
+       TAMAÑOS
+    ========================================== */
+
+    --radio: 16px;
+
+    --radio-boton: 50px;
+
+    --ancho-maximo: 1400px;
+
+
+
+    /* ==========================================
+       SOMBRAS
+    ========================================== */
+
+    --sombra-suave: 0 10px 30px rgba(0,0,0,.30);
+
+    --sombra-card: 0 15px 45px rgba(0,0,0,.45);
+
+
+
+    /* ==========================================
+       TRANSICIONES
+    ========================================== */
+
+    --transicion: .35s ease;
+
+}
