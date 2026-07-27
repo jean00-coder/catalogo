@@ -4,12 +4,11 @@ PROYECTO: ATLAS
 
 ARCHIVO: index.html
 
-VERSIÓN: 1.0.0
+VERSIÓN: 0.2.2 Alpha
 
 DESCRIPCIÓN:
 Página principal del catálogo.
-
-DESARROLLADO PASO A PASO.
+Hero premium con slider automático y menú móvil.
 
 =========================================================
 -->
@@ -23,20 +22,19 @@ DESARROLLADO PASO A PASO.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Título -->
-    <title>ATLAS | Catálogo Oficial</title>
+    <!-- Título: evitamos usar "Oficial" porque los productos son réplicas -->
+    <title>ATLAS | Catálogo de Sneakers</title>
 
-    <!-- Icono (Lo agregaremos después) -->
-    <link rel="icon" href="img/logo/favicon.png">
+    <!-- Icono pendiente para una etapa posterior -->
+    <!-- <link rel="icon" href="img/logo/favicon.png"> -->
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/variables.css">
@@ -47,176 +45,201 @@ DESARROLLADO PASO A PASO.
 
 <body>
 
-   <!--=========================================================
-HEADER - ATLAS
-==========================================================-->
+    <!--=========================================================
+    HEADER - ATLAS
+    ==========================================================-->
 
-<header id="header">
+    <header id="header">
 
-    <div class="container header-container">
+        <div class="container header-container">
 
-        <!--======================
-        LOGO
-        =======================-->
+            <div class="logo">
+                <h1>ATLAS</h1>
+            </div>
 
-        <div class="logo">
+            <nav id="menu-principal" class="menu" aria-label="Navegación principal">
+                <a href="#hero">Inicio</a>
+                <a href="#catalogo">Catálogo</a>
+                <a href="#destacados">Destacados</a>
+            </nav>
 
-            <h1>ATLAS</h1>
+            <div class="acciones">
 
-        </div>
+                <button class="btn-icono accion-buscar" type="button" aria-label="Buscar productos">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                </button>
 
-        <!--======================
-        MENÚ
-        =======================-->
+                <button class="btn-icono accion-whatsapp" type="button" aria-label="Contactar por WhatsApp">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                </button>
 
-        <nav class="menu">
+                <button class="btn-icono accion-carrito" type="button" aria-label="Abrir carrito">
+                    <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+                    <span class="contador">0</span>
+                </button>
 
-            <a href="#hero">Inicio</a>
-            <a href="#catalogo">Catálogo</a>
-            <a href="#destacados">Destacados</a>
+                <!-- Botón visible únicamente en tablet y celular -->
+                <button
+                    id="boton-menu"
+                    class="btn-icono btn-menu"
+                    type="button"
+                    aria-label="Abrir menú"
+                    aria-expanded="false"
+                    aria-controls="menu-principal"
+                >
+                    <span class="btn-menu-lineas" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
 
-        </nav>
-
-        <!--======================
-        ACCIONES
-        =======================-->
-
-        <div class="acciones">
-
-            <button class="btn-icono">
-
-                <i class="fa-solid fa-magnifying-glass"></i>
-
-            </button>
-
-            <button class="btn-icono">
-
-                <i class="fa-brands fa-whatsapp"></i>
-
-            </button>
-
-            <button class="btn-icono">
-
-                <i class="fa-solid fa-cart-shopping"></i>
-
-                <span class="contador">0</span>
-
-            </button>
+            </div>
 
         </div>
 
-    </div>
+        <!-- Capa oscura para cerrar el menú al tocar fuera -->
+        <div id="menu-fondo" class="menu-fondo" aria-hidden="true"></div>
 
-</header>
+    </header>
 
 
 
-    <!-- ========================================= -->
-    <!-- HERO                                     -->
-    <!-- Banner Principal                         -->
-    <!-- ========================================= -->
+    <!--=========================================================
+    HERO PREMIUM
+    ==========================================================-->
 
-    <!--=========================================
-HERO
-==========================================-->
+    <section id="hero" aria-labelledby="hero-titulo">
 
-<section id="hero">
+        <!-- Fotografías del slider -->
+        <div class="hero-visual">
 
-    <div class="hero-overlay"></div>
+            <div class="hero-slide activo" aria-hidden="false">
+                <img
+                    src="img/hero/hero-atlas-01.jpg"
+                    alt=""
+                    width="928"
+                    height="1104"
+                    loading="eager"
+                    fetchpriority="high"
+                >
+            </div>
 
-    <div class="container hero-contenido">
+            <div class="hero-slide" aria-hidden="true">
+                <img
+                    src="img/hero/hero-atlas-02.jpg"
+                    alt=""
+                    width="896"
+                    height="980"
+                    loading="lazy"
+                >
+            </div>
 
-        <span class="hero-tag">
-            STREETWEAR · SNEAKERS · PREMIUM
-        </span>
+            <div class="hero-slide" aria-hidden="true">
+                <img
+                    src="img/hero/hero-atlas-03.jpg"
+                    alt=""
+                    width="893"
+                    height="1039"
+                    loading="lazy"
+                >
+            </div>
 
-        <h2>
-            CADA PASO<br>
-            HABLA DE TI.
-        </h2>
+            <!-- Indicadores del slider -->
+            <div class="hero-indicadores" aria-label="Seleccionar imagen destacada">
 
-        <p>
+                <button
+                    class="hero-indicador activo"
+                    type="button"
+                    data-slide="0"
+                    aria-label="Mostrar imagen 1 de 3"
+                    aria-current="true"
+                ></button>
 
-            Descubre una colección de sneakers
-            cuidadosamente seleccionados para quienes
-            buscan destacar en cada paso.
+                <button
+                    class="hero-indicador"
+                    type="button"
+                    data-slide="1"
+                    aria-label="Mostrar imagen 2 de 3"
+                ></button>
 
-        </p>
+                <button
+                    class="hero-indicador"
+                    type="button"
+                    data-slide="2"
+                    aria-label="Mostrar imagen 3 de 3"
+                ></button>
 
-        <div class="hero-botones">
-
-            <a href="#catalogo" class="btn-principal">
-
-                Ver catálogo
-
-            </a>
-
-            <a href="#" class="btn-secundario">
-
-                WhatsApp
-
-            </a>
+            </div>
 
         </div>
 
-    </div>
+        <!-- Capa que mantiene el texto legible -->
+        <div class="hero-overlay" aria-hidden="true"></div>
 
-</section>
+        <!-- Contenido fijo del Hero -->
+        <div class="container hero-contenido">
 
+            <div class="hero-copy">
 
+                <span class="hero-tag">
+                    STREETWEAR · SNEAKERS · RÉPLICAS
+                </span>
 
-    <!-- ========================================= -->
-    <!-- PRODUCTOS DESTACADOS                     -->
-    <!-- ========================================= -->
+                <h2 id="hero-titulo">
+                    CADA PASO<br>
+                    HABLA DE TI.
+                </h2>
 
-    <section id="destacados">
+                <p>
+                    Explora una selección de sneakers para quienes buscan
+                    estilo urbano y una compra sencilla por WhatsApp.
+                </p>
+
+                <div class="hero-botones">
+
+                    <a href="#catalogo" class="btn-principal">
+                        Ver catálogo
+                    </a>
+
+                    <!-- El enlace real se configurará en la etapa de WhatsApp -->
+                    <a href="#" class="btn-secundario">
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                        WhatsApp
+                    </a>
+
+                </div>
+
+                <small class="hero-aviso">
+                    Productos réplica. ATLAS no está afiliada a las marcas mostradas.
+                </small>
+
+            </div>
+
+        </div>
 
     </section>
 
 
 
-    <!-- ========================================= -->
-    <!-- FILTROS                                  -->
-    <!-- ========================================= -->
+    <!-- PRODUCTOS DESTACADOS -->
+    <section id="destacados"></section>
 
-    <section id="filtros">
+    <!-- FILTROS -->
+    <section id="filtros"></section>
 
-    </section>
+    <!-- CATÁLOGO: JavaScript generará los productos -->
+    <main id="catalogo"></main>
 
+    <!-- CARRITO -->
+    <aside id="carrito"></aside>
 
+    <!-- FOOTER -->
+    <footer></footer>
 
-    <!-- ========================================= -->
-    <!-- CATÁLOGO                                 -->
-    <!-- Aquí JavaScript generará los productos   -->
-    <!-- ========================================= -->
-
-    <main id="catalogo">
-
-    </main>
-
-
-
-    <!-- ========================================= -->
-    <!-- CARRITO                                  -->
-    <!-- ========================================= -->
-
-    <aside id="carrito">
-
-    </aside>
-
-
-
-    <!-- ========================================= -->
-    <!-- FOOTER                                   -->
-    <!-- ========================================= -->
-
-    <footer>
-
-    </footer>
 
 
     <!-- JavaScript -->
-
     <script src="js/config.js"></script>
     <script src="js/productos.js"></script>
     <script src="js/carrito.js"></script>

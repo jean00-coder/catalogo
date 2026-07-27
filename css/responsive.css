@@ -1,0 +1,277 @@
+/*=========================================================
+PROYECTO: ATLAS
+
+ARCHIVO: responsive.css
+
+VERSIÓN: 0.2.2 Alpha
+
+FUNCIÓN:
+Adaptación del Header, menú hamburguesa y Hero Premium.
+
+=========================================================*/
+
+
+
+/*=========================================================
+TABLET Y CELULAR
+=========================================================*/
+
+@media (max-width: 900px){
+
+    /* Botón hamburguesa */
+    .btn-menu{
+        display: grid;
+    }
+
+    /* Menú lateral oculto inicialmente */
+    .menu{
+        position: fixed;
+        top: var(--altura-header);
+        right: 0;
+        width: min(86vw, 360px);
+        height: calc(100vh - var(--altura-header));
+        height: calc(100dvh - var(--altura-header));
+        padding: 28px 22px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 8px;
+        overflow-y: auto;
+        background: rgba(18,18,18,.98);
+        border-left: 1px solid var(--color-linea);
+        box-shadow: -24px 24px 60px rgba(0,0,0,.50);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateX(105%);
+        transition:
+            opacity var(--transicion),
+            visibility var(--transicion),
+            transform var(--transicion);
+    }
+
+    .menu.abierto{
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(0);
+    }
+
+    .menu a{
+        width: 100%;
+        padding: 16px 14px;
+        border-bottom: 1px solid var(--color-linea);
+        font-size: 1.03rem;
+        font-weight: 500;
+    }
+
+    .menu a::after{
+        left: 14px;
+        bottom: 8px;
+    }
+
+    /* Capa oscura detrás del menú */
+    .menu-fondo{
+        position: fixed;
+        top: var(--altura-header);
+        right: 0;
+        left: 0;
+        z-index: 1;
+        height: calc(100vh - var(--altura-header));
+        height: calc(100dvh - var(--altura-header));
+        display: block;
+        background: rgba(0,0,0,.66);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+            opacity var(--transicion),
+            visibility var(--transicion);
+    }
+
+    .menu-fondo.activo{
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    #hero{
+        min-height: calc(100vh - var(--altura-header));
+        min-height: calc(100svh - var(--altura-header));
+    }
+
+    .hero-visual{
+        inset: 0;
+        width: 100%;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .hero-overlay{
+        background:
+            linear-gradient(
+                180deg,
+                rgba(11,11,11,.18) 0%,
+                rgba(11,11,11,.38) 38%,
+                rgba(11,11,11,.93) 78%,
+                #0b0b0b 100%
+            );
+    }
+
+    .hero-contenido{
+        align-items: flex-end;
+        padding-top: 120px;
+        padding-bottom: 90px;
+    }
+
+    .hero-copy{
+        width: min(100%, 620px);
+    }
+
+    .hero-contenido h2{
+        font-size: clamp(3rem, 11vw, 5rem);
+    }
+
+    .hero-contenido p{
+        color: rgba(245,245,245,.88);
+    }
+
+    .hero-indicadores{
+        bottom: 28px;
+    }
+
+}
+
+
+
+/*=========================================================
+CELULARES
+=========================================================*/
+
+@media (max-width: 600px){
+
+    #header{
+        --altura-header: 72px;
+    }
+
+    .container{
+        width: min(90%, var(--ancho-maximo));
+    }
+
+    .header-container{
+        gap: 12px;
+    }
+
+    .logo h1{
+        font-size: 1.55rem;
+        letter-spacing: 4px;
+    }
+
+    .acciones{
+        gap: 8px;
+    }
+
+    .btn-icono{
+        width: 40px;
+        height: 40px;
+        font-size: .9rem;
+    }
+
+    .contador{
+        top: -5px;
+        right: -5px;
+        width: 18px;
+        height: 18px;
+        font-size: .68rem;
+    }
+
+    .menu{
+        width: min(88vw, 340px);
+        padding: 24px 18px;
+    }
+
+    #hero{
+        min-height: calc(100vh - var(--altura-header));
+        min-height: calc(100svh - var(--altura-header));
+    }
+
+    .hero-contenido{
+        padding-top: 104px;
+        padding-bottom: 88px;
+    }
+
+    .hero-tag{
+        font-size: .67rem;
+        letter-spacing: 2.4px;
+    }
+
+    .hero-contenido h2{
+        margin: 18px 0;
+        font-size: clamp(2.8rem, 15vw, 4.2rem);
+    }
+
+    .hero-contenido p{
+        margin-bottom: 26px;
+        font-size: .94rem;
+        line-height: 1.65;
+    }
+
+    .hero-botones{
+        flex-direction: column;
+    }
+
+    .btn-principal,
+    .btn-secundario{
+        width: 100%;
+    }
+
+    .hero-aviso{
+        margin-top: 18px;
+        font-size: .68rem;
+    }
+
+}
+
+
+
+/*=========================================================
+CELULARES MUY PEQUEÑOS
+=========================================================*/
+
+@media (max-width: 420px){
+
+    /* Liberamos espacio para carrito y menú hamburguesa. */
+    .accion-buscar{
+        display: none;
+    }
+
+    .acciones{
+        gap: 7px;
+    }
+
+}
+
+
+
+/*=========================================================
+ACCESIBILIDAD: REDUCIR MOVIMIENTO
+=========================================================*/
+
+@media (prefers-reduced-motion: reduce){
+
+    html{
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after{
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+
+}
