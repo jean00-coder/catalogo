@@ -4,11 +4,11 @@ PROYECTO: ATLAS
 
 ARCHIVO: index.html
 
-VERSIÓN: 0.2.2 Alpha
+VERSIÓN: 0.3.3 Alpha
 
 DESCRIPCIÓN:
 Página principal del catálogo.
-Hero premium con slider automático y menú móvil.
+Hero premium, menú móvil, catálogo dinámico y galería de producto.
 
 =========================================================
 -->
@@ -222,19 +222,215 @@ Hero premium con slider automático y menú móvil.
 
 
 
-    <!-- PRODUCTOS DESTACADOS -->
-    <section id="destacados"></section>
+    <!--=========================================================
+    INTRODUCCIÓN DEL CATÁLOGO
+    ==========================================================-->
 
-    <!-- FILTROS -->
-    <section id="filtros"></section>
+    <section id="destacados" class="catalogo-intro" aria-labelledby="destacados-titulo">
 
-    <!-- CATÁLOGO: JavaScript generará los productos -->
-    <main id="catalogo"></main>
+        <div class="container catalogo-intro-contenido">
 
-    <!-- CARRITO -->
+            <div>
+                <span class="seccion-etiqueta">NUEVOS INGRESOS</span>
+                <h2 id="destacados-titulo">EL PRIMER DROP DE ATLAS.</h2>
+            </div>
+
+            <p>
+                Tres referencias para comenzar a construir nuestro catálogo.
+                Cada producto cuenta con código ATLAS, precio y rango general de tallas.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!--=========================================================
+    CATÁLOGO DINÁMICO
+    JavaScript generará las tarjetas desde productos.js
+    ==========================================================-->
+
+    <main id="catalogo" class="catalogo-seccion" aria-labelledby="catalogo-titulo">
+
+        <div class="container">
+
+            <div class="seccion-cabecera">
+
+                <div>
+                    <span class="seccion-etiqueta">CATÁLOGO</span>
+                    <h2 id="catalogo-titulo">ENCUENTRA TU PRÓXIMO PAR.</h2>
+                </div>
+
+                <p id="catalogo-resumen" class="catalogo-resumen">
+                    Cargando productos...
+                </p>
+
+            </div>
+
+            <div
+                id="catalogo-grid"
+                class="catalogo-grid"
+                aria-live="polite"
+            ></div>
+
+            <div id="catalogo-vacio" class="catalogo-vacio" hidden>
+                <i class="fa-solid fa-box-open" aria-hidden="true"></i>
+                <h3>No hay productos disponibles</h3>
+                <p>Agrega productos activos dentro de <code>js/productos.js</code>.</p>
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!--=========================================================
+    MODAL DE PRODUCTO CON GALERÍA
+    Se completa dinámicamente desde productos.js
+    ==========================================================-->
+
+    <div
+        id="producto-modal-fondo"
+        class="producto-modal-fondo"
+        aria-hidden="true"
+    ></div>
+
+    <section
+        id="producto-modal"
+        class="producto-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="producto-modal-titulo"
+        aria-hidden="true"
+    >
+
+        <div class="producto-modal-panel">
+
+            <button
+                id="producto-modal-cerrar"
+                class="producto-modal-cerrar"
+                type="button"
+                aria-label="Cerrar detalles del producto"
+            >
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+
+            <div class="producto-modal-layout">
+
+                <div class="producto-modal-galeria">
+
+                    <div id="producto-modal-marco" class="producto-modal-marco">
+
+                        <img
+                            id="producto-modal-imagen"
+                            src=""
+                            alt=""
+                            width="900"
+                            height="1100"
+                        >
+
+                        <div class="producto-modal-placeholder" aria-hidden="true">
+                            <i class="fa-regular fa-image"></i>
+                            <span>Imagen no disponible</span>
+                        </div>
+
+                        <button
+                            id="producto-modal-anterior"
+                            class="producto-modal-flecha producto-modal-flecha-anterior"
+                            type="button"
+                            aria-label="Mostrar fotografía anterior"
+                        >
+                            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                        </button>
+
+                        <button
+                            id="producto-modal-siguiente"
+                            class="producto-modal-flecha producto-modal-flecha-siguiente"
+                            type="button"
+                            aria-label="Mostrar fotografía siguiente"
+                        >
+                            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                        </button>
+
+                        <span
+                            id="producto-modal-contador"
+                            class="producto-modal-contador"
+                            aria-live="polite"
+                        ></span>
+
+                    </div>
+
+                    <div
+                        id="producto-modal-miniaturas"
+                        class="producto-modal-miniaturas"
+                        aria-label="Fotografías del producto"
+                    ></div>
+
+                </div>
+
+                <div class="producto-modal-info">
+
+                    <div class="producto-modal-meta">
+                        <span id="producto-modal-marca" class="producto-modal-marca"></span>
+                        <span id="producto-modal-codigo" class="producto-modal-codigo"></span>
+                    </div>
+
+                    <div class="producto-modal-badges">
+                        <span id="producto-modal-tipo" class="producto-modal-badge"></span>
+                        <span id="producto-modal-estado" class="producto-modal-badge producto-modal-badge-estado"></span>
+                    </div>
+
+                    <h2 id="producto-modal-titulo"></h2>
+                    <p id="producto-modal-color" class="producto-modal-color"></p>
+                    <p id="producto-modal-precio" class="producto-modal-precio"></p>
+
+                    <div class="producto-modal-tallas">
+                        <strong id="producto-modal-rango-tallas"></strong>
+                        <small id="producto-modal-disponibilidad"></small>
+                    </div>
+
+                    <p id="producto-modal-descripcion" class="producto-modal-descripcion"></p>
+
+                    <ul class="producto-modal-datos">
+                        <li>
+                            <span>Categoría</span>
+                            <strong id="producto-modal-categoria"></strong>
+                        </li>
+                        <li>
+                            <span>Tipo</span>
+                            <strong id="producto-modal-tipo-dato"></strong>
+                        </li>
+                        <li>
+                            <span>Código ATLAS</span>
+                            <strong id="producto-modal-codigo-dato"></strong>
+                        </li>
+                    </ul>
+
+                    <button
+                        class="producto-modal-carrito"
+                        type="button"
+                        disabled
+                        title="El carrito se habilitará en la siguiente etapa"
+                    >
+                        <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                        Agregar al carrito — próximamente
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CARRITO: se construirá en la siguiente etapa -->
     <aside id="carrito"></aside>
 
-    <!-- FOOTER -->
+    <!-- FOOTER: se construirá en una etapa posterior -->
     <footer></footer>
 
 
