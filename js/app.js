@@ -279,17 +279,13 @@ HEADER AL HACER SCROLL
 
 
 /*=========================================================
-CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
+CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
 =========================================================*/
 
 (() => {
     'use strict';
 
-    /**
-     * Convierte texto en contenido seguro para insertarlo dentro de HTML.
-     * @param {unknown} valor Texto original.
-     * @returns {string} Texto escapado.
-     */
+    /** Convierte texto en contenido seguro para insertarlo dentro de HTML. */
     const escaparHTML = (valor) => String(valor ?? '')
         .replaceAll('&', '&amp;')
         .replaceAll('<', '&lt;')
@@ -297,12 +293,14 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
         .replaceAll('"', '&quot;')
         .replaceAll("'", '&#039;');
 
-    /**
-     * Formatea un precio en pesos colombianos.
-     * @param {number} precio Valor numérico del producto.
-     * @param {string} moneda Código de moneda.
-     * @returns {string} Precio listo para mostrar.
-     */
+    /** Normaliza texto para búsquedas sin distinguir mayúsculas ni tildes. */
+    const normalizarTexto = (valor) => String(valor ?? '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLocaleLowerCase('es-CO')
+        .trim();
+
+    /** Formatea un precio en pesos colombianos. */
     const formatearPrecio = (precio, moneda = 'COP') => {
         const valor = Number(precio);
 
@@ -317,12 +315,7 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
         }).format(valor);
     };
 
-    /**
-     * Resume el arreglo de tallas como un rango sencillo.
-     * @param {number[]} tallas Lista de tallas.
-     * @param {string} sistema Sistema de tallaje.
-     * @returns {string} Ejemplo: EUR 36–44.
-     */
+    /** Resume el arreglo de tallas como un rango sencillo. */
     const obtenerRangoTallas = (tallas, sistema = 'EUR') => {
         if (!Array.isArray(tallas) || tallas.length === 0) {
             return `${sistema} por confirmar`;
@@ -345,22 +338,20 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
             : `${sistema} ${primera}–${ultima}`;
     };
 
-    /**
-     * Obtiene solamente rutas de imagen válidas.
-     * @param {unknown} imagenes Posible arreglo de rutas.
-     * @returns {string[]} Lista limpia de fotografías.
-     */
+    /** Obtiene solamente rutas de imagen válidas. */
     const obtenerImagenes = (imagenes) => (
         Array.isArray(imagenes)
             ? imagenes.filter((ruta) => typeof ruta === 'string' && ruta.trim() !== '')
             : []
     );
 
-    /**
-     * Construye el HTML de una tarjeta a partir de un producto.
-     * @param {object} producto Información registrada en productos.js.
-     * @returns {string} Tarjeta HTML.
-     */
+    /** Convierte la fecha del producto en un valor comparable. */
+    const obtenerTiempoCreacion = (producto) => {
+        const tiempo = Date.parse(producto?.fechaCreacion || '');
+        return Number.isFinite(tiempo) ? tiempo : 0;
+    };
+
+    /** Construye el HTML de una tarjeta a partir de un producto. */
     const crearTarjetaProducto = (producto) => {
         const id = Number(producto.id);
         const idSeguro = Number.isInteger(id) ? id : escaparHTML(producto.codigo);
@@ -379,6 +370,9 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
         const avisoDisponibilidad = producto.confirmarDisponibilidad
             ? 'Confirma disponibilidad antes de solicitar.'
             : 'Disponibilidad registrada en el catálogo.';
+        const etiquetaDestacado = producto.destacado === true
+            ? '<span class="producto-badge producto-badge-destacado">Destacado</span>'
+            : '';
 
         return `
             <article class="producto-card" data-producto-id="${idSeguro}">
@@ -402,6 +396,7 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
                     <div class="producto-badges" aria-hidden="true">
                         <span class="producto-badge">${tipo}</span>
                         <span class="producto-badge producto-badge-estado">${estadoVisible}</span>
+                        ${etiquetaDestacado}
                     </div>
                 </div>
 
@@ -454,6 +449,18 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
         const grid = document.querySelector('#catalogo-grid');
         const resumen = document.querySelector('#catalogo-resumen');
         const estadoVacio = document.querySelector('#catalogo-vacio');
+        const estadoVacioTitulo = estadoVacio?.querySelector('h3');
+        const estadoVacioTexto = estadoVacio?.querySelector('p');
+
+        const buscador = document.querySelector('#catalogo-buscador');
+        const botonLimpiarBusqueda = document.querySelector('#catalogo-busqueda-limpiar');
+        const botonBuscarHeader = document.querySelector('.accion-buscar');
+        const marcasContenedor = document.querySelector('#catalogo-marcas');
+        const categoriaSelect = document.querySelector('#catalogo-categoria');
+        const estadoSelect = document.querySelector('#catalogo-estado');
+        const ordenSelect = document.querySelector('#catalogo-orden');
+        const destacadoCheckbox = document.querySelector('#catalogo-destacados');
+        const botonRestablecer = document.querySelector('#catalogo-restablecer');
 
         const modal = document.querySelector('#producto-modal');
         const fondoModal = document.querySelector('#producto-modal-fondo');
@@ -485,6 +492,16 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
             grid,
             resumen,
             estadoVacio,
+            estadoVacioTitulo,
+            estadoVacioTexto,
+            buscador,
+            botonLimpiarBusqueda,
+            marcasContenedor,
+            categoriaSelect,
+            estadoSelect,
+            ordenSelect,
+            destacadoCheckbox,
+            botonRestablecer,
             modal,
             fondoModal,
             botonCerrar,
@@ -505,10 +522,22 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
             grid.replaceChildren();
             resumen.textContent = 'No fue posible cargar el catálogo.';
             estadoVacio.hidden = false;
+            estadoVacioTitulo.textContent = 'No fue posible cargar los productos';
+            estadoVacioTexto.textContent = 'Revisa el archivo js/productos.js.';
             return;
         }
 
         const productosActivos = productos.filter((producto) => producto?.activo === true);
+        const estadoFiltros = {
+            busqueda: '',
+            marca: 'todas',
+            categoria: 'todas',
+            estado: 'todos',
+            soloDestacados: false,
+            orden: 'recientes'
+        };
+
+        let productosVisibles = [];
         let productoActual = null;
         let imagenesActuales = [];
         let indiceImagenActual = 0;
@@ -516,10 +545,206 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
 
         const modalEstaAbierto = () => modal.getAttribute('aria-hidden') === 'false';
 
-        /**
-         * Muestra una fotografía de la galería.
-         * @param {number} nuevoIndice Posición solicitada.
-         */
+        /** Crea una lista única y ordenada sin distinguir mayúsculas. */
+        const obtenerValoresUnicos = (campo) => {
+            const mapa = new Map();
+
+            productosActivos.forEach((producto) => {
+                const valor = String(producto?.[campo] || '').trim();
+                const clave = normalizarTexto(valor);
+
+                if (valor && clave && !mapa.has(clave)) {
+                    mapa.set(clave, valor);
+                }
+            });
+
+            return Array.from(mapa.values()).sort((a, b) => (
+                a.localeCompare(b, 'es-CO', { sensitivity: 'base' })
+            ));
+        };
+
+        /** Genera los botones de marca automáticamente desde productos.js. */
+        const crearFiltrosMarca = () => {
+            const marcas = obtenerValoresUnicos('marca');
+            const fragmento = document.createDocumentFragment();
+
+            const crearBoton = (texto, valor, cantidad) => {
+                const boton = document.createElement('button');
+                boton.type = 'button';
+                boton.className = 'catalogo-marca-btn';
+                boton.dataset.marca = valor;
+                boton.setAttribute('aria-pressed', valor === 'todas' ? 'true' : 'false');
+                boton.innerHTML = `
+                    <span>${escaparHTML(texto)}</span>
+                    <small>${cantidad}</small>
+                `;
+                return boton;
+            };
+
+            fragmento.append(crearBoton('Todas', 'todas', productosActivos.length));
+
+            marcas.forEach((marca) => {
+                const cantidad = productosActivos.filter(
+                    (producto) => normalizarTexto(producto.marca) === normalizarTexto(marca)
+                ).length;
+                fragmento.append(crearBoton(marca, marca, cantidad));
+            });
+
+            marcasContenedor.replaceChildren(fragmento);
+        };
+
+        /** Genera las categorías disponibles automáticamente. */
+        const crearFiltroCategorias = () => {
+            const categorias = obtenerValoresUnicos('categoria');
+            const fragmento = document.createDocumentFragment();
+
+            const opcionTodas = document.createElement('option');
+            opcionTodas.value = 'todas';
+            opcionTodas.textContent = 'Todas las categorías';
+            fragmento.append(opcionTodas);
+
+            categorias.forEach((categoria) => {
+                const opcion = document.createElement('option');
+                opcion.value = categoria;
+                opcion.textContent = categoria;
+                fragmento.append(opcion);
+            });
+
+            categoriaSelect.replaceChildren(fragmento);
+        };
+
+        /** Indica si un producto coincide con el texto escrito. */
+        const coincideBusqueda = (producto) => {
+            if (!estadoFiltros.busqueda) {
+                return true;
+            }
+
+            const contenido = [
+                producto.codigo,
+                producto.marca,
+                producto.modelo,
+                producto.color,
+                producto.categoria,
+                producto.descripcion,
+                producto.tipo
+            ].map(normalizarTexto).join(' ');
+
+            return contenido.includes(estadoFiltros.busqueda);
+        };
+
+        /** Ordena una copia del resultado según la opción elegida. */
+        const ordenarProductos = (lista) => {
+            const resultado = [...lista];
+
+            switch (estadoFiltros.orden) {
+                case 'precio-asc':
+                    return resultado.sort((a, b) => Number(a.precio) - Number(b.precio));
+                case 'precio-desc':
+                    return resultado.sort((a, b) => Number(b.precio) - Number(a.precio));
+                case 'nombre':
+                    return resultado.sort((a, b) => String(a.modelo || '').localeCompare(
+                        String(b.modelo || ''),
+                        'es-CO',
+                        { sensitivity: 'base' }
+                    ));
+                case 'marca':
+                    return resultado.sort((a, b) => String(a.marca || '').localeCompare(
+                        String(b.marca || ''),
+                        'es-CO',
+                        { sensitivity: 'base' }
+                    ));
+                case 'recientes':
+                default:
+                    return resultado.sort((a, b) => (
+                        obtenerTiempoCreacion(b) - obtenerTiempoCreacion(a)
+                        || Number(b.id || 0) - Number(a.id || 0)
+                    ));
+            }
+        };
+
+        /** Aplica todos los filtros activos. */
+        const obtenerProductosFiltrados = () => {
+            const filtrados = productosActivos.filter((producto) => {
+                const coincideMarca = estadoFiltros.marca === 'todas'
+                    || normalizarTexto(producto.marca) === normalizarTexto(estadoFiltros.marca);
+                const coincideCategoria = estadoFiltros.categoria === 'todas'
+                    || normalizarTexto(producto.categoria) === normalizarTexto(estadoFiltros.categoria);
+                const coincideEstado = estadoFiltros.estado === 'todos'
+                    || normalizarTexto(producto.estado) === normalizarTexto(estadoFiltros.estado);
+                const coincideDestacado = !estadoFiltros.soloDestacados
+                    || producto.destacado === true;
+
+                return coincideBusqueda(producto)
+                    && coincideMarca
+                    && coincideCategoria
+                    && coincideEstado
+                    && coincideDestacado;
+            });
+
+            return ordenarProductos(filtrados);
+        };
+
+        /** Activa visualmente el botón de marca seleccionado. */
+        const actualizarMarcaActiva = () => {
+            marcasContenedor.querySelectorAll('[data-marca]').forEach((boton) => {
+                const activo = normalizarTexto(boton.dataset.marca) === normalizarTexto(estadoFiltros.marca);
+                boton.classList.toggle('activo', activo);
+                boton.setAttribute('aria-pressed', activo ? 'true' : 'false');
+            });
+        };
+
+        /** Actualiza el contador y la visibilidad del botón para limpiar búsqueda. */
+        const actualizarEstadoControles = () => {
+            const cantidad = productosVisibles.length;
+            const total = productosActivos.length;
+            const hayFiltros = Boolean(
+                estadoFiltros.busqueda
+                || estadoFiltros.marca !== 'todas'
+                || estadoFiltros.categoria !== 'todas'
+                || estadoFiltros.estado !== 'todos'
+                || estadoFiltros.soloDestacados
+                || estadoFiltros.orden !== 'recientes'
+            );
+
+            resumen.textContent = cantidad === total && !hayFiltros
+                ? `${total} ${total === 1 ? 'producto disponible' : 'productos disponibles'}`
+                : `Mostrando ${cantidad} de ${total} ${total === 1 ? 'producto' : 'productos'}`;
+
+            botonLimpiarBusqueda.hidden = buscador.value.length === 0;
+            botonRestablecer.disabled = !hayFiltros;
+        };
+
+        /** Registra el control de error para las imágenes recién renderizadas. */
+        const prepararImagenesTarjetas = () => {
+            grid.querySelectorAll('.producto-media img').forEach((imagen) => {
+                imagen.addEventListener('error', () => {
+                    const contenedor = imagen.closest('.producto-media');
+                    contenedor?.classList.add('imagen-error');
+                    imagen.remove();
+                }, { once: true });
+            });
+        };
+
+        /** Dibuja el catálogo según la búsqueda y filtros actuales. */
+        const renderizarCatalogo = () => {
+            productosVisibles = obtenerProductosFiltrados();
+            actualizarMarcaActiva();
+            actualizarEstadoControles();
+
+            if (productosVisibles.length === 0) {
+                grid.replaceChildren();
+                estadoVacio.hidden = false;
+                estadoVacioTitulo.textContent = 'No encontramos productos';
+                estadoVacioTexto.textContent = 'Prueba con otra marca, modelo, color o restablece los filtros.';
+                return;
+            }
+
+            estadoVacio.hidden = true;
+            grid.innerHTML = productosVisibles.map(crearTarjetaProducto).join('');
+            prepararImagenesTarjetas();
+        };
+
+        /** Muestra una fotografía de la galería. */
         const mostrarImagenModal = (nuevoIndice) => {
             if (!productoActual || imagenesActuales.length === 0) {
                 imagenModal.removeAttribute('src');
@@ -549,7 +774,6 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
 
             miniaturas.querySelectorAll('.producto-modal-miniatura').forEach((boton, indice) => {
                 const estaActiva = indice === indiceImagenActual;
-
                 boton.classList.toggle('activa', estaActiva);
                 boton.setAttribute('aria-current', estaActiva ? 'true' : 'false');
             });
@@ -588,11 +812,7 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
             miniaturas.hidden = imagenesActuales.length <= 1;
         };
 
-        /**
-         * Abre la ventana con los datos de un producto.
-         * @param {object} producto Producto seleccionado.
-         * @param {HTMLElement} botonOrigen Botón que abrió la ventana.
-         */
+        /** Abre la ventana con los datos de un producto. */
         const abrirModal = (producto, botonOrigen) => {
             productoActual = producto;
             imagenesActuales = obtenerImagenes(producto.imagenes);
@@ -651,29 +871,85 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
             botonQueAbrioModal = null;
         };
 
+        /** Restablece todos los controles a su estado inicial. */
+        const restablecerFiltros = () => {
+            estadoFiltros.busqueda = '';
+            estadoFiltros.marca = 'todas';
+            estadoFiltros.categoria = 'todas';
+            estadoFiltros.estado = 'todos';
+            estadoFiltros.soloDestacados = false;
+            estadoFiltros.orden = 'recientes';
+
+            buscador.value = '';
+            categoriaSelect.value = 'todas';
+            estadoSelect.value = 'todos';
+            destacadoCheckbox.checked = false;
+            ordenSelect.value = 'recientes';
+
+            renderizarCatalogo();
+        };
+
+        crearFiltrosMarca();
+        crearFiltroCategorias();
+
         if (productosActivos.length === 0) {
             grid.replaceChildren();
             resumen.textContent = '0 productos disponibles';
             estadoVacio.hidden = false;
+            estadoVacioTitulo.textContent = 'No hay productos disponibles';
+            estadoVacioTexto.textContent = 'Agrega productos activos desde ATLAS Gestor Local.';
             return;
         }
 
-        estadoVacio.hidden = true;
-        resumen.textContent = `${productosActivos.length} ${
-            productosActivos.length === 1 ? 'producto disponible' : 'productos disponibles'
-        }`;
-
-        grid.innerHTML = productosActivos.map(crearTarjetaProducto).join('');
-
-        // Si una ruta está mal escrita, mostramos una tarjeta estable en lugar del icono roto.
-        grid.querySelectorAll('.producto-media img').forEach((imagen) => {
-            imagen.addEventListener('error', () => {
-                const contenedor = imagen.closest('.producto-media');
-
-                contenedor?.classList.add('imagen-error');
-                imagen.remove();
-            }, { once: true });
+        buscador.addEventListener('input', () => {
+            estadoFiltros.busqueda = normalizarTexto(buscador.value);
+            renderizarCatalogo();
         });
+
+        botonLimpiarBusqueda.addEventListener('click', () => {
+            buscador.value = '';
+            estadoFiltros.busqueda = '';
+            buscador.focus();
+            renderizarCatalogo();
+        });
+
+        botonBuscarHeader?.addEventListener('click', () => {
+            document.querySelector('#catalogo')?.scrollIntoView({ behavior: 'smooth' });
+            window.setTimeout(() => buscador.focus(), 450);
+        });
+
+        marcasContenedor.addEventListener('click', (evento) => {
+            const boton = evento.target.closest('[data-marca]');
+
+            if (!boton || !marcasContenedor.contains(boton)) {
+                return;
+            }
+
+            estadoFiltros.marca = boton.dataset.marca || 'todas';
+            renderizarCatalogo();
+        });
+
+        categoriaSelect.addEventListener('change', () => {
+            estadoFiltros.categoria = categoriaSelect.value;
+            renderizarCatalogo();
+        });
+
+        estadoSelect.addEventListener('change', () => {
+            estadoFiltros.estado = estadoSelect.value;
+            renderizarCatalogo();
+        });
+
+        destacadoCheckbox.addEventListener('change', () => {
+            estadoFiltros.soloDestacados = destacadoCheckbox.checked;
+            renderizarCatalogo();
+        });
+
+        ordenSelect.addEventListener('change', () => {
+            estadoFiltros.orden = ordenSelect.value;
+            renderizarCatalogo();
+        });
+
+        botonRestablecer.addEventListener('click', restablecerFiltros);
 
         grid.addEventListener('click', (evento) => {
             const boton = evento.target.closest('[data-accion="abrir-producto"]');
@@ -741,7 +1017,6 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
                 return;
             }
 
-            // Mantiene la navegación por teclado dentro del modal.
             if (evento.key === 'Tab') {
                 const enfocables = Array.from(
                     modal.querySelectorAll(
@@ -766,6 +1041,8 @@ CATÁLOGO DINÁMICO Y MODAL DE PRODUCTO
                 }
             }
         });
+
+        renderizarCatalogo();
     };
 
     if (document.readyState === 'loading') {

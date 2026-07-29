@@ -4,11 +4,11 @@ PROYECTO: ATLAS
 
 ARCHIVO: index.html
 
-VERSIÓN: 0.3.3 Alpha
+VERSIÓN: 0.3.5 Alpha
 
 DESCRIPCIÓN:
 Página principal del catálogo.
-Hero premium, menú móvil, catálogo dinámico y galería de producto.
+Hero premium, catálogo dinámico, buscador, filtros y galería de producto.
 
 =========================================================
 -->
@@ -65,7 +65,7 @@ Hero premium, menú móvil, catálogo dinámico y galería de producto.
 
             <div class="acciones">
 
-                <button class="btn-icono accion-buscar" type="button" aria-label="Buscar productos">
+                <button class="btn-icono accion-buscar" type="button" aria-label="Buscar productos" aria-controls="catalogo-buscador">
                     <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                 </button>
 
@@ -236,8 +236,8 @@ Hero premium, menú móvil, catálogo dinámico y galería de producto.
             </div>
 
             <p>
-                Tres referencias para comenzar a construir nuestro catálogo.
-                Cada producto cuenta con código ATLAS, precio y rango general de tallas.
+                Explora las referencias disponibles, busca por nombre o código y filtra
+                automáticamente por las marcas y categorías registradas en ATLAS.
             </p>
 
         </div>
@@ -267,6 +267,91 @@ Hero premium, menú móvil, catálogo dinámico y galería de producto.
                 </p>
 
             </div>
+
+            <!-- Herramientas generadas y controladas desde app.js -->
+            <section class="catalogo-herramientas" aria-label="Buscar y filtrar productos">
+
+                <div class="catalogo-busqueda-fila">
+
+                    <label class="catalogo-buscador" for="catalogo-buscador">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                        <input
+                            id="catalogo-buscador"
+                            type="search"
+                            placeholder="Buscar por nombre, marca, código, color o categoría..."
+                            autocomplete="off"
+                            spellcheck="false"
+                        >
+                        <button
+                            id="catalogo-busqueda-limpiar"
+                            class="catalogo-busqueda-limpiar"
+                            type="button"
+                            aria-label="Limpiar búsqueda"
+                            hidden
+                        >
+                            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                        </button>
+                    </label>
+
+                    <button
+                        id="catalogo-restablecer"
+                        class="catalogo-restablecer"
+                        type="button"
+                        disabled
+                    >
+                        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                        Restablecer
+                    </button>
+
+                </div>
+
+                <div class="catalogo-marcas-bloque">
+                    <span class="catalogo-control-etiqueta">Explora por marca</span>
+                    <div
+                        id="catalogo-marcas"
+                        class="catalogo-marcas"
+                        aria-label="Filtrar por marca"
+                    ></div>
+                </div>
+
+                <div class="catalogo-filtros">
+
+                    <label class="catalogo-control">
+                        <span>Categoría</span>
+                        <select id="catalogo-categoria">
+                            <option value="todas">Todas las categorías</option>
+                        </select>
+                    </label>
+
+                    <label class="catalogo-control">
+                        <span>Disponibilidad</span>
+                        <select id="catalogo-estado">
+                            <option value="todos">Todos los estados</option>
+                            <option value="disponible">Disponibles</option>
+                            <option value="agotado">Agotados</option>
+                        </select>
+                    </label>
+
+                    <label class="catalogo-control">
+                        <span>Ordenar</span>
+                        <select id="catalogo-orden">
+                            <option value="recientes">Más recientes</option>
+                            <option value="precio-asc">Precio: menor a mayor</option>
+                            <option value="precio-desc">Precio: mayor a menor</option>
+                            <option value="nombre">Nombre: A–Z</option>
+                            <option value="marca">Marca: A–Z</option>
+                        </select>
+                    </label>
+
+                    <label class="catalogo-destacados-control">
+                        <input id="catalogo-destacados" type="checkbox">
+                        <span class="catalogo-switch" aria-hidden="true"></span>
+                        <span>Solo destacados</span>
+                    </label>
+
+                </div>
+
+            </section>
 
             <div
                 id="catalogo-grid"

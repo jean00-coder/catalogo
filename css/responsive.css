@@ -3,10 +3,10 @@ PROYECTO: ATLAS
 
 ARCHIVO: responsive.css
 
-VERSIÓN: 0.3.3 Alpha
+VERSIÓN: 0.3.5 Alpha
 
 FUNCIÓN:
-Adaptación del Header, Hero Premium, catálogo y modal de producto.
+Adaptación del Header, Hero Premium, catálogo, filtros y modal de producto.
 
 =========================================================*/
 
@@ -479,6 +479,66 @@ visible del dispositivo.
     .producto-modal-info{
         width: 100%;
         min-width: 0;
+    }
+
+}
+
+
+/*=========================================================
+BUSCADOR Y FILTROS RESPONSIVE — v0.3.5
+=========================================================*/
+
+@media (max-width: 1050px){
+
+    .catalogo-filtros{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .catalogo-destacados-control{
+        justify-content: center;
+    }
+
+}
+
+@media (max-width: 600px){
+
+    .catalogo-herramientas{
+        margin-inline: -2%;
+        padding: 18px 14px;
+        border-radius: 20px;
+    }
+
+    .catalogo-busqueda-fila{
+        grid-template-columns: 1fr;
+    }
+
+    .catalogo-restablecer{
+        min-height: 46px;
+    }
+
+    .catalogo-marcas{
+        margin-inline: -14px;
+        padding: 2px 14px 8px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: none;
+    }
+
+    .catalogo-marcas::-webkit-scrollbar{
+        display: none;
+    }
+
+    .catalogo-marca-btn{
+        flex: 0 0 auto;
+    }
+
+    .catalogo-filtros{
+        grid-template-columns: 1fr;
+    }
+
+    .catalogo-destacados-control{
+        justify-content: flex-start;
     }
 
 }
