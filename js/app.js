@@ -3,7 +3,7 @@ PROYECTO: ATLAS
 
 ARCHIVO: app.js
 
-VERSIÓN: 0.4.0 Alpha
+VERSIÓN: 0.5.1
 
 FUNCIÓN:
 Controlar el Hero, menú móvil, Header, catálogo, modal y conexión con el carrito.
@@ -548,6 +548,7 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         let imagenesActuales = [];
         let indiceImagenActual = 0;
         let botonQueAbrioModal = null;
+        let modalAbiertoDesdeURL = false;
 
         const modalEstaAbierto = () => modal.getAttribute('aria-hidden') === 'false';
 
@@ -916,6 +917,13 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
 
             botonQueAbrioModal?.focus();
             botonQueAbrioModal = null;
+
+            if (modalAbiertoDesdeURL) {
+                const url = new URL(window.location.href);
+                url.searchParams.delete('producto');
+                window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+                modalAbiertoDesdeURL = false;
+            }
         };
 
         /** Restablece todos los controles a su estado inicial. */
@@ -1139,6 +1147,23 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         });
 
         renderizarCatalogo();
+
+        /** Abre automáticamente un producto cuando la URL contiene ?producto=CODIGO. */
+        const codigoDesdeURL = new URLSearchParams(window.location.search).get('producto');
+
+        if (codigoDesdeURL) {
+            const productoEnlazado = productosActivos.find(
+                (producto) => normalizarTexto(producto.codigo) === normalizarTexto(codigoDesdeURL)
+            );
+
+            if (productoEnlazado) {
+                const botonOrigen = grid.querySelector(
+                    `[data-producto-id="${String(productoEnlazado.id)}"]`
+                );
+                modalAbiertoDesdeURL = true;
+                abrirModal(productoEnlazado, botonOrigen || null);
+            }
+        }
     };
 
     if (document.readyState === 'loading') {

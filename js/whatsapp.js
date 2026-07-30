@@ -1,11 +1,11 @@
 /*=========================================================
 PROYECTO: ATLAS
 ARCHIVO: whatsapp.js
-VERSIÓN: 0.5.0
+VERSIÓN: 0.5.1
 
 FUNCIÓN:
 Abrir WhatsApp para consultas generales y generar el mensaje
-del pedido con productos, tallas, cantidades y total.
+del pedido con productos, tallas, cantidades, total, foto y enlace al producto.
 =========================================================*/
 
 (() => {
@@ -29,6 +29,35 @@ del pedido con productos, tallas, cantidades y total.
             currency: String(moneda || 'COP'),
             maximumFractionDigits: 0
         }).format(valor);
+    };
+
+
+    const crearURLAbsoluta = (ruta) => {
+        const valor = String(ruta ?? '').trim();
+
+        if (!valor) {
+            return '';
+        }
+
+        try {
+            return new URL(valor, window.location.href).href;
+        } catch (error) {
+            console.warn('ATLAS: no fue posible crear la URL de la imagen.', error);
+            return '';
+        }
+    };
+
+    const crearEnlaceProducto = (codigo) => {
+        try {
+            const url = new URL(window.location.href);
+            url.search = '';
+            url.hash = '';
+            url.searchParams.set('producto', String(codigo ?? '').trim());
+            return url.href;
+        } catch (error) {
+            console.warn('ATLAS: no fue posible crear el enlace del producto.', error);
+            return '';
+        }
     };
 
     const crearEnlace = (mensaje) => {
@@ -63,6 +92,9 @@ del pedido con productos, tallas, cantidades y total.
                 item.moneda
             );
 
+            const fotoReferencia = crearURLAbsoluta(item.imagen);
+            const enlaceProducto = crearEnlaceProducto(item.codigo);
+
             return [
                 `${indice + 1}. ${item.marca} ${item.modelo}`,
                 `Código: ${item.codigo}`,
@@ -71,6 +103,8 @@ del pedido con productos, tallas, cantidades y total.
                 `Cantidad: ${item.cantidad}`,
                 `Precio unitario: ${precioUnitario}`,
                 `Subtotal: ${subtotal}`,
+                ...(fotoReferencia ? [`Foto de referencia: ${fotoReferencia}`] : []),
+                ...(enlaceProducto ? [`Ver producto en ATLAS: ${enlaceProducto}`] : []),
                 ''
             ];
         });
@@ -127,7 +161,9 @@ del pedido con productos, tallas, cantidades y total.
     window.ATLASWhatsApp = Object.freeze({
         abrirConsultaGeneral,
         finalizarPedido,
-        crearMensajePedido
+        crearMensajePedido,
+        crearEnlaceProducto,
+        crearURLAbsoluta
     });
 
     if (document.readyState === 'loading') {
