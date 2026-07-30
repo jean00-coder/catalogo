@@ -3,10 +3,10 @@ PROYECTO: ATLAS
 
 ARCHIVO: responsive.css
 
-VERSIÓN: 0.3.5 Alpha
+VERSIÓN: 0.4.0 Alpha
 
 FUNCIÓN:
-Adaptación del Header, Hero Premium, catálogo, filtros y modal de producto.
+Adaptación del Header, Hero Premium, catálogo, filtros, modal y carrito.
 
 =========================================================*/
 
@@ -539,6 +539,119 @@ BUSCADOR Y FILTROS RESPONSIVE — v0.3.5
 
     .catalogo-destacados-control{
         justify-content: flex-start;
+    }
+
+}
+
+
+/*=========================================================
+CARRITO RESPONSIVE — v0.4.0
+=========================================================*/
+
+@media (max-width: 600px){
+
+    .carrito-panel{
+        width: 100%;
+        border-left: 0;
+    }
+
+    .carrito-cabecera{
+        padding: 19px 18px 16px;
+    }
+
+    .carrito-cabecera h2{
+        font-size: 1.75rem;
+    }
+
+    .carrito-contenido{
+        padding: 14px 13px 20px;
+    }
+
+    .carrito-item{
+        grid-template-columns: 78px minmax(0, 1fr);
+        gap: 11px;
+        padding: 11px;
+        border-radius: 16px;
+    }
+
+    .carrito-item-media{
+        width: 78px;
+        height: 78px;
+    }
+
+    .carrito-item h3{
+        font-size: .98rem;
+    }
+
+    .carrito-pie{
+        padding: 16px 16px max(18px, env(safe-area-inset-bottom));
+    }
+
+    .carrito-total-fila strong{
+        font-size: 1.6rem;
+    }
+
+    .carrito-anuncio{
+        right: 16px;
+        bottom: 16px;
+        left: 16px;
+        max-width: none;
+    }
+
+    .producto-modal-seleccion,
+    .producto-modal-carrito{
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 380px){
+
+    .carrito-item{
+        grid-template-columns: 70px minmax(0, 1fr);
+    }
+
+    .carrito-item-media{
+        width: 70px;
+        height: 70px;
+    }
+
+    .carrito-item-meta{
+        flex-direction: column;
+        gap: 3px;
+    }
+
+}
+
+/*=========================================================
+CORRECCION v0.4.1
+SELECTOR DE TALLAS EN CELULARES
+
+Evita que el selector tome el ancho de su contenido y se
+salga del modal en pantallas estrechas.
+=========================================================*/
+
+@media (max-width: 600px){
+
+    .producto-modal-info,
+    .producto-modal-seleccion,
+    .producto-modal-select-contenedor{
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: hidden;
+    }
+
+    .producto-modal-select-contenedor select{
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        font-size: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
 }

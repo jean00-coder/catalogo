@@ -3,10 +3,10 @@ PROYECTO: ATLAS
 
 ARCHIVO: app.js
 
-VERSIÓN: 0.3.3 Alpha
+VERSIÓN: 0.4.0 Alpha
 
 FUNCIÓN:
-Controlar el Hero, menú móvil, Header, catálogo y modal de producto.
+Controlar el Hero, menú móvil, Header, catálogo, modal y conexión con el carrito.
 
 =========================================================*/
 
@@ -431,11 +431,11 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
                         <button
                             class="producto-btn producto-btn-carrito"
                             type="button"
-                            disabled
-                            title="El carrito se habilitará en la siguiente etapa"
+                            data-accion="seleccionar-talla"
+                            data-producto-id="${idSeguro}"
                         >
                             <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-                            <span>Próximamente</span>
+                            <span>Elegir talla</span>
                         </button>
                     </div>
 
@@ -471,6 +471,9 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         const botonAnterior = document.querySelector('#producto-modal-anterior');
         const botonSiguiente = document.querySelector('#producto-modal-siguiente');
         const contadorImagen = document.querySelector('#producto-modal-contador');
+        const selectorTalla = document.querySelector('#producto-modal-talla');
+        const errorTalla = document.querySelector('#producto-modal-talla-error');
+        const botonAgregarCarrito = document.querySelector('#producto-modal-agregar-carrito');
 
         const camposModal = {
             marca: document.querySelector('#producto-modal-marca'),
@@ -511,6 +514,9 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             botonAnterior,
             botonSiguiente,
             contadorImagen,
+            selectorTalla,
+            errorTalla,
+            botonAgregarCarrito,
             ...Object.values(camposModal)
         ];
 
@@ -812,8 +818,42 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             miniaturas.hidden = imagenesActuales.length <= 1;
         };
 
+        /** Carga las tallas del producto dentro del selector del modal. */
+        const cargarSelectorTallas = (producto) => {
+            const sistema = String(producto.sistemaTallas || 'EUR');
+            const tallas = Array.isArray(producto.tallas)
+                ? [...new Set(producto.tallas.map(Number).filter(Number.isFinite))]
+                    .sort((a, b) => a - b)
+                : [];
+
+            const fragmento = document.createDocumentFragment();
+            const opcionInicial = document.createElement('option');
+            opcionInicial.value = '';
+            opcionInicial.textContent = `Elige una talla ${sistema}`;
+            fragmento.append(opcionInicial);
+
+            tallas.forEach((talla) => {
+                const opcion = document.createElement('option');
+                opcion.value = String(talla);
+                opcion.textContent = `${sistema} ${talla}`;
+                fragmento.append(opcion);
+            });
+
+            selectorTalla.replaceChildren(fragmento);
+            selectorTalla.disabled = tallas.length === 0;
+            selectorTalla.value = '';
+            selectorTalla.removeAttribute('aria-invalid');
+            errorTalla.textContent = 'Selecciona una talla para continuar.';
+            errorTalla.hidden = true;
+
+            botonAgregarCarrito.disabled = tallas.length === 0;
+            botonAgregarCarrito.title = tallas.length === 0
+                ? 'No hay tallas configuradas para este producto'
+                : '';
+        };
+
         /** Abre la ventana con los datos de un producto. */
-        const abrirModal = (producto, botonOrigen) => {
+        const abrirModal = (producto, botonOrigen, enfocarTalla = false) => {
             productoActual = producto;
             imagenesActuales = obtenerImagenes(producto.imagenes);
             indiceImagenActual = 0;
@@ -843,6 +883,7 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             camposModal.tipoDato.textContent = tipo;
             camposModal.codigoDato.textContent = codigo;
 
+            cargarSelectorTallas(producto);
             crearMiniaturas();
             mostrarImagenModal(0);
 
@@ -852,7 +893,13 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             fondoModal.setAttribute('aria-hidden', 'false');
             document.body.classList.add('modal-producto-abierto');
 
-            window.requestAnimationFrame(() => botonCerrar.focus());
+            window.requestAnimationFrame(() => {
+                if (enfocarTalla && !selectorTalla.disabled) {
+                    selectorTalla.focus();
+                } else {
+                    botonCerrar.focus();
+                }
+            });
         };
 
         /** Cierra el modal y devuelve el foco a la tarjeta. */
@@ -952,9 +999,15 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         botonRestablecer.addEventListener('click', restablecerFiltros);
 
         grid.addEventListener('click', (evento) => {
-            const boton = evento.target.closest('[data-accion="abrir-producto"]');
+            const boton = evento.target.closest('[data-accion]');
 
             if (!boton || !grid.contains(boton)) {
+                return;
+            }
+
+            const accion = boton.dataset.accion;
+
+            if (!['abrir-producto', 'seleccionar-talla'].includes(accion)) {
                 return;
             }
 
@@ -964,8 +1017,51 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             );
 
             if (producto) {
-                abrirModal(producto, boton);
+                abrirModal(producto, boton, accion === 'seleccionar-talla');
             }
+        });
+
+        selectorTalla.addEventListener('change', () => {
+            const tieneTalla = selectorTalla.value !== '';
+
+            if (tieneTalla) {
+                selectorTalla.removeAttribute('aria-invalid');
+                errorTalla.hidden = true;
+            } else {
+                selectorTalla.setAttribute('aria-invalid', 'true');
+            }
+        });
+
+        botonAgregarCarrito.addEventListener('click', () => {
+            if (!productoActual) {
+                return;
+            }
+
+            const talla = selectorTalla.value;
+
+            if (!talla) {
+                selectorTalla.setAttribute('aria-invalid', 'true');
+                errorTalla.hidden = false;
+                selectorTalla.focus();
+                return;
+            }
+
+            if (!window.ATLASCarrito || typeof window.ATLASCarrito.agregarProducto !== 'function') {
+                errorTalla.textContent = 'No fue posible iniciar el carrito. Recarga la página e inténtalo nuevamente.';
+                errorTalla.hidden = false;
+                return;
+            }
+
+            const resultado = window.ATLASCarrito.agregarProducto(productoActual, talla);
+
+            if (!resultado?.ok) {
+                errorTalla.textContent = resultado?.mensaje || 'No fue posible agregar el producto.';
+                errorTalla.hidden = false;
+                return;
+            }
+
+            cerrarModal();
+            window.ATLASCarrito.abrir();
         });
 
         miniaturas.addEventListener('click', (evento) => {

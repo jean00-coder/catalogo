@@ -146,5 +146,40 @@ const productos = [
         "destacado": false,
         "fechaCreacion": "2026-07-28",
         "activo": true
+    },
+    {
+        "id": 5,
+        "codigo": "ATL-SNK-005",
+        "marca": "Timberland",
+        "modelo": "Boots Timberland",
+        "color": "Amarillo Trigo",
+        "tipo": "Réplica",
+        "precio": 200000,
+        "moneda": "COP",
+        "tallas": [
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44
+        ],
+        "sistemaTallas": "EUR",
+        "confirmarDisponibilidad": true,
+        "descripcion": "Botas Timberland clásicas en color amarillo trigo, con un diseño icónico de caña alta, estilo robusto y versátil, ideal para combinar con atuendos urbanos y casuales.",
+        "categoria": "Urbano",
+        "imagenes": [
+            "img/productos/atl-snk-005/atl-snk-005-01.jpeg",
+            "img/productos/atl-snk-005/atl-snk-005-02.jpeg",
+            "img/productos/atl-snk-005/atl-snk-005-03.jpeg",
+            "img/productos/atl-snk-005/atl-snk-005-04.jpeg"
+        ],
+        "estado": "disponible",
+        "destacado": false,
+        "fechaCreacion": "2026-07-29",
+        "activo": true
     }
 ];

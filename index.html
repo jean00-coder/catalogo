@@ -4,11 +4,11 @@ PROYECTO: ATLAS
 
 ARCHIVO: index.html
 
-VERSIÓN: 0.3.5 Alpha
+VERSIÓN: 0.4.0 Alpha
 
 DESCRIPCIÓN:
 Página principal del catálogo.
-Hero premium, catálogo dinámico, buscador, filtros y galería de producto.
+Hero premium, catálogo dinámico, filtros, galería y carrito de compras.
 
 =========================================================
 -->
@@ -38,8 +38,8 @@ Hero premium, catálogo dinámico, buscador, filtros y galería de producto.
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/estilos.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/estilos.css?v=0.4.0">
+    <link rel="stylesheet" href="css/responsive.css?v=0.4.1">
 
 </head>
 
@@ -476,6 +476,33 @@ Hero premium, catálogo dinámico, buscador, filtros y galería de producto.
                         <small id="producto-modal-disponibilidad"></small>
                     </div>
 
+                    <div class="producto-modal-seleccion">
+                        <label for="producto-modal-talla">Selecciona la talla solicitada</label>
+
+                        <div class="producto-modal-select-contenedor">
+                            <select
+                                id="producto-modal-talla"
+                                aria-describedby="producto-modal-talla-ayuda producto-modal-talla-error"
+                            >
+                                <option value="">Elige una talla</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </div>
+
+                        <small id="producto-modal-talla-ayuda">
+                            La disponibilidad se confirmará antes de procesar el pedido.
+                        </small>
+
+                        <p
+                            id="producto-modal-talla-error"
+                            class="producto-modal-talla-error"
+                            role="alert"
+                            hidden
+                        >
+                            Selecciona una talla para continuar.
+                        </p>
+                    </div>
+
                     <p id="producto-modal-descripcion" class="producto-modal-descripcion"></p>
 
                     <ul class="producto-modal-datos">
@@ -494,13 +521,12 @@ Hero premium, catálogo dinámico, buscador, filtros y galería de producto.
                     </ul>
 
                     <button
+                        id="producto-modal-agregar-carrito"
                         class="producto-modal-carrito"
                         type="button"
-                        disabled
-                        title="El carrito se habilitará en la siguiente etapa"
                     >
                         <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-                        Agregar al carrito — próximamente
+                        Agregar al carrito
                     </button>
 
                 </div>
@@ -512,8 +538,73 @@ Hero premium, catálogo dinámico, buscador, filtros y galería de producto.
     </section>
 
 
-    <!-- CARRITO: se construirá en la siguiente etapa -->
-    <aside id="carrito"></aside>
+    <!--=========================================================
+    CARRITO LATERAL
+    ==========================================================-->
+
+    <div id="carrito-fondo" class="carrito-fondo" aria-hidden="true"></div>
+
+    <aside
+        id="carrito"
+        class="carrito-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="carrito-titulo"
+        aria-hidden="true"
+    >
+
+        <header class="carrito-cabecera">
+            <div>
+                <span class="carrito-etiqueta">TU SELECCIÓN</span>
+                <h2 id="carrito-titulo">Carrito</h2>
+            </div>
+
+            <button
+                id="carrito-cerrar"
+                class="carrito-cerrar"
+                type="button"
+                aria-label="Cerrar carrito"
+            >
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+        </header>
+
+        <div class="carrito-contenido">
+
+            <div id="carrito-vacio" class="carrito-vacio">
+                <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+                <h3>Tu carrito está vacío</h3>
+                <p>Selecciona un producto y una talla para comenzar.</p>
+            </div>
+
+            <ul id="carrito-lista" class="carrito-lista" aria-label="Productos en el carrito"></ul>
+
+        </div>
+
+        <footer id="carrito-pie" class="carrito-pie" hidden>
+            <div class="carrito-total-fila">
+                <span>Total estimado</span>
+                <strong id="carrito-total">$0</strong>
+            </div>
+
+            <small class="carrito-aviso">
+                Las tallas y la disponibilidad se confirmarán antes de completar el pedido.
+            </small>
+
+            <button id="carrito-vaciar" class="carrito-vaciar" type="button">
+                <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+                Vaciar carrito
+            </button>
+
+            <button class="carrito-continuar" type="button" disabled>
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                Finalizar por WhatsApp — próximamente
+            </button>
+        </footer>
+
+    </aside>
+
+    <div id="carrito-anuncio" class="carrito-anuncio" role="status" aria-live="polite"></div>
 
     <!-- FOOTER: se construirá en una etapa posterior -->
     <footer></footer>
@@ -522,10 +613,10 @@ Hero premium, catálogo dinámico, buscador, filtros y galería de producto.
 
     <!-- JavaScript -->
     <script src="js/config.js"></script>
-    <script src="js/productos.js?v=0.3.5"></script>
-    <script src="js/carrito.js"></script>
+    <script src="js/productos.js?v=0.4.1"></script>
+    <script src="js/carrito.js?v=0.4.0"></script>
     <script src="js/whatsapp.js"></script>
-    <script src="js/app.js?v=0.3.5"></script>
+    <script src="js/app.js?v=0.4.0"></script>
 
 </body>
 
