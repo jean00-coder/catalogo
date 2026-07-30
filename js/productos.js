@@ -181,5 +181,40 @@ const productos = [
         "destacado": false,
         "fechaCreacion": "2026-07-29",
         "activo": true
+    },
+    {
+        "id": 6,
+        "codigo": "ATL-SNK-006",
+        "marca": "Nike",
+        "modelo": "Air Jordan Retro 3",
+        "color": "blanco, beige, gris",
+        "tipo": "Réplica",
+        "precio": 200000,
+        "moneda": "COP",
+        "tallas": [
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44
+        ],
+        "sistemaTallas": "EUR",
+        "confirmarDisponibilidad": true,
+        "descripcion": "Los Air Jordán 3 Retro combinan el legendario estampado de elefante con la máxima comodidad del Streetwear.",
+        "categoria": "Urbano",
+        "imagenes": [
+            "img/productos/atl-snk-006/atl-snk-006-01.jpeg",
+            "img/productos/atl-snk-006/atl-snk-006-02.jpeg",
+            "img/productos/atl-snk-006/atl-snk-006-03.jpeg",
+            "img/productos/atl-snk-006/atl-snk-006-04.jpeg"
+        ],
+        "estado": "disponible",
+        "destacado": false,
+        "fechaCreacion": "2026-07-29",
+        "activo": true
     }
 ];
