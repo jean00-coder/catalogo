@@ -25,15 +25,23 @@ RESET GENERAL
 }
 
 html{
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
     scroll-behavior: smooth;
 }
 
 body{
-    min-width: 320px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
     background: var(--color-fondo);
     color: var(--color-blanco);
     font-family: var(--fuente-principal);
+
     overflow-x: hidden;
+    position: relative;
 }
 
 /* Evita que la página se desplace detrás del menú móvil. */

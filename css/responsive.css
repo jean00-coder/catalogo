@@ -425,8 +425,8 @@ visible del dispositivo.
     }
 
     .producto-modal-panel{
-        width: 100vw;
-        max-width: 100vw;
+        width: 100%;
+        max-width: 100%;
         min-width: 0;
         min-height: 100dvh;
         max-height: none;
