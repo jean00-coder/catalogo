@@ -4,11 +4,11 @@ PROYECTO: ATLAS
 
 ARCHIVO: index.html
 
-VERSIÓN: 0.5.0
+VERSIÓN: 0.6.2
 
 DESCRIPCIÓN:
 Página principal del catálogo.
-Hero premium, catálogo dinámico, filtros, galería, carrito y pedidos con referencias por WhatsApp.
+Hero premium, catálogo dinámico, filtros, galería, carrito, pedidos por WhatsApp, información comercial y políticas de compra.
 
 =========================================================
 -->
@@ -23,7 +23,9 @@ Hero premium, catálogo dinámico, filtros, galería, carrito y pedidos con refe
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Título: evitamos usar "Oficial" porque los productos son réplicas -->
-    <title>ATLAS | Catálogo de Sneakers</title>
+    <title>ATLAS | Sneakers y moda urbana</title>
+
+    <meta name="description" content="Catálogo ATLAS de sneakers y moda urbana. Envíos desde Medellín a toda Colombia y pedidos por WhatsApp.">
 
     <!-- Icono pendiente para una etapa posterior -->
     <!-- <link rel="icon" href="img/logo/favicon.png"> -->
@@ -38,8 +40,8 @@ Hero premium, catálogo dinámico, filtros, galería, carrito y pedidos con refe
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/estilos.css?v=0.5.4">
-    <link rel="stylesheet" href="css/responsive.css?v=0.5.5">
+    <link rel="stylesheet" href="css/estilos.css?v=0.6.2">
+    <link rel="stylesheet" href="css/responsive.css?v=0.6.2">
 
 </head>
 
@@ -61,6 +63,8 @@ Hero premium, catálogo dinámico, filtros, galería, carrito y pedidos con refe
                 <a href="#hero">Inicio</a>
                 <a href="#catalogo">Catálogo</a>
                 <a href="#destacados">Destacados</a>
+                <a href="#informacion">Información</a>
+                <a href="#politicas">Políticas</a>
             </nav>
 
             <div class="acciones">
@@ -372,6 +376,362 @@ Hero premium, catálogo dinámico, filtros, galería, carrito y pedidos con refe
 
 
     <!--=========================================================
+    INFORMACIÓN COMERCIAL
+    ==========================================================-->
+
+    <section id="informacion" class="informacion-seccion" aria-labelledby="informacion-titulo">
+        <div class="container">
+            <div class="seccion-cabecera informacion-cabecera">
+                <div>
+                    <span class="seccion-etiqueta">COMPRA CON CONFIANZA</span>
+                    <h2 id="informacion-titulo">TODO CLARO ANTES DE PEDIR.</h2>
+                </div>
+                <p>
+                    El pedido se confirma por WhatsApp antes del pago. Allí verificamos talla,
+                    disponibilidad, valor final y datos de envío.
+                </p>
+            </div>
+
+            <div class="informacion-grid">
+                <article class="informacion-card">
+                    <span class="informacion-icono" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></span>
+                    <h3>Desde Medellín</h3>
+                    <p>Despachamos desde Medellín, Colombia.</p>
+                </article>
+
+                <article class="informacion-card">
+                    <span class="informacion-icono" aria-hidden="true"><i class="fa-solid fa-truck-fast"></i></span>
+                    <h3>Envíos nacionales</h3>
+                    <p>Realizamos envíos a todo Colombia. Entrega estimada: hasta 5 días hábiles después de confirmar el pago.</p>
+                </article>
+
+                <article class="informacion-card">
+                    <span class="informacion-icono" aria-hidden="true"><i class="fa-solid fa-building-columns"></i></span>
+                    <h3>Pago por transferencia</h3>
+                    <p>Los datos de pago se comparten únicamente por WhatsApp después de confirmar el pedido.</p>
+                </article>
+
+                <article class="informacion-card">
+                    <span class="informacion-icono" aria-hidden="true"><i class="fa-regular fa-clock"></i></span>
+                    <h3>Atención diaria</h3>
+                    <p>Te atendemos por WhatsApp de 8:00 a. m. a 8:00 p. m.</p>
+                </article>
+            </div>
+
+            <div class="informacion-cta">
+                <div>
+                    <strong>¿Tienes dudas antes de comprar?</strong>
+                    <span>Escríbenos y confirma disponibilidad, talla y valor del envío.</span>
+                </div>
+                <a
+                    class="informacion-whatsapp"
+                    href="https://wa.me/573005130595?text=Hola%2C%20ATLAS.%20Quiero%20resolver%20una%20duda%20antes%20de%20realizar%20mi%20pedido."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                    Hablar por WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!--=========================================================
+    POLÍTICAS DE COMPRA, CAMBIOS Y DEVOLUCIONES
+    ==========================================================-->
+
+    <section id="politicas" class="politicas-seccion" aria-labelledby="politicas-titulo">
+        <div class="container politicas-contenedor">
+            <div class="politicas-encabezado">
+                <span class="seccion-etiqueta">POLÍTICAS DE COMPRA</span>
+                <h2 id="politicas-titulo">COMPRA INFORMADA, PROCESO CLARO.</h2>
+                <p>
+                    Consulta aquí las condiciones de cambios de talla, envíos, garantía,
+                    pagos y atención posventa de ATLAS.
+                </p>
+            </div>
+
+            <div class="politicas-lista">
+                <details class="politica-item" open>
+                    <summary>
+                        <span class="politica-numero">01</span>
+                        <span>Cambios únicamente por talla</span>
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </summary>
+                    <div class="politica-contenido">
+                        <p>
+                            Solo realizamos cambios de talla por el mismo modelo, color y referencia,
+                            según disponibilidad. La solicitud debe enviarse por WhatsApp dentro de los
+                            dos (2) días hábiles siguientes a la entrega. Este cambio voluntario no genera
+                            devolución de dinero.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="politica-item">
+                    <summary>
+                        <span class="politica-numero">02</span>
+                        <span>Condiciones para aceptar el cambio</span>
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </summary>
+                    <div class="politica-contenido">
+                        <p>
+                            El producto debe estar sin uso, limpio, sin olores, alteraciones o daños, y conservar
+                            su bolsa, empaque, etiquetas y código. No se aceptan artículos usados o manipulados.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="politica-item">
+                    <summary>
+                        <span class="politica-numero">03</span>
+                        <span>Mismo modelo, color y referencia</span>
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </summary>
+                    <div class="politica-contenido">
+                        <p>
+                            El cambio voluntario se realiza únicamente por otra talla del mismo producto.
+                            No se permite cambiarlo por otros tenis, modelos, colores o referencias. Recomendamos
+                            verificar cuidadosamente la talla antes de confirmar la compra.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="politica-item">
+                    <summary>
+                        <span class="politica-numero">04</span>
+                        <span>Costos de envío del cambio</span>
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </summary>
+                    <div class="politica-contenido">
+                        <p>
+                            Cuando el cambio se solicite por una talla elegida por el cliente, los costos de envío
+                            y reenvío estarán a su cargo. Si ATLAS envió un producto incorrecto o con un defecto
+                            confirmado, ATLAS asumirá los costos que correspondan.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="politica-item">
+                    <summary>
+                        <span class="politica-numero">05</span>
+                        <span>Envíos y novedades con la transportadora</span>
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </summary>
+                    <div class="politica-contenido">
+                        <p>
+                            Entregaremos la guía para seguimiento y apoyaremos la gestión de novedades. Los tiempos
+                            pueden variar por la operación de la transportadora, condiciones climáticas, orden público
+                            o ubicación del destino.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="politica-item">
+                    <summary>
+                        <span class="politica-numero">06</span>
+                        <span>Garantía</span>
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </summary>
+                    <div class="politica-contenido">
+                        <p>
+                            Las reclamaciones por defectos de fabricación, costura o despegue serán evaluadas conforme
+                            a la garantía legal aplicable. La garantía no cubre desgaste normal, golpes, humedad,
+                            lavado inadecuado, modificaciones o uso indebido.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="politica-item">
+                    <summary>
+                        <span class="politica-numero">07</span>
+                        <span>Video al recibir el paquete</span>
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </summary>
+                    <div class="politica-contenido">
+                        <p>
+                            Recomendamos grabar un video continuo al abrir el paquete para facilitar la revisión de
+                            faltantes, daños o errores. 
+                        </p>
+                    </div>
+                </details>
+
+                <details class="politica-item">
+                    <summary>
+                        <span class="politica-numero">08</span>
+                        <span>Pago y confirmación del pedido</span>
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </summary>
+                    <div class="politica-contenido">
+                        <p>
+                            No manejamos pago contra entrega. Antes de pagar, ATLAS confirmará por WhatsApp la talla,
+                            disponibilidad, valor del envío y datos de transferencia. Las llaves y datos bancarios
+                            se comparten únicamente por el canal oficial de atención.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="politica-item">
+                    <summary>
+                        <span class="politica-numero">09</span>
+                        <span>Selección de talla</span>
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </summary>
+                    <div class="politica-contenido">
+                        <p>
+                            El cliente debe revisar la talla antes de confirmar el pedido. Una talla elegida
+                            incorrectamente no permite cambiar por otro modelo ni solicitar devolución de dinero;
+                            únicamente podrá pedirse el cambio de talla bajo las condiciones indicadas anteriormente.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="politica-item politica-item-legal">
+                    <summary>
+                        <span class="politica-numero">10</span>
+                        <span>Información legal y derechos del consumidor</span>
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </summary>
+                    <div class="politica-contenido">
+                        <p>
+                            Las reglas anteriores corresponden a cambios voluntarios de talla. No eliminan los
+                            derechos que puedan proceder por garantía legal, por recibir un producto diferente al
+                            solicitado, por retracto en ventas a distancia, por reversión del pago u otra obligación
+                            prevista en la normativa colombiana. Cuando legalmente aplique el retracto, el plazo general
+                            es de cinco (5) días hábiles contados desde la entrega. Las devoluciones de dinero se
+                            atenderán únicamente cuando legalmente correspondan.
+                        </p>
+                    </div>
+                </details>
+            </div>
+
+            <p class="politicas-nota">
+                Al confirmar un pedido declaras haber leído estas condiciones. Para solicitar un cambio, garantía,
+                retracto o reportar una novedad, comunícate por el WhatsApp oficial de ATLAS.
+            </p>
+        </div>
+    </section>
+
+
+    <!--=========================================================
+    GUÍA DE TALLAS
+    Se abre desde el detalle del producto o desde el pie de página.
+    ==========================================================-->
+
+    <div id="guia-tallas-fondo" class="guia-tallas-fondo" aria-hidden="true"></div>
+
+    <section
+        id="guia-tallas-modal"
+        class="guia-tallas-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="guia-tallas-titulo"
+        aria-hidden="true"
+    >
+        <div class="guia-tallas-panel">
+            <header class="guia-tallas-cabecera">
+                <div>
+                    <span class="seccion-etiqueta">CONVERSIÓN COL / EU-FR</span>
+                    <h2 id="guia-tallas-titulo">GUÍA DE TALLAS ATLAS</h2>
+                </div>
+
+                <button
+                    id="guia-tallas-cerrar"
+                    class="guia-tallas-cerrar"
+                    type="button"
+                    aria-label="Cerrar guía de tallas"
+                >
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </header>
+
+            <div class="guia-tallas-contenido">
+                <p class="guia-tallas-intro">
+                    La talla marcada en la bolsa o etiqueta del producto corresponde a la talla europea
+                    <strong>EU/FR</strong>. Usa esta tabla como referencia antes de confirmar tu pedido.
+                </p>
+
+                <div class="guia-tallas-grid">
+                    <article class="guia-tallas-card">
+                        <div class="guia-tallas-card-titulo">
+                            <i class="fa-solid fa-person-dress" aria-hidden="true"></i>
+                            <h3>Dama</h3>
+                        </div>
+                        <div class="guia-tallas-tabla-contenedor">
+                            <table class="guia-tallas-tabla">
+                                <thead>
+                                    <tr><th>Colombia</th><th>EU / FR</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>35</td><td>36</td></tr>
+                                    <tr><td>36</td><td>37</td></tr>
+                                    <tr><td>37</td><td>38</td></tr>
+                                    <tr><td>38</td><td>39</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="guia-tallas-ejemplo-corto">
+                            Ejemplo: <strong>EU 37</strong> equivale aproximadamente a <strong>COL 36</strong>.
+                        </p>
+                    </article>
+
+                    <article class="guia-tallas-card">
+                        <div class="guia-tallas-card-titulo">
+                            <i class="fa-solid fa-person" aria-hidden="true"></i>
+                            <h3>Caballero</h3>
+                        </div>
+                        <div class="guia-tallas-tabla-contenedor">
+                            <table class="guia-tallas-tabla">
+                                <thead>
+                                    <tr><th>Colombia</th><th>EU / FR</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>37</td><td>40</td></tr>
+                                    <tr><td>38</td><td>41</td></tr>
+                                    <tr><td>39</td><td>42</td></tr>
+                                    <tr><td>40</td><td>43</td></tr>
+                                    <tr><td>41 / 42</td><td>44</td></tr>
+                                    <tr><td>43</td><td>45</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="guia-tallas-ejemplo-corto">
+                            Ejemplo: <strong>EU 42</strong> equivale aproximadamente a <strong>COL 39</strong>.
+                        </p>
+                    </article>
+                </div>
+
+                <div class="guia-tallas-aviso">
+                    <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                    <p>
+                        Esta guía es orientativa. El ajuste puede variar ligeramente según el modelo.
+                        Confirma tu talla y disponibilidad por WhatsApp antes de realizar el pago.
+                    </p>
+                </div>
+
+                <details class="guia-tallas-referencia">
+                    <summary>
+                        <span>Ver ejemplo de cómo leer la etiqueta</span>
+                        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                    </summary>
+                    <div class="guia-tallas-referencia-contenido">
+                        <img
+                            src="img/guias/guia-tallas-atlas.jpg"
+                            alt="Ejemplo visual de conversión entre talla Colombia y talla europea EU o FR"
+                            width="848"
+                            height="1264"
+                            loading="lazy"
+                            decoding="async"
+                        >
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+
+    <!--=========================================================
     MODAL DE PRODUCTO CON GALERÍA
     Se completa dinámicamente desde productos.js
     ==========================================================-->
@@ -493,6 +853,15 @@ Hero premium, catálogo dinámico, filtros, galería, carrito y pedidos con refe
                             La disponibilidad se confirmará antes de procesar el pedido.
                         </small>
 
+                        <button
+                            class="producto-modal-guia-tallas"
+                            type="button"
+                            data-guia-tallas-abrir
+                        >
+                            <i class="fa-solid fa-ruler-horizontal" aria-hidden="true"></i>
+                            ¿No sabes cuál elegir? Ver guía de tallas
+                        </button>
+
                         <p
                             id="producto-modal-talla-error"
                             class="producto-modal-talla-error"
@@ -606,17 +975,60 @@ Hero premium, catálogo dinámico, filtros, galería, carrito y pedidos con refe
 
     <div id="carrito-anuncio" class="carrito-anuncio" role="status" aria-live="polite"></div>
 
-    <!-- FOOTER: se construirá en una etapa posterior -->
-    <footer></footer>
+    <!--=========================================================
+    FOOTER
+    ==========================================================-->
+    <footer class="footer-atlas">
+        <div class="container footer-grid">
+            <div class="footer-marca">
+                <strong>ATLAS</strong>
+                <p>Sneakers y moda urbana con pedidos sencillos por WhatsApp.</p>
+                <small>Productos réplica. ATLAS no está afiliada a las marcas mostradas.</small>
+            </div>
+
+            <div class="footer-columna">
+                <h2>Compra</h2>
+                <a href="#catalogo">Catálogo</a>
+                <button class="footer-enlace-boton" type="button" data-guia-tallas-abrir>Guía de tallas</button>
+                <a href="#informacion">Información comercial</a>
+                <a href="#politicas">Cambios y devoluciones</a>
+            </div>
+
+            <div class="footer-columna">
+                <h2>Atención</h2>
+                <span>Medellín, Colombia</span>
+                <span>Envíos a todo Colombia</span>
+                <span>8:00 a. m. – 8:00 p. m.</span>
+            </div>
+
+            <div class="footer-columna footer-contacto">
+                <h2>Contacto</h2>
+                <a
+                    href="https://wa.me/573005130595?text=Hola%2C%20ATLAS.%20Quiero%20recibir%20informaci%C3%B3n."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                    WhatsApp oficial
+                </a>
+                <span>Pagos por transferencia después de confirmar el pedido.</span>
+            </div>
+        </div>
+
+        <div class="container footer-inferior">
+            <span>© 2026 ATLAS. Todos los derechos reservados.</span>
+            <a href="#politicas">Ver políticas de compra</a>
+        </div>
+    </footer>
 
 
 
     <!-- JavaScript -->
     <script src="js/config.js?v=0.5.0"></script>
-    <script src="js/productos.js?v=gestor-20260801031248349"></script>
+    <script src="js/productos.js?v=gestor-20260801034214404"></script>
     <script src="js/carrito.js?v=0.5.5"></script>
     <script src="js/whatsapp.js?v=0.5.1"></script>
-    <script src="js/app.js?v=0.5.5"></script>
+    <script src="js/app.js?v=0.6.2"></script>
 
 </body>
 

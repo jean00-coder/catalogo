@@ -3,7 +3,7 @@ PROYECTO: ATLAS
 
 ARCHIVO: app.js
 
-VERSIÓN: 0.5.4
+VERSIÓN: 0.6.2
 
 FUNCIÓN:
 Controlar el Hero, menú móvil, Header, catálogo, modal y conexión con el carrito.
@@ -1293,5 +1293,117 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         document.addEventListener('DOMContentLoaded', iniciarCatalogo);
     } else {
         iniciarCatalogo();
+    }
+})();
+
+
+/*=========================================================
+GUIA DE TALLAS RESPONSIVE - v0.6.2
+=========================================================*/
+
+(() => {
+    'use strict';
+
+    const iniciarGuiaTallas = () => {
+        const modal = document.querySelector('#guia-tallas-modal');
+        const fondo = document.querySelector('#guia-tallas-fondo');
+        const botonCerrar = document.querySelector('#guia-tallas-cerrar');
+
+        if (!modal || !fondo || !botonCerrar) {
+            return;
+        }
+
+        let botonOrigen = null;
+        const interfazTactil = window.matchMedia('(pointer: coarse)').matches;
+        const estaAbierta = () => modal.getAttribute('aria-hidden') === 'false';
+
+        const abrir = (boton) => {
+            botonOrigen = boton || null;
+            modal.classList.add('activo');
+            fondo.classList.add('activo');
+            modal.setAttribute('aria-hidden', 'false');
+            fondo.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('guia-tallas-abierta');
+
+            if (!interfazTactil) {
+                window.requestAnimationFrame(() => {
+                    botonCerrar.focus({ preventScroll: true });
+                });
+            }
+        };
+
+        const cerrar = () => {
+            if (!estaAbierta()) {
+                return;
+            }
+
+            modal.classList.remove('activo');
+            fondo.classList.remove('activo');
+            modal.setAttribute('aria-hidden', 'true');
+            fondo.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('guia-tallas-abierta');
+
+            if (!interfazTactil) {
+                botonOrigen?.focus({ preventScroll: true });
+            }
+
+            botonOrigen = null;
+        };
+
+        document.addEventListener('click', (evento) => {
+            const boton = evento.target.closest('[data-guia-tallas-abrir]');
+
+            if (!boton) {
+                return;
+            }
+
+            evento.preventDefault();
+            abrir(boton);
+        });
+
+        botonCerrar.addEventListener('click', cerrar);
+        fondo.addEventListener('click', cerrar);
+
+        document.addEventListener('keydown', (evento) => {
+            if (!estaAbierta()) {
+                return;
+            }
+
+            if (evento.key === 'Escape') {
+                evento.preventDefault();
+                evento.stopImmediatePropagation();
+                cerrar();
+                return;
+            }
+
+            if (evento.key === 'Tab') {
+                const enfocables = Array.from(
+                    modal.querySelectorAll(
+                        'button:not([disabled]), summary, a[href], [tabindex]:not([tabindex="-1"])'
+                    )
+                ).filter((elemento) => elemento.offsetParent !== null);
+
+                if (enfocables.length > 0) {
+                    const primero = enfocables[0];
+                    const ultimo = enfocables[enfocables.length - 1];
+
+                    if (evento.shiftKey && document.activeElement === primero) {
+                        evento.preventDefault();
+                        ultimo.focus();
+                    } else if (!evento.shiftKey && document.activeElement === ultimo) {
+                        evento.preventDefault();
+                        primero.focus();
+                    }
+                }
+            }
+
+            evento.stopImmediatePropagation();
+        }, true);
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', iniciarGuiaTallas);
+    } else {
+        iniciarGuiaTallas();
     }
 })();

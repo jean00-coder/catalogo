@@ -2059,3 +2059,576 @@ RENDIMIENTO — v0.5.4
 .carrito-panel{
     will-change: transform, opacity;
 }
+
+
+/*=========================================================
+INFORMACIÓN COMERCIAL Y POLÍTICAS — v0.6.0
+=========================================================*/
+
+.informacion-seccion{
+    padding: 110px 0;
+    background:
+        radial-gradient(circle at 10% 10%, rgba(95,115,138,.16), transparent 30%),
+        #101010;
+    border-top: 1px solid var(--color-linea);
+}
+
+.informacion-cabecera{
+    margin-bottom: 38px;
+}
+
+.informacion-grid{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.informacion-card{
+    min-width: 0;
+    padding: 26px;
+    background: rgba(255,255,255,.025);
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 20px;
+}
+
+.informacion-icono{
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 22px;
+    background: rgba(95,115,138,.16);
+    border: 1px solid rgba(125,147,170,.24);
+    border-radius: 50%;
+    color: var(--color-hover);
+}
+
+.informacion-card h3{
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+}
+
+.informacion-card p{
+    color: rgba(245,245,245,.62);
+    font-size: .88rem;
+    line-height: 1.7;
+}
+
+.informacion-cta{
+    margin-top: 24px;
+    padding: 24px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: linear-gradient(120deg, rgba(95,115,138,.18), rgba(255,255,255,.035));
+    border: 1px solid rgba(125,147,170,.22);
+    border-radius: 20px;
+}
+
+.informacion-cta > div{
+    display: grid;
+    gap: 5px;
+}
+
+.informacion-cta strong{
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.informacion-cta span{
+    color: rgba(245,245,245,.58);
+    font-size: .82rem;
+}
+
+.informacion-whatsapp{
+    flex: 0 0 auto;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px 20px;
+    background: rgba(37,211,102,.14);
+    border: 1px solid rgba(37,211,102,.3);
+    border-radius: var(--radio-boton);
+    color: #d8ffe6;
+    font-size: .8rem;
+    font-weight: 700;
+    transition: background-color var(--transicion), transform var(--transicion);
+}
+
+.informacion-whatsapp:hover{
+    background: rgba(37,211,102,.23);
+    transform: translateY(-2px);
+}
+
+.politicas-seccion{
+    padding: 110px 0;
+    background: #0b0b0b;
+    border-top: 1px solid var(--color-linea);
+}
+
+.politicas-contenedor{
+    max-width: 1040px;
+}
+
+.politicas-encabezado{
+    max-width: 760px;
+    margin-bottom: 38px;
+}
+
+.politicas-encabezado h2{
+    margin: 12px 0 16px;
+    color: #ffffff;
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1;
+}
+
+.politicas-encabezado p{
+    color: rgba(245,245,245,.6);
+    line-height: 1.75;
+}
+
+.politicas-lista{
+    border-top: 1px solid rgba(255,255,255,.1);
+}
+
+.politica-item{
+    border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.politica-item summary{
+    min-height: 76px;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) 36px;
+    align-items: center;
+    gap: 12px;
+    color: #ffffff;
+    cursor: pointer;
+    list-style: none;
+    font-size: .98rem;
+    font-weight: 700;
+}
+
+.politica-item summary::-webkit-details-marker{
+    display: none;
+}
+
+.politica-numero{
+    color: var(--color-hover);
+    font-family: var(--fuente-titulos);
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.politica-item summary i{
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 50%;
+    color: rgba(245,245,245,.68);
+    transition: transform .2s ease;
+}
+
+.politica-item[open] summary i{
+    transform: rotate(45deg);
+}
+
+.politica-contenido{
+    padding: 0 48px 24px 64px;
+}
+
+.politica-contenido p{
+    max-width: 800px;
+    color: rgba(245,245,245,.6);
+    font-size: .9rem;
+    line-height: 1.8;
+}
+
+.politicas-nota{
+    margin-top: 26px;
+    padding: 18px 20px;
+    background: rgba(95,115,138,.1);
+    border: 1px solid rgba(125,147,170,.18);
+    border-radius: 14px;
+    color: rgba(245,245,245,.65);
+    font-size: .78rem;
+    line-height: 1.65;
+}
+
+.footer-atlas{
+    padding: 72px 0 24px;
+    background: #080808;
+    border-top: 1px solid rgba(255,255,255,.1);
+}
+
+.footer-grid{
+    display: grid;
+    grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr));
+    gap: 44px;
+}
+
+.footer-marca strong{
+    display: block;
+    margin-bottom: 14px;
+    color: #ffffff;
+    font-family: var(--fuente-titulos);
+    font-size: 2rem;
+    letter-spacing: 6px;
+}
+
+.footer-marca p{
+    max-width: 320px;
+    margin-bottom: 13px;
+    color: rgba(245,245,245,.62);
+    font-size: .84rem;
+    line-height: 1.7;
+}
+
+.footer-marca small{
+    display: block;
+    max-width: 360px;
+    color: rgba(245,245,245,.38);
+    font-size: .67rem;
+    line-height: 1.6;
+}
+
+.footer-columna{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 11px;
+}
+
+.footer-columna h2{
+    margin-bottom: 5px;
+    color: rgba(245,245,245,.42);
+    font-family: var(--fuente-principal);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.footer-columna a,
+.footer-columna span{
+    color: rgba(245,245,245,.68);
+    font-size: .78rem;
+    line-height: 1.55;
+}
+
+.footer-columna a:hover{
+    color: #ffffff;
+}
+
+.footer-contacto a{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #d8ffe6;
+}
+
+.footer-inferior{
+    margin-top: 52px;
+    padding-top: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    color: rgba(245,245,245,.38);
+    font-size: .68rem;
+}
+
+.footer-inferior a:hover{
+    color: rgba(245,245,245,.8);
+}
+
+
+/*=========================================================
+GUIA DE TALLAS - v0.6.2
+=========================================================*/
+
+.producto-modal-guia-tallas{
+    width: fit-content;
+    max-width: 100%;
+    margin-top: 10px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 0;
+    color: var(--color-hover);
+    font-size: .78rem;
+    font-weight: 700;
+    line-height: 1.45;
+    text-align: left;
+    cursor: pointer;
+}
+
+.producto-modal-guia-tallas:hover{
+    color: #ffffff;
+}
+
+.footer-enlace-boton{
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: rgba(245,245,245,.68);
+    font-family: inherit;
+    font-size: .78rem;
+    line-height: 1.55;
+    text-align: left;
+    cursor: pointer;
+}
+
+.footer-enlace-boton:hover{
+    color: #ffffff;
+}
+
+.guia-tallas-fondo{
+    position: fixed;
+    inset: 0;
+    z-index: 1400;
+    background: rgba(0,0,0,.84);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .2s ease, visibility .2s ease;
+}
+
+.guia-tallas-fondo.activo{
+    opacity: 1;
+    visibility: visible;
+}
+
+.guia-tallas-modal{
+    position: fixed;
+    inset: 0;
+    z-index: 1410;
+    padding: 28px;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .2s ease, visibility .2s ease;
+}
+
+.guia-tallas-modal.activo{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.guia-tallas-panel{
+    width: min(940px, 100%);
+    max-height: calc(100vh - 56px);
+    overflow-y: auto;
+    background: #101010;
+    border: 1px solid rgba(125,147,170,.28);
+    border-radius: 22px;
+    box-shadow: 0 28px 80px rgba(0,0,0,.58);
+    overscroll-behavior: contain;
+}
+
+.guia-tallas-cabecera{
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 26px 28px 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    background: rgba(16,16,16,.96);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.guia-tallas-cabecera h2{
+    margin-top: 8px;
+    color: #ffffff;
+    font-size: clamp(1.65rem, 4vw, 2.8rem);
+    line-height: 1;
+}
+
+.guia-tallas-cerrar{
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 50%;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.guia-tallas-contenido{
+    padding: 28px;
+}
+
+.guia-tallas-intro{
+    max-width: 760px;
+    margin-bottom: 24px;
+    color: rgba(245,245,245,.68);
+    font-size: .92rem;
+    line-height: 1.7;
+}
+
+.guia-tallas-intro strong{
+    color: #ffffff;
+}
+
+.guia-tallas-grid{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.guia-tallas-card{
+    min-width: 0;
+    padding: 22px;
+    background: rgba(95,115,138,.09);
+    border: 1px solid rgba(125,147,170,.18);
+    border-radius: 18px;
+}
+
+.guia-tallas-card-titulo{
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.guia-tallas-card-titulo i{
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    background: rgba(125,147,170,.16);
+    border-radius: 50%;
+    color: var(--color-hover);
+}
+
+.guia-tallas-card-titulo h3{
+    color: #ffffff;
+    font-size: 1.2rem;
+}
+
+.guia-tallas-tabla-contenedor{
+    width: 100%;
+    overflow-x: auto;
+}
+
+.guia-tallas-tabla{
+    width: 100%;
+    border-collapse: collapse;
+    color: #ffffff;
+    font-size: .9rem;
+}
+
+.guia-tallas-tabla th,
+.guia-tallas-tabla td{
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    text-align: center;
+}
+
+.guia-tallas-tabla th{
+    background: rgba(255,255,255,.045);
+    color: rgba(245,245,245,.55);
+    font-size: .7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.guia-tallas-tabla td{
+    font-weight: 700;
+}
+
+.guia-tallas-ejemplo-corto{
+    margin-top: 16px;
+    color: rgba(245,245,245,.58);
+    font-size: .76rem;
+    line-height: 1.55;
+}
+
+.guia-tallas-ejemplo-corto strong{
+    color: #ffffff;
+}
+
+.guia-tallas-aviso{
+    margin-top: 20px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(95,115,138,.1);
+    border: 1px solid rgba(125,147,170,.18);
+    border-radius: 14px;
+    color: rgba(245,245,245,.66);
+    font-size: .8rem;
+    line-height: 1.65;
+}
+
+.guia-tallas-aviso i{
+    margin-top: 3px;
+    color: var(--color-hover);
+}
+
+.guia-tallas-referencia{
+    margin-top: 20px;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.guia-tallas-referencia summary{
+    min-height: 58px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    color: #ffffff;
+    cursor: pointer;
+    list-style: none;
+    font-size: .82rem;
+    font-weight: 700;
+}
+
+.guia-tallas-referencia summary::-webkit-details-marker{
+    display: none;
+}
+
+.guia-tallas-referencia summary i{
+    transition: transform .2s ease;
+}
+
+.guia-tallas-referencia[open] summary i{
+    transform: rotate(180deg);
+}
+
+.guia-tallas-referencia-contenido{
+    padding: 0 18px 18px;
+}
+
+.guia-tallas-referencia img{
+    width: min(520px, 100%);
+    height: auto;
+    margin-inline: auto;
+    display: block;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.1);
+}
+
+body.guia-tallas-abierta{
+    overflow: hidden;
+}

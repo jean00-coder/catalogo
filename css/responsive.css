@@ -734,3 +734,151 @@ que consumen memoria en equipos de gama básica.
     }
 
 }
+
+
+/*=========================================================
+INFORMACIÓN, POLÍTICAS Y FOOTER RESPONSIVE — v0.6.0
+=========================================================*/
+
+@media (max-width: 1100px){
+    .informacion-grid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .footer-grid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px){
+    .informacion-seccion,
+    .politicas-seccion{
+        padding: 76px 0;
+    }
+
+    .informacion-grid,
+    .footer-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .informacion-card{
+        padding: 22px;
+    }
+
+    .informacion-cta{
+        align-items: stretch;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .informacion-whatsapp{
+        width: 100%;
+    }
+
+    .politica-item summary{
+        min-height: 72px;
+        grid-template-columns: 40px minmax(0, 1fr) 32px;
+        gap: 8px;
+        font-size: .88rem;
+    }
+
+    .politica-contenido{
+        padding: 0 10px 22px 48px;
+    }
+
+    .politica-contenido p{
+        font-size: .82rem;
+    }
+
+    .footer-atlas{
+        padding-top: 58px;
+    }
+
+    .footer-grid{
+        gap: 34px;
+    }
+
+    .footer-inferior{
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 420px){
+    .politica-item summary{
+        grid-template-columns: 34px minmax(0, 1fr) 30px;
+    }
+
+    .politica-contenido{
+        padding-left: 42px;
+    }
+}
+
+
+/*=========================================================
+GUIA DE TALLAS RESPONSIVE - v0.6.2
+=========================================================*/
+
+@media (max-width: 760px){
+    .guia-tallas-modal{
+        padding: 0;
+        place-items: stretch;
+    }
+
+    .guia-tallas-panel{
+        width: 100%;
+        max-width: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .guia-tallas-cabecera{
+        padding: 20px 18px 16px;
+    }
+
+    .guia-tallas-cabecera h2{
+        font-size: 1.7rem;
+    }
+
+    .guia-tallas-contenido{
+        padding: 20px 18px 34px;
+    }
+
+    .guia-tallas-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .guia-tallas-card{
+        padding: 18px;
+    }
+
+    .guia-tallas-fondo,
+    .guia-tallas-modal,
+    .guia-tallas-panel{
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .producto-modal-guia-tallas{
+        width: 100%;
+        justify-content: flex-start;
+        padding: 11px 13px;
+        background: rgba(95,115,138,.1);
+        border: 1px solid rgba(125,147,170,.18);
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 380px){
+    .guia-tallas-cabecera h2{
+        font-size: 1.45rem;
+    }
+
+    .guia-tallas-tabla th,
+    .guia-tallas-tabla td{
+        padding: 10px 8px;
+    }
+}
