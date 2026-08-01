@@ -134,7 +134,7 @@ const productos = [
         ],
         "sistemaTallas": "EUR",
         "confirmarDisponibilidad": true,
-        "descripcion": "Sneaker urbano en color negro total, con diseño clásico y acabado monocromático.",
+        "descripcion": "Sneaker urbano en color negro total, con diseño Old Skool y acabado monocromático.",
         "categoria": "Urbano",
         "imagenes": [
             "img/productos/atl-snk-004/atl-snk-004-01.jpeg",
