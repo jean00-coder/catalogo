@@ -2030,3 +2030,32 @@ CARRITO LATERAL — v0.4.0
 .contador-vacio{
     opacity: .7;
 }
+
+
+/*=========================================================
+RENDIMIENTO — v0.5.4
+=========================================================*/
+
+.producto-card{
+    content-visibility: auto;
+    contain-intrinsic-size: 620px;
+}
+
+.producto-modal-marco img{
+    opacity: 1;
+    transition: opacity .16s ease;
+}
+
+.producto-modal-marco.cargando img{
+    opacity: .18;
+}
+
+.producto-modal-carrito[aria-busy="true"]{
+    cursor: progress;
+    transform: none;
+}
+
+.producto-modal-panel,
+.carrito-panel{
+    will-change: transform, opacity;
+}

@@ -3,7 +3,7 @@ PROYECTO: ATLAS
 
 ARCHIVO: app.js
 
-VERSIÓN: 0.5.1
+VERSIÓN: 0.5.4
 
 FUNCIÓN:
 Controlar el Hero, menú móvil, Header, catálogo, modal y conexión con el carrito.
@@ -384,6 +384,8 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
                         width="900"
                         height="900"
                         loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
                     >
 
                     <div class="producto-imagen-placeholder" aria-hidden="true">
@@ -549,8 +551,21 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         let indiceImagenActual = 0;
         let botonQueAbrioModal = null;
         let modalAbiertoDesdeURL = false;
+        let tokenCargaGaleria = 0;
+        let agregandoAlCarrito = false;
+
+        const HTML_BOTON_AGREGAR = botonAgregarCarrito.innerHTML;
 
         const modalEstaAbierto = () => modal.getAttribute('aria-hidden') === 'false';
+
+        /** Ejecuta tareas secundarias sin bloquear la apertura del modal. */
+        const programarTareaLigera = (tarea) => {
+            if ('requestIdleCallback' in window) {
+                return window.requestIdleCallback(tarea, { timeout: 350 });
+            }
+
+            return window.setTimeout(tarea, 40);
+        };
 
         /** Crea una lista única y ordenada sin distinguir mayúsculas. */
         const obtenerValoresUnicos = (campo) => {
@@ -751,11 +766,45 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             prepararImagenesTarjetas();
         };
 
-        /** Muestra una fotografía de la galería. */
-        const mostrarImagenModal = (nuevoIndice) => {
+        /** Marca visualmente la miniatura correspondiente a la imagen actual. */
+        const actualizarMiniaturaActiva = () => {
+            miniaturas.querySelectorAll('.producto-modal-miniatura').forEach((boton, indice) => {
+                const estaActiva = indice === indiceImagenActual;
+                boton.classList.toggle('activa', estaActiva);
+                boton.setAttribute('aria-current', estaActiva ? 'true' : 'false');
+            });
+        };
+
+        /** Prepara en segundo plano la siguiente fotografía de la galería. */
+        const prepararSiguienteImagen = (token, rutaActual) => {
+            if (imagenesActuales.length <= 1) {
+                return;
+            }
+
+            const siguienteRuta = imagenesActuales[(indiceImagenActual + 1) % imagenesActuales.length];
+
+            if (!siguienteRuta || siguienteRuta === rutaActual) {
+                return;
+            }
+
+            programarTareaLigera(() => {
+                if (token !== tokenCargaGaleria || !modalEstaAbierto()) {
+                    return;
+                }
+
+                const precarga = new Image();
+                precarga.decoding = 'async';
+                precarga.fetchPriority = 'low';
+                precarga.src = siguienteRuta;
+            });
+        };
+
+        /** Muestra una fotografía sin bloquear la interfaz mientras se decodifica. */
+        const mostrarImagenModal = (nuevoIndice, token = tokenCargaGaleria) => {
             if (!productoActual || imagenesActuales.length === 0) {
                 imagenModal.removeAttribute('src');
                 imagenModal.alt = '';
+                marcoImagen.classList.remove('cargando');
                 marcoImagen.classList.add('imagen-error');
                 botonAnterior.hidden = true;
                 botonSiguiente.hidden = true;
@@ -769,9 +818,32 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
 
             const ruta = imagenesActuales[indiceImagenActual];
             marcoImagen.classList.remove('imagen-error');
+            marcoImagen.classList.add('cargando');
             imagenModal.hidden = false;
-            imagenModal.src = ruta;
+            imagenModal.decoding = 'async';
+            imagenModal.loading = 'eager';
+            imagenModal.fetchPriority = indiceImagenActual === 0 ? 'high' : 'auto';
             imagenModal.alt = `${productoActual.modelo}, fotografía ${indiceImagenActual + 1} de ${imagenesActuales.length}`;
+
+            imagenModal.onload = () => {
+                if (token !== tokenCargaGaleria || imagenModal.getAttribute('src') !== ruta) {
+                    return;
+                }
+
+                marcoImagen.classList.remove('cargando');
+                prepararSiguienteImagen(token, ruta);
+            };
+
+            imagenModal.onerror = () => {
+                if (token !== tokenCargaGaleria || imagenModal.getAttribute('src') !== ruta) {
+                    return;
+                }
+
+                marcoImagen.classList.remove('cargando');
+                marcoImagen.classList.add('imagen-error');
+            };
+
+            imagenModal.src = ruta;
 
             const hayVarias = imagenesActuales.length > 1;
             botonAnterior.hidden = !hayVarias;
@@ -779,44 +851,56 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             contadorImagen.hidden = !hayVarias;
             contadorImagen.textContent = `${indiceImagenActual + 1} / ${imagenesActuales.length}`;
 
-            miniaturas.querySelectorAll('.producto-modal-miniatura').forEach((boton, indice) => {
-                const estaActiva = indice === indiceImagenActual;
-                boton.classList.toggle('activa', estaActiva);
-                boton.setAttribute('aria-current', estaActiva ? 'true' : 'false');
-            });
+            actualizarMiniaturaActiva();
         };
 
-        /** Crea las miniaturas del producto actual. */
-        const crearMiniaturas = () => {
+        /** Crea las miniaturas después de mostrar el modal. */
+        const crearMiniaturasDiferidas = (token) => {
             miniaturas.replaceChildren();
-
-            imagenesActuales.forEach((ruta, indice) => {
-                const boton = document.createElement('button');
-                const imagen = document.createElement('img');
-
-                boton.type = 'button';
-                boton.className = 'producto-modal-miniatura';
-                boton.dataset.indiceImagen = String(indice);
-                boton.setAttribute(
-                    'aria-label',
-                    `Mostrar fotografía ${indice + 1} de ${imagenesActuales.length}`
-                );
-
-                imagen.src = ruta;
-                imagen.alt = '';
-                imagen.width = 120;
-                imagen.height = 120;
-                imagen.loading = 'lazy';
-
-                imagen.addEventListener('error', () => {
-                    boton.hidden = true;
-                }, { once: true });
-
-                boton.append(imagen);
-                miniaturas.append(boton);
-            });
-
             miniaturas.hidden = imagenesActuales.length <= 1;
+
+            if (imagenesActuales.length <= 1) {
+                return;
+            }
+
+            programarTareaLigera(() => {
+                if (token !== tokenCargaGaleria || !modalEstaAbierto()) {
+                    return;
+                }
+
+                const fragmento = document.createDocumentFragment();
+
+                imagenesActuales.forEach((ruta, indice) => {
+                    const boton = document.createElement('button');
+                    const imagen = document.createElement('img');
+
+                    boton.type = 'button';
+                    boton.className = 'producto-modal-miniatura';
+                    boton.dataset.indiceImagen = String(indice);
+                    boton.setAttribute(
+                        'aria-label',
+                        `Mostrar fotografía ${indice + 1} de ${imagenesActuales.length}`
+                    );
+
+                    imagen.src = ruta;
+                    imagen.alt = '';
+                    imagen.width = 120;
+                    imagen.height = 120;
+                    imagen.loading = 'lazy';
+                    imagen.decoding = 'async';
+                    imagen.fetchPriority = 'low';
+
+                    imagen.addEventListener('error', () => {
+                        boton.hidden = true;
+                    }, { once: true });
+
+                    boton.append(imagen);
+                    fragmento.append(boton);
+                });
+
+                miniaturas.replaceChildren(fragmento);
+                actualizarMiniaturaActiva();
+            });
         };
 
         /** Carga las tallas del producto dentro del selector del modal. */
@@ -885,8 +969,15 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             camposModal.codigoDato.textContent = codigo;
 
             cargarSelectorTallas(producto);
-            crearMiniaturas();
-            mostrarImagenModal(0);
+
+            tokenCargaGaleria += 1;
+            const tokenActual = tokenCargaGaleria;
+            miniaturas.replaceChildren();
+            miniaturas.hidden = true;
+            imagenModal.removeAttribute('src');
+            imagenModal.alt = '';
+            marcoImagen.classList.remove('imagen-error');
+            marcoImagen.classList.add('cargando');
 
             modal.classList.add('activo');
             fondoModal.classList.add('activo');
@@ -895,10 +986,13 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             document.body.classList.add('modal-producto-abierto');
 
             window.requestAnimationFrame(() => {
+                mostrarImagenModal(0, tokenActual);
+                crearMiniaturasDiferidas(tokenActual);
+
                 if (enfocarTalla && !selectorTalla.disabled) {
-                    selectorTalla.focus();
+                    selectorTalla.focus({ preventScroll: true });
                 } else {
-                    botonCerrar.focus();
+                    botonCerrar.focus({ preventScroll: true });
                 }
             });
         };
@@ -908,6 +1002,11 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             if (!modalEstaAbierto()) {
                 return;
             }
+
+            tokenCargaGaleria += 1;
+            imagenModal.onload = null;
+            imagenModal.onerror = null;
+            marcoImagen.classList.remove('cargando');
 
             modal.classList.remove('activo');
             fondoModal.classList.remove('activo');
@@ -1041,7 +1140,7 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         });
 
         botonAgregarCarrito.addEventListener('click', () => {
-            if (!productoActual) {
+            if (!productoActual || agregandoAlCarrito) {
                 return;
             }
 
@@ -1060,16 +1159,37 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
                 return;
             }
 
-            const resultado = window.ATLASCarrito.agregarProducto(productoActual, talla);
+            agregandoAlCarrito = true;
+            botonAgregarCarrito.disabled = true;
+            botonAgregarCarrito.setAttribute('aria-busy', 'true');
+            botonAgregarCarrito.innerHTML = `
+                <i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                Agregando…
+            `;
 
-            if (!resultado?.ok) {
-                errorTalla.textContent = resultado?.mensaje || 'No fue posible agregar el producto.';
-                errorTalla.hidden = false;
-                return;
-            }
+            window.requestAnimationFrame(() => {
+                const resultado = window.ATLASCarrito.agregarProducto(productoActual, talla);
 
-            cerrarModal();
-            window.ATLASCarrito.abrir();
+                if (!resultado?.ok) {
+                    agregandoAlCarrito = false;
+                    botonAgregarCarrito.removeAttribute('aria-busy');
+                    botonAgregarCarrito.innerHTML = HTML_BOTON_AGREGAR;
+                    botonAgregarCarrito.disabled = selectorTalla.disabled;
+                    errorTalla.textContent = resultado?.mensaje || 'No fue posible agregar el producto.';
+                    errorTalla.hidden = false;
+                    return;
+                }
+
+                cerrarModal();
+
+                window.requestAnimationFrame(() => {
+                    agregandoAlCarrito = false;
+                    botonAgregarCarrito.removeAttribute('aria-busy');
+                    botonAgregarCarrito.innerHTML = HTML_BOTON_AGREGAR;
+                    botonAgregarCarrito.disabled = selectorTalla.disabled;
+                    window.ATLASCarrito.abrir();
+                });
+            });
         });
 
         miniaturas.addEventListener('click', (evento) => {
@@ -1084,10 +1204,6 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             if (Number.isInteger(indice)) {
                 mostrarImagenModal(indice);
             }
-        });
-
-        imagenModal.addEventListener('error', () => {
-            marcoImagen.classList.add('imagen-error');
         });
 
         botonAnterior.addEventListener('click', () => {

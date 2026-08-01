@@ -3,7 +3,7 @@ PROYECTO: ATLAS
 
 ARCHIVO: responsive.css
 
-VERSIÓN: 0.4.0 Alpha
+VERSIÓN: 0.5.4
 
 FUNCIÓN:
 Adaptación del Header, Hero Premium, catálogo, filtros, modal y carrito.
@@ -652,6 +652,36 @@ salga del modal en pantallas estrechas.
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+}
+
+
+/*=========================================================
+RENDIMIENTO MÓVIL — v0.5.4
+
+El desenfoque de pantalla completa es costoso en algunos
+celulares. Se reemplaza por un fondo oscuro equivalente.
+=========================================================*/
+
+@media (max-width: 900px){
+
+    .producto-modal-fondo,
+    .carrito-fondo{
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .producto-modal-cerrar,
+    .producto-modal-flecha,
+    .producto-modal-contador{
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .producto-modal-panel,
+    .carrito-panel{
+        transition-duration: .2s;
     }
 
 }

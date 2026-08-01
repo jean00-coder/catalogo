@@ -3,7 +3,7 @@ PROYECTO: ATLAS
 
 ARCHIVO: carrito.js
 
-VERSIÓN: 0.4.0 Alpha
+VERSIÓN: 0.5.4
 
 FUNCIÓN:
 Administrar el carrito lateral, cantidades, tallas, total y
@@ -199,6 +199,8 @@ persistencia local en el navegador.
                             width="160"
                             height="160"
                             loading="lazy"
+                            decoding="async"
+                            fetchpriority="low"
                         >
                     ` : ''}
                     <i class="fa-regular fa-image" aria-hidden="true"></i>
