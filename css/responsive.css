@@ -882,3 +882,95 @@ GUIA DE TALLAS RESPONSIVE - v0.6.2
         padding: 10px 8px;
     }
 }
+
+
+/*=========================================================
+IDENTIFICACION, PRIVACIDAD Y PQR RESPONSIVE - v0.8.0
+=========================================================*/
+
+@media (max-width: 900px){
+    .atencion-grid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .atencion-card:last-child{
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 700px){
+    .atencion-seccion{
+        padding: 76px 0;
+    }
+
+    .atencion-grid,
+    .pqr-grid-campos{
+        grid-template-columns: 1fr;
+    }
+
+    .atencion-card:last-child{
+        grid-column: auto;
+    }
+
+    .atencion-card{
+        padding: 22px;
+    }
+
+    .atencion-acciones{
+        flex-direction: column;
+    }
+
+    .atencion-boton-principal,
+    .atencion-boton-secundario{
+        width: 100%;
+    }
+
+    .pqr-modal{
+        padding: 0;
+        place-items: stretch;
+    }
+
+    .pqr-panel{
+        width: 100%;
+        max-width: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .pqr-cabecera{
+        padding: 20px 18px 16px;
+    }
+
+    .pqr-cabecera h2{
+        font-size: 1.65rem;
+    }
+
+    .pqr-formulario{
+        padding: 20px 18px 30px;
+    }
+
+    .pqr-acciones{
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .pqr-boton-principal,
+    .pqr-boton-secundario{
+        width: 100%;
+    }
+
+    .pqr-fondo,
+    .pqr-modal,
+    .pqr-panel{
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .footer-inferior-enlaces{
+        flex-direction: column;
+        gap: 10px;
+    }
+}
