@@ -3,7 +3,7 @@ PROYECTO: ATLAS
 
 ARCHIVO: carrito.js
 
-VERSIÓN: 0.5.4
+VERSIÓN: 0.5.5
 
 FUNCIÓN:
 Administrar el carrito lateral, cantidades, tallas, total y
@@ -21,6 +21,7 @@ persistencia local en el navegador.
     let elementos = null;
     let botonQueAbrioCarrito = null;
     let temporizadorAnuncio = null;
+    const interfazTactil = window.matchMedia('(pointer: coarse)').matches;
 
     const escaparHTML = (valor) => String(valor ?? '')
         .replaceAll('&', '&amp;')
@@ -304,7 +305,9 @@ persistencia local en el navegador.
         elementos.fondo.setAttribute('aria-hidden', 'false');
         document.body.classList.add('carrito-abierto');
 
-        window.requestAnimationFrame(() => elementos.cerrar.focus());
+        if (!interfazTactil) {
+            window.requestAnimationFrame(() => elementos.cerrar.focus({ preventScroll: true }));
+        }
     };
 
     const cerrar = () => {
@@ -318,8 +321,8 @@ persistencia local en el navegador.
         elementos.fondo.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('carrito-abierto');
 
-        if (botonQueAbrioCarrito instanceof HTMLElement) {
-            botonQueAbrioCarrito.focus();
+        if (!interfazTactil && botonQueAbrioCarrito instanceof HTMLElement) {
+            botonQueAbrioCarrito.focus({ preventScroll: true });
         }
 
         botonQueAbrioCarrito = null;

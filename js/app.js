@@ -555,6 +555,7 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         let agregandoAlCarrito = false;
 
         const HTML_BOTON_AGREGAR = botonAgregarCarrito.innerHTML;
+        const interfazTactil = window.matchMedia('(pointer: coarse)').matches;
 
         const modalEstaAbierto = () => modal.getAttribute('aria-hidden') === 'false';
 
@@ -979,22 +980,28 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             marcoImagen.classList.remove('imagen-error');
             marcoImagen.classList.add('cargando');
 
+            // Iniciamos la imagen antes de mostrar el panel para evitar un cuadro vacío.
+            mostrarImagenModal(0, tokenActual);
+
             modal.classList.add('activo');
             fondoModal.classList.add('activo');
             modal.setAttribute('aria-hidden', 'false');
             fondoModal.setAttribute('aria-hidden', 'false');
             document.body.classList.add('modal-producto-abierto');
 
-            window.requestAnimationFrame(() => {
-                mostrarImagenModal(0, tokenActual);
-                crearMiniaturasDiferidas(tokenActual);
+            crearMiniaturasDiferidas(tokenActual);
 
-                if (enfocarTalla && !selectorTalla.disabled) {
-                    selectorTalla.focus({ preventScroll: true });
-                } else {
-                    botonCerrar.focus({ preventScroll: true });
-                }
-            });
+            // En pantallas táctiles no forzamos el foco: puede provocar un cálculo
+            // de diseño y un pequeño salto perceptible en algunos navegadores móviles.
+            if (!interfazTactil) {
+                window.requestAnimationFrame(() => {
+                    if (enfocarTalla && !selectorTalla.disabled) {
+                        selectorTalla.focus({ preventScroll: true });
+                    } else {
+                        botonCerrar.focus({ preventScroll: true });
+                    }
+                });
+            }
         };
 
         /** Cierra el modal y devuelve el foco a la tarjeta. */
@@ -1014,7 +1021,9 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             fondoModal.setAttribute('aria-hidden', 'true');
             document.body.classList.remove('modal-producto-abierto');
 
-            botonQueAbrioModal?.focus();
+            if (!interfazTactil) {
+                botonQueAbrioModal?.focus({ preventScroll: true });
+            }
             botonQueAbrioModal = null;
 
             if (modalAbiertoDesdeURL) {
@@ -1167,29 +1176,27 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
                 Agregando…
             `;
 
-            window.requestAnimationFrame(() => {
-                const resultado = window.ATLASCarrito.agregarProducto(productoActual, talla);
+            const resultado = window.ATLASCarrito.agregarProducto(productoActual, talla);
 
-                if (!resultado?.ok) {
-                    agregandoAlCarrito = false;
-                    botonAgregarCarrito.removeAttribute('aria-busy');
-                    botonAgregarCarrito.innerHTML = HTML_BOTON_AGREGAR;
-                    botonAgregarCarrito.disabled = selectorTalla.disabled;
-                    errorTalla.textContent = resultado?.mensaje || 'No fue posible agregar el producto.';
-                    errorTalla.hidden = false;
-                    return;
-                }
+            if (!resultado?.ok) {
+                agregandoAlCarrito = false;
+                botonAgregarCarrito.removeAttribute('aria-busy');
+                botonAgregarCarrito.innerHTML = HTML_BOTON_AGREGAR;
+                botonAgregarCarrito.disabled = selectorTalla.disabled;
+                errorTalla.textContent = resultado?.mensaje || 'No fue posible agregar el producto.';
+                errorTalla.hidden = false;
+                return;
+            }
 
-                cerrarModal();
+            // Cerramos el detalle y abrimos el carrito en la misma interacción.
+            // Evitamos dos requestAnimationFrame consecutivos, que añadían espera.
+            cerrarModal();
+            window.ATLASCarrito.abrir();
 
-                window.requestAnimationFrame(() => {
-                    agregandoAlCarrito = false;
-                    botonAgregarCarrito.removeAttribute('aria-busy');
-                    botonAgregarCarrito.innerHTML = HTML_BOTON_AGREGAR;
-                    botonAgregarCarrito.disabled = selectorTalla.disabled;
-                    window.ATLASCarrito.abrir();
-                });
-            });
+            agregandoAlCarrito = false;
+            botonAgregarCarrito.removeAttribute('aria-busy');
+            botonAgregarCarrito.innerHTML = HTML_BOTON_AGREGAR;
+            botonAgregarCarrito.disabled = selectorTalla.disabled;
         });
 
         miniaturas.addEventListener('click', (evento) => {

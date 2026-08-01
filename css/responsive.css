@@ -685,3 +685,52 @@ celulares. Se reemplaza por un fondo oscuro equivalente.
     }
 
 }
+
+/*=========================================================
+RESPUESTA INMEDIATA EN CELULARES — v0.5.5
+
+Elimina las animaciones restantes del modal y del carrito en
+pantallas táctiles. También evita capas gráficas persistentes
+que consumen memoria en equipos de gama básica.
+=========================================================*/
+
+@media (max-width: 900px){
+
+    .producto-modal-fondo,
+    .producto-modal,
+    .producto-modal-panel,
+    .carrito-fondo,
+    .carrito-panel,
+    .carrito-anuncio,
+    .producto-modal-marco img{
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .producto-modal-panel,
+    .carrito-panel{
+        background: #101010;
+        box-shadow: none;
+        will-change: auto;
+    }
+
+    .producto-modal-fondo{
+        background: rgba(0,0,0,.88);
+    }
+
+    .carrito-fondo{
+        background: rgba(0,0,0,.82);
+    }
+
+    .producto-card{
+        content-visibility: visible;
+        contain-intrinsic-size: none;
+    }
+
+    button,
+    a,
+    select{
+        touch-action: manipulation;
+    }
+
+}
