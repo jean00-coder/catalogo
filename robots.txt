@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jean00-coder.github.io/catalogo/sitemap.xml

@@ -4,7 +4,7 @@ PROYECTO: ATLAS
 
 ARCHIVO: index.html
 
-VERSIÓN: 0.6.2
+VERSIÓN: 0.7.0
 
 DESCRIPCIÓN:
 Página principal del catálogo.
@@ -14,7 +14,7 @@ Hero premium, catálogo dinámico, filtros, galería, carrito, pedidos por Whats
 -->
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CO">
 
 <head>
 
@@ -22,13 +22,65 @@ Hero premium, catálogo dinámico, filtros, galería, carrito, pedidos por Whats
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Título: evitamos usar "Oficial" porque los productos son réplicas -->
-    <title>ATLAS | Sneakers y moda urbana</title>
+    <!-- Identidad y descripción principal -->
+    <title>ATLAS | Sneakers y moda urbana en Colombia</title>
+    <meta name="description" content="Explora el catálogo ATLAS de sneakers y moda urbana. Envíos desde Medellín a toda Colombia y pedidos sencillos por WhatsApp.">
+    <meta name="application-name" content="ATLAS">
+    <meta name="apple-mobile-web-app-title" content="ATLAS">
+    <meta name="theme-color" content="#0B0B0B">
+    <meta name="robots" content="index, follow, max-image-preview:large">
 
-    <meta name="description" content="Catálogo ATLAS de sneakers y moda urbana. Envíos desde Medellín a toda Colombia y pedidos por WhatsApp.">
+    <!-- Dirección oficial del catálogo -->
+    <link rel="canonical" href="https://jean00-coder.github.io/catalogo/">
 
-    <!-- Icono pendiente para una etapa posterior -->
-    <!-- <link rel="icon" href="img/logo/favicon.png"> -->
+    <!-- Iconos del sitio -->
+    <link rel="icon" href="img/branding/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="img/branding/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="img/branding/apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="site.webmanifest">
+
+    <!-- Vista previa al compartir en WhatsApp, Facebook y otras redes -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_CO">
+    <meta property="og:site_name" content="ATLAS">
+    <meta property="og:title" content="ATLAS | Sneakers y moda urbana">
+    <meta property="og:description" content="Explora sneakers y moda urbana con envíos desde Medellín a toda Colombia y pedidos por WhatsApp.">
+    <meta property="og:url" content="https://jean00-coder.github.io/catalogo/">
+    <meta property="og:image" content="https://jean00-coder.github.io/catalogo/img/branding/atlas-compartir.jpg">
+    <meta property="og:image:secure_url" content="https://jean00-coder.github.io/catalogo/img/branding/atlas-compartir.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="ATLAS, catálogo de sneakers y moda urbana con envíos a toda Colombia">
+
+    <!-- Vista previa para plataformas compatibles con Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ATLAS | Sneakers y moda urbana">
+    <meta name="twitter:description" content="Catálogo de sneakers con envíos a toda Colombia y pedidos por WhatsApp.">
+    <meta name="twitter:image" content="https://jean00-coder.github.io/catalogo/img/branding/atlas-compartir.jpg">
+
+    <!-- Datos estructurados básicos para buscadores -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "OnlineStore",
+      "name": "ATLAS",
+      "url": "https://jean00-coder.github.io/catalogo/",
+      "image": "https://jean00-coder.github.io/catalogo/img/branding/atlas-compartir.jpg",
+      "description": "Catálogo de sneakers y moda urbana con envíos desde Medellín a toda Colombia y pedidos por WhatsApp.",
+      "telephone": "+573005130595",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Medellín",
+        "addressCountry": "CO"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Colombia"
+      },
+      "paymentAccepted": "Transferencia bancaria"
+    }
+    </script>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
