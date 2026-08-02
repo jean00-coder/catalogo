@@ -496,5 +496,40 @@ const productos = [
         "destacado": false,
         "fechaCreacion": "2026-08-01",
         "activo": true
+    },
+    {
+        "id": 15,
+        "codigo": "ATL-SNK-015",
+        "marca": "Nike",
+        "modelo": "Nike Air Max Command",
+        "color": "Negro, Rojo, Blanco",
+        "tipo": "Réplica",
+        "precio": 200000,
+        "moneda": "COP",
+        "tallas": [
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44
+        ],
+        "sistemaTallas": "EUR",
+        "confirmarDisponibilidad": true,
+        "descripcion": "Domina la calle con la actitud retro de los Nike Air Max Command, un clásico atemporal que destaca por su contundente contraste en blanco y negro con acentos rojos.",
+        "categoria": "Urbano",
+        "imagenes": [
+            "img/productos/atl-snk-015/atl-snk-015-01.jpeg",
+            "img/productos/atl-snk-015/atl-snk-015-02.jpeg",
+            "img/productos/atl-snk-015/atl-snk-015-03.jpeg",
+            "img/productos/atl-snk-015/atl-snk-015-04.jpeg"
+        ],
+        "estado": "disponible",
+        "destacado": false,
+        "fechaCreacion": "2026-08-01",
+        "activo": true
     }
 ];
