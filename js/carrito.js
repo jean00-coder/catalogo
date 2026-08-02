@@ -157,7 +157,7 @@ persistencia local en el navegador.
 
         temporizadorAnuncio = window.setTimeout(() => {
             elementos.anuncio.classList.remove('activo');
-        }, 2800);
+        }, 1500);
     };
 
     const actualizarContador = () => {
