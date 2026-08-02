@@ -566,5 +566,40 @@ const productos = [
         "destacado": false,
         "fechaCreacion": "2026-08-01",
         "activo": true
+    },
+    {
+        "id": 17,
+        "codigo": "ATL-SNK-017",
+        "marca": "Puma",
+        "modelo": "Puma 180",
+        "color": "Negro",
+        "tipo": "Réplica",
+        "precio": 200000,
+        "moneda": "COP",
+        "tallas": [
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44
+        ],
+        "sistemaTallas": "EUR",
+        "confirmarDisponibilidad": true,
+        "descripcion": "Domina las calles con los imponentes Puma-180, una silueta chunky de inspiración skate en un versátil y agresivo diseño completamente negro.",
+        "categoria": "Urbano",
+        "imagenes": [
+            "img/productos/atl-snk-017/atl-snk-017-01.webp",
+            "img/productos/atl-snk-017/atl-snk-017-02.webp",
+            "img/productos/atl-snk-017/atl-snk-017-03.webp",
+            "img/productos/atl-snk-017/atl-snk-017-04.webp"
+        ],
+        "estado": "disponible",
+        "destacado": false,
+        "fechaCreacion": "2026-08-01",
+        "activo": true
     }
 ];
