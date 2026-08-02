@@ -531,5 +531,40 @@ const productos = [
         "destacado": false,
         "fechaCreacion": "2026-08-01",
         "activo": true
+    },
+    {
+        "id": 16,
+        "codigo": "ATL-SNK-016",
+        "marca": "Nike",
+        "modelo": "Nike Shox R4",
+        "color": "Gris",
+        "tipo": "Réplica",
+        "precio": 200000,
+        "moneda": "COP",
+        "tallas": [
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44
+        ],
+        "sistemaTallas": "EUR",
+        "confirmarDisponibilidad": true,
+        "descripcion": "Eleva tu estilo con la estética retro-futurista de los Nike Shox R4, diseñados en un impecable y versátil tono gris monocromático",
+        "categoria": "Urbano",
+        "imagenes": [
+            "img/productos/atl-snk-016/atl-snk-016-01.jpeg",
+            "img/productos/atl-snk-016/atl-snk-016-02.jpeg",
+            "img/productos/atl-snk-016/atl-snk-016-03.jpeg",
+            "img/productos/atl-snk-016/atl-snk-016-04.jpeg"
+        ],
+        "estado": "disponible",
+        "destacado": false,
+        "fechaCreacion": "2026-08-01",
+        "activo": true
     }
 ];
