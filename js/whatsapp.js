@@ -1,7 +1,7 @@
 /*=========================================================
 PROYECTO: ATLAS
 ARCHIVO: whatsapp.js
-VERSIÓN: 0.5.1
+VERSIÓN: 0.9.1
 
 FUNCIÓN:
 Abrir WhatsApp para consultas generales y generar el mensaje
@@ -16,6 +16,56 @@ del pedido con productos, tallas, cantidades, total, foto y enlace al producto.
     const limpiarNumero = (numero) => String(numero ?? '').replace(/\D/g, '');
 
     const numeroEsValido = (numero) => /^\d{10,15}$/.test(numero);
+
+    const normalizarTexto = (valor) => String(valor ?? '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    const escaparExpresionRegular = (valor) => String(valor)
+        .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    const modeloIncluyeMarcaCompleta = (marca, modelo) => {
+        const marcaNormalizada = normalizarTexto(marca);
+        const modeloNormalizado = normalizarTexto(modelo);
+
+        if (!marcaNormalizada || !modeloNormalizado) {
+            return false;
+        }
+
+        const palabrasMarca = marcaNormalizada
+            .split(' ')
+            .filter(Boolean)
+            .map(escaparExpresionRegular)
+            .join('\\s+');
+
+        const patronMarcaCompleta = new RegExp(
+            `(^|\\s)${palabrasMarca}(?=\\s|$)`,
+            'i'
+        );
+
+        return patronMarcaCompleta.test(modeloNormalizado);
+    };
+
+    const crearNombreProducto = (item) => {
+        const marca = String(item?.marca ?? '').trim();
+        const modelo = String(item?.modelo ?? '').trim();
+
+        if (!marca) {
+            return modelo || 'Producto ATLAS';
+        }
+
+        if (!modelo) {
+            return marca;
+        }
+
+        return modeloIncluyeMarcaCompleta(marca, modelo)
+            ? modelo
+            : `${marca} ${modelo}`;
+    };
 
     const formatearPrecio = (precio, moneda = 'COP') => {
         const valor = Number(precio);
@@ -96,7 +146,7 @@ del pedido con productos, tallas, cantidades, total, foto y enlace al producto.
             const enlaceProducto = crearEnlaceProducto(item.codigo);
 
             return [
-                `${indice + 1}. ${item.marca} ${item.modelo}`,
+                `${indice + 1}. ${crearNombreProducto(item)}`,
                 `Código: ${item.codigo}`,
                 `Color: ${item.color}`,
                 `Talla: ${item.sistemaTallas} ${item.talla}`,
