@@ -776,5 +776,40 @@ const productos = [
         "destacado": false,
         "fechaCreacion": "2026-08-04",
         "activo": true
+    },
+    {
+        "id": 23,
+        "codigo": "ATL-SNK-023",
+        "marca": "Adidas",
+        "modelo": "Adidas Superstar",
+        "color": "Banco, Gris",
+        "tipo": "Réplica",
+        "precio": 190000,
+        "moneda": "COP",
+        "tallas": [
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44
+        ],
+        "sistemaTallas": "EUR",
+        "confirmarDisponibilidad": true,
+        "descripcion": "Reinventa tu estilo urbano con estos adidas Superstar, que combinan su icónica puntera de concha con un llamativo maxilogo del trifolio sobre un sutil panel gris.",
+        "categoria": "Urbano",
+        "imagenes": [
+            "img/productos/atl-snk-023/atl-snk-023-01.webp",
+            "img/productos/atl-snk-023/atl-snk-023-02.webp",
+            "img/productos/atl-snk-023/atl-snk-023-03.webp",
+            "img/productos/atl-snk-023/atl-snk-023-04.webp"
+        ],
+        "estado": "disponible",
+        "destacado": false,
+        "fechaCreacion": "2026-08-04",
+        "activo": true
     }
 ];
