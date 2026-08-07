@@ -1,11 +1,11 @@
 /*=========================================================
 PROYECTO: ATLAS
 ARCHIVO: whatsapp.js
-VERSIÓN: 0.9.1
+VERSIÓN: 1.0.0
 
 FUNCIÓN:
 Abrir WhatsApp para consultas generales y generar el mensaje
-del pedido con productos, tallas, cantidades, total, foto y enlace al producto.
+del pedido con productos, variantes, cantidades, total, foto y enlace al producto.
 =========================================================*/
 
 (() => {
@@ -145,11 +145,17 @@ del pedido con productos, tallas, cantidades, total, foto y enlace al producto.
             const fotoReferencia = crearURLAbsoluta(item.imagen);
             const enlaceProducto = crearEnlaceProducto(item.codigo);
 
+            const accesorio = String(item.familia || '').toLowerCase() === 'accesorios'
+                || /^ATL-ACC-/i.test(String(item.codigo || ''));
+
             return [
                 `${indice + 1}. ${crearNombreProducto(item)}`,
                 `Código: ${item.codigo}`,
                 `Color: ${item.color}`,
-                `Talla: ${item.sistemaTallas} ${item.talla}`,
+                ...(accesorio ? [`Categoría: ${item.subcategoria || 'Relojes'}`] : []),
+                ...(accesorio && item.materialCorrea ? [`Material de correa: ${item.materialCorrea}`] : []),
+                ...(accesorio && item.tipoCierre ? [`Tipo de cierre: ${item.tipoCierre}`] : []),
+                ...(!accesorio && item.talla ? [`Talla: ${item.sistemaTallas} ${item.talla}`] : []),
                 `Cantidad: ${item.cantidad}`,
                 `Precio unitario: ${precioUnitario}`,
                 `Subtotal: ${subtotal}`,
@@ -165,13 +171,17 @@ del pedido con productos, tallas, cantidades, total, foto y enlace al producto.
         );
         const moneda = items[0]?.moneda || 'COP';
 
+        const incluyeCalzado = items.some((item) => !(String(item.familia || '').toLowerCase() === 'accesorios' || /^ATL-ACC-/i.test(String(item.codigo || ''))));
+
         return [
             'Hola, ATLAS. Quiero confirmar el siguiente pedido:',
             '',
             ...lineasProductos,
             `Total estimado: ${formatearPrecio(total, moneda)}`,
             '',
-            'Entiendo que los productos son réplicas y que las tallas y la disponibilidad deben ser confirmadas.'
+            incluyeCalzado
+                ? 'Entiendo que los productos identificados como réplica se ofrecen como tales y que las tallas y la disponibilidad deben ser confirmadas.'
+                : 'Entiendo que la disponibilidad debe ser confirmada antes de realizar el pago.'
         ].join('\n');
     };
 

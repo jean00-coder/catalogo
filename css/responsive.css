@@ -974,3 +974,14 @@ IDENTIFICACION, PRIVACIDAD Y PQR RESPONSIVE - v0.8.0
         gap: 10px;
     }
 }
+
+@media (max-width: 560px){
+    .catalogo-familias{
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .catalogo-familia-btn{
+        min-width: 0;
+        padding-inline: 10px;
+    }
+}

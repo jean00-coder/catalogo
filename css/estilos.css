@@ -1,3 +1,5 @@
+[hidden]{display:none !important;}
+
 /*=========================================================
 PROYECTO: ATLAS
 
@@ -1440,6 +1442,45 @@ BUSCADOR, MARCAS Y FILTROS — v0.3.5
 .catalogo-restablecer:disabled{
     cursor: not-allowed;
     opacity: .38;
+}
+
+
+.catalogo-familias-bloque{
+    margin-top: 24px;
+}
+
+.catalogo-familias{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.catalogo-familia-btn{
+    min-height: 46px;
+    padding: 10px 20px;
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.11);
+    border-radius: 999px;
+    color: rgba(245,245,245,.76);
+    font: inherit;
+    font-size: .84rem;
+    font-weight: 800;
+    letter-spacing: .5px;
+    cursor: pointer;
+    transition: var(--transicion);
+}
+
+.catalogo-familia-btn:hover,
+.catalogo-familia-btn.activo{
+    background: #fff;
+    border-color: #fff;
+    color: #0b0b0b;
+    transform: translateY(-1px);
+}
+
+.catalogo-familia-btn:focus-visible{
+    outline: 3px solid rgba(125,147,170,.5);
+    outline-offset: 3px;
 }
 
 .catalogo-marcas-bloque{

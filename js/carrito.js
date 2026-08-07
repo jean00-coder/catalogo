@@ -3,10 +3,10 @@ PROYECTO: ATLAS
 
 ARCHIVO: carrito.js
 
-VERSIÓN: 0.5.5
+VERSIÓN: 0.7.0
 
 FUNCIÓN:
-Administrar el carrito lateral, cantidades, tallas, total y
+Administrar el carrito lateral, cantidades, variantes, total y
 persistencia local en el navegador.
 
 =========================================================*/
@@ -44,33 +44,59 @@ persistencia local en el navegador.
         }).format(valor);
     };
 
-    const crearClaveItem = (productoId, talla) => `${productoId}::${talla}`;
+    const obtenerFamilia = (producto) => {
+        const familia = String(producto?.familia || '').trim();
+        if (familia) return familia;
+        return /^ATL-ACC-/i.test(String(producto?.codigo || '')) ? 'Accesorios' : 'Calzado';
+    };
+
+    const esAccesorio = (producto) => obtenerFamilia(producto).toLowerCase() === 'accesorios';
+
+    const crearClaveItem = (productoId, talla = '') => `${productoId}::${String(talla || 'sin-talla')}`;
+
+    const obtenerMaximoItem = (item) => {
+        const stock = Number(item?.cantidadDisponible);
+        if (esAccesorio(item) && Number.isInteger(stock) && stock >= 0) {
+            return Math.min(CANTIDAD_MAXIMA, stock);
+        }
+        return CANTIDAD_MAXIMA;
+    };
 
     const normalizarItem = (item) => {
         const cantidad = Number(item?.cantidad);
         const precio = Number(item?.precio);
         const productoId = String(item?.productoId ?? '').trim();
-        const talla = String(item?.talla ?? '').trim();
+        const familia = obtenerFamilia(item);
+        const accesorio = familia.toLowerCase() === 'accesorios';
+        const talla = accesorio ? '' : String(item?.talla ?? '').trim();
 
-        if (!productoId || !talla || !Number.isFinite(precio) || precio < 0) {
-            return null;
-        }
+        if (!productoId || (!accesorio && !talla) || !Number.isFinite(precio) || precio < 0) return null;
+
+        const cantidadDisponible = accesorio && Number.isInteger(Number(item?.cantidadDisponible))
+            ? Math.max(0, Number(item.cantidadDisponible))
+            : null;
+        const maximo = accesorio && cantidadDisponible !== null
+            ? Math.min(CANTIDAD_MAXIMA, cantidadDisponible)
+            : CANTIDAD_MAXIMA;
+        if (accesorio && maximo <= 0) return null;
 
         return {
             clave: crearClaveItem(productoId, talla),
             productoId,
             codigo: String(item.codigo || 'Sin código'),
+            familia,
+            subcategoria: String(item.subcategoria || (accesorio ? 'Relojes' : 'Tenis')),
             marca: String(item.marca || 'ATLAS'),
             modelo: String(item.modelo || 'Producto sin nombre'),
             color: String(item.color || 'Color por confirmar'),
+            materialCorrea: String(item.materialCorrea || ''),
+            tipoCierre: String(item.tipoCierre || ''),
+            cantidadDisponible,
             precio,
             moneda: String(item.moneda || 'COP'),
             talla,
-            sistemaTallas: String(item.sistemaTallas || 'EUR'),
-            cantidad: Math.min(
-                CANTIDAD_MAXIMA,
-                Math.max(1, Number.isInteger(cantidad) ? cantidad : 1)
-            ),
+            sistemaTallas: accesorio ? '' : String(item.sistemaTallas || 'EUR'),
+            cantidad: Math.min(maximo, Math.max(1, Number.isInteger(cantidad) ? cantidad : 1)),
             imagen: String(item.imagen || '')
         };
     };
@@ -111,7 +137,14 @@ persistencia local en el navegador.
                     codigo: String(productoActual.codigo || item.codigo),
                     marca: String(productoActual.marca || item.marca),
                     modelo: String(productoActual.modelo || item.modelo),
+                    familia: obtenerFamilia(productoActual),
+                    subcategoria: String(productoActual.subcategoria || item.subcategoria || (esAccesorio(productoActual) ? 'Relojes' : 'Tenis')),
                     color: String(productoActual.color || item.color),
+                    materialCorrea: String(productoActual.materialCorrea || item.materialCorrea || ''),
+                    tipoCierre: String(productoActual.tipoCierre || item.tipoCierre || ''),
+                    cantidadDisponible: esAccesorio(productoActual) && Number.isInteger(Number(productoActual.cantidadDisponible))
+                        ? Math.max(0, Number(productoActual.cantidadDisponible))
+                        : item.cantidadDisponible,
                     precio: Number.isFinite(Number(productoActual.precio))
                         ? Number(productoActual.precio)
                         : item.precio,
@@ -119,7 +152,7 @@ persistencia local en el navegador.
                     sistemaTallas: String(productoActual.sistemaTallas || item.sistemaTallas),
                     imagen: imagenActual
                 };
-            }).filter(Boolean);
+            }).filter(Boolean).map(normalizarItem).filter(Boolean);
         } catch (error) {
             console.warn('ATLAS: no fue posible recuperar el carrito guardado.', error);
             carrito = [];
@@ -185,76 +218,38 @@ persistencia local en el navegador.
         const marca = escaparHTML(item.marca);
         const codigo = escaparHTML(item.codigo);
         const color = escaparHTML(item.color);
-        const talla = escaparHTML(item.talla);
-        const sistema = escaparHTML(item.sistemaTallas);
         const clave = escaparHTML(item.clave);
+        const accesorio = esAccesorio(item);
+        const detalle = accesorio
+            ? `${escaparHTML(item.subcategoria || 'Accesorio')}${item.materialCorrea ? ` · ${escaparHTML(item.materialCorrea)}` : ''}`
+            : `Talla ${escaparHTML(item.sistemaTallas)} ${escaparHTML(item.talla)}`;
+        const maximo = obtenerMaximoItem(item);
+        const ariaEliminar = accesorio
+            ? `Eliminar ${modelo}`
+            : `Eliminar ${modelo}, talla ${escaparHTML(item.sistemaTallas)} ${escaparHTML(item.talla)}`;
 
         return `
             <li class="carrito-item" data-carrito-clave="${clave}">
-
                 <div class="carrito-item-media">
-                    ${imagen ? `
-                        <img
-                            src="${imagen}"
-                            alt="${modelo}"
-                            width="160"
-                            height="160"
-                            loading="lazy"
-                            decoding="async"
-                            fetchpriority="low"
-                        >
-                    ` : ''}
+                    ${imagen ? `<img src="${imagen}" alt="${modelo}" width="160" height="160" loading="lazy" decoding="async" fetchpriority="low">` : ''}
                     <i class="fa-regular fa-image" aria-hidden="true"></i>
                 </div>
-
                 <div class="carrito-item-info">
-                    <div class="carrito-item-meta">
-                        <span>${marca}</span>
-                        <small>${codigo}</small>
-                    </div>
-
+                    <div class="carrito-item-meta"><span>${marca}</span><small>${codigo}</small></div>
                     <h3>${modelo}</h3>
                     <p>${color}</p>
-                    <strong class="carrito-item-talla">Talla ${sistema} ${talla}</strong>
+                    <strong class="carrito-item-talla">${detalle}</strong>
                     <span class="carrito-item-precio">${escaparHTML(formatearPrecio(item.precio, item.moneda))} c/u</span>
-
                     <div class="carrito-item-controles">
                         <div class="carrito-cantidad" aria-label="Cambiar cantidad de ${modelo}">
-                            <button
-                                type="button"
-                                data-carrito-accion="disminuir"
-                                aria-label="Disminuir cantidad"
-                            >
-                                <i class="fa-solid fa-minus" aria-hidden="true"></i>
-                            </button>
-
+                            <button type="button" data-carrito-accion="disminuir" aria-label="Disminuir cantidad"><i class="fa-solid fa-minus" aria-hidden="true"></i></button>
                             <span aria-live="polite">${item.cantidad}</span>
-
-                            <button
-                                type="button"
-                                data-carrito-accion="aumentar"
-                                aria-label="Aumentar cantidad"
-                                ${item.cantidad >= CANTIDAD_MAXIMA ? 'disabled' : ''}
-                            >
-                                <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                            </button>
+                            <button type="button" data-carrito-accion="aumentar" aria-label="Aumentar cantidad" ${item.cantidad >= maximo ? 'disabled' : ''}><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
                         </div>
-
-                        <button
-                            class="carrito-item-eliminar"
-                            type="button"
-                            data-carrito-accion="eliminar"
-                            aria-label="Eliminar ${modelo}, talla ${sistema} ${talla}"
-                        >
-                            <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
-                        </button>
+                        <button class="carrito-item-eliminar" type="button" data-carrito-accion="eliminar" aria-label="${ariaEliminar}"><i class="fa-regular fa-trash-can" aria-hidden="true"></i></button>
                     </div>
                 </div>
-
-                <strong class="carrito-item-subtotal">
-                    ${escaparHTML(formatearPrecio(subtotal, item.moneda))}
-                </strong>
-
+                <strong class="carrito-item-subtotal">${escaparHTML(formatearPrecio(subtotal, item.moneda))}</strong>
             </li>
         `;
     };
@@ -328,55 +323,56 @@ persistencia local en el navegador.
         botonQueAbrioCarrito = null;
     };
 
-    const agregarProducto = (producto, talla) => {
-        if (!producto || producto.activo !== true) {
-            return { ok: false, mensaje: 'Este producto no está disponible.' };
-        }
+    const agregarProducto = (producto, talla = '') => {
+        if (!producto || producto.activo !== true) return { ok: false, mensaje: 'Este producto no está disponible.' };
 
-        const tallaTexto = String(talla ?? '').trim();
-        const tallasValidas = Array.isArray(producto.tallas)
-            ? producto.tallas.map(String)
-            : [];
-
-        if (!tallaTexto || !tallasValidas.includes(tallaTexto)) {
+        const accesorio = esAccesorio(producto);
+        const tallaTexto = accesorio ? '' : String(talla ?? '').trim();
+        const tallasValidas = Array.isArray(producto.tallas) ? producto.tallas.map(String) : [];
+        if (!accesorio && (!tallaTexto || !tallasValidas.includes(tallaTexto))) {
             return { ok: false, mensaje: 'Selecciona una talla válida.' };
         }
 
-        const precio = Number(producto.precio);
-
-        if (!Number.isFinite(precio) || precio < 0) {
-            return { ok: false, mensaje: 'El precio de este producto no es válido.' };
+        const cantidadDisponible = accesorio && Number.isInteger(Number(producto.cantidadDisponible))
+            ? Math.max(0, Number(producto.cantidadDisponible))
+            : null;
+        if (accesorio && (String(producto.estado || '').toLowerCase() === 'agotado' || cantidadDisponible === 0)) {
+            return { ok: false, mensaje: 'Este accesorio está agotado.' };
         }
+
+        const precio = Number(producto.precio);
+        if (!Number.isFinite(precio) || precio < 0) return { ok: false, mensaje: 'El precio de este producto no es válido.' };
 
         const productoId = String(producto.id ?? producto.codigo ?? '').trim();
         const clave = crearClaveItem(productoId, tallaTexto);
         const existente = carrito.find((item) => item.clave === clave);
+        const maximo = accesorio && cantidadDisponible !== null ? Math.min(CANTIDAD_MAXIMA, cantidadDisponible) : CANTIDAD_MAXIMA;
 
         if (existente) {
-            if (existente.cantidad >= CANTIDAD_MAXIMA) {
-                return {
-                    ok: false,
-                    mensaje: `La cantidad máxima por talla es ${CANTIDAD_MAXIMA}.`
-                };
+            if (existente.cantidad >= maximo) {
+                return { ok: false, mensaje: accesorio ? 'No hay más unidades registradas de este accesorio.' : `La cantidad máxima por talla es ${CANTIDAD_MAXIMA}.` };
             }
-
             existente.cantidad += 1;
         } else {
             const imagen = Array.isArray(producto.imagenes)
                 ? String(producto.imagenes.find((ruta) => typeof ruta === 'string' && ruta.trim()) || '')
                 : '';
-
             carrito.push({
                 clave,
                 productoId,
                 codigo: String(producto.codigo || 'Sin código'),
+                familia: obtenerFamilia(producto),
+                subcategoria: String(producto.subcategoria || (accesorio ? 'Relojes' : 'Tenis')),
                 marca: String(producto.marca || 'ATLAS'),
                 modelo: String(producto.modelo || 'Producto sin nombre'),
                 color: String(producto.color || 'Color por confirmar'),
+                materialCorrea: String(producto.materialCorrea || ''),
+                tipoCierre: String(producto.tipoCierre || ''),
+                cantidadDisponible,
                 precio,
                 moneda: String(producto.moneda || 'COP'),
                 talla: tallaTexto,
-                sistemaTallas: String(producto.sistemaTallas || 'EUR'),
+                sistemaTallas: accesorio ? '' : String(producto.sistemaTallas || 'EUR'),
                 cantidad: 1,
                 imagen
             });
@@ -384,12 +380,10 @@ persistencia local en el navegador.
 
         const guardado = guardarCarrito();
         renderizar();
-        mostrarAnuncio(`${producto.modelo || 'Producto'} — talla ${producto.sistemaTallas || 'EUR'} ${tallaTexto} agregado.`);
-
-        return {
-            ok: true,
-            persistido: guardado
-        };
+        mostrarAnuncio(accesorio
+            ? `${producto.modelo || 'Accesorio'} agregado al carrito.`
+            : `${producto.modelo || 'Producto'} — talla ${producto.sistemaTallas || 'EUR'} ${tallaTexto} agregado.`);
+        return { ok: true, persistido: guardado };
     };
 
     const cambiarCantidad = (clave, cambio) => {
@@ -404,7 +398,7 @@ persistencia local en el navegador.
         if (nuevaCantidad <= 0) {
             carrito = carrito.filter((producto) => producto.clave !== clave);
         } else {
-            item.cantidad = Math.min(CANTIDAD_MAXIMA, nuevaCantidad);
+            item.cantidad = Math.min(obtenerMaximoItem(item), nuevaCantidad);
         }
 
         guardarCarrito();

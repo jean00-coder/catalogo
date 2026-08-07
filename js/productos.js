@@ -41,7 +41,9 @@ const productos = [
         "estado": "disponible",
         "destacado": true,
         "fechaCreacion": "2026-07-27",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 2,
@@ -76,7 +78,9 @@ const productos = [
         "estado": "disponible",
         "destacado": true,
         "fechaCreacion": "2026-07-27",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 3,
@@ -110,7 +114,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-07-27",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 4,
@@ -145,7 +151,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-07-28",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 5,
@@ -180,7 +188,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-07-29",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 6,
@@ -215,7 +225,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-07-29",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 7,
@@ -250,7 +262,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-01",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 8,
@@ -285,7 +299,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-01",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 9,
@@ -320,7 +336,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-01",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 10,
@@ -355,7 +373,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-01",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 11,
@@ -390,7 +410,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-01",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 12,
@@ -425,7 +447,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-01",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 13,
@@ -460,7 +484,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-01",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 14,
@@ -495,7 +521,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-01",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 15,
@@ -530,7 +558,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-01",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 16,
@@ -565,7 +595,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-01",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 17,
@@ -600,7 +632,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-01",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 18,
@@ -635,7 +669,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-04",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 19,
@@ -670,7 +706,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-04",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 20,
@@ -705,7 +743,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-04",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 21,
@@ -740,7 +780,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-04",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 22,
@@ -775,7 +817,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-04",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 23,
@@ -810,7 +854,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-04",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 24,
@@ -845,7 +891,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-04",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 25,
@@ -880,7 +928,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-04",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 26,
@@ -915,7 +965,9 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-04",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     },
     {
         "id": 27,
@@ -950,6 +1002,8 @@ const productos = [
         "estado": "disponible",
         "destacado": false,
         "fechaCreacion": "2026-08-04",
-        "activo": true
+        "activo": true,
+        "familia": "Calzado",
+        "subcategoria": "Tenis"
     }
 ];
