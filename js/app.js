@@ -395,7 +395,7 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
 
         return `
             <article class="producto-card" data-producto-id="${idSeguro}">
-                <div class="producto-media">
+                <div class="producto-media" data-accion="abrir-producto" data-producto-id="${idSeguro}" role="button" tabindex="0" aria-label="Ver detalles de ${modelo}">
                     <img src="${imagenPrincipal}" alt="${modelo}, color ${color}" width="900" height="900" loading="lazy" decoding="async" fetchpriority="low">
                     <div class="producto-imagen-placeholder" aria-hidden="true">
                         <div><i class="fa-regular fa-image"></i><span>Imagen no disponible</span></div>
@@ -1171,6 +1171,20 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
                 }
                 abrirModal(producto, boton, accion === 'seleccionar-talla');
             }
+        });
+
+        grid.addEventListener('keydown', (evento) => {
+            if (!['Enter', ' '].includes(evento.key)) {
+                return;
+            }
+
+            const media = evento.target.closest('.producto-media[data-accion="abrir-producto"]');
+            if (!media || !grid.contains(media)) {
+                return;
+            }
+
+            evento.preventDefault();
+            media.click();
         });
 
         selectorTalla.addEventListener('change', () => {

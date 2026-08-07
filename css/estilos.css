@@ -613,6 +613,15 @@ CATÁLOGO DINÁMICO
         #17191b;
 }
 
+.producto-media[data-accion="abrir-producto"]{
+    cursor: pointer;
+}
+
+.producto-media[data-accion="abrir-producto"]:focus-visible{
+    outline: 2px solid var(--color-acento, #d8b36a);
+    outline-offset: -3px;
+}
+
 .producto-media img{
     width: 100%;
     height: 100%;
