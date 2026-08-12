@@ -98,7 +98,7 @@ Hero premium, catálogo dinámico, filtros, galería, carrito, pedidos por Whats
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/estilos.css?v=0.9.1">
+    <link rel="stylesheet" href="css/estilos.css?v=0.7.2">
     <link rel="stylesheet" href="css/responsive.css?v=0.9.0">
 
 </head>
@@ -272,9 +272,6 @@ Hero premium, catálogo dinámico, filtros, galería, carrito, pedidos por Whats
 
                 </div>
 
-                <small class="hero-aviso">
-                    Los productos identificados como réplica se ofrecen como tales. ATLAS no está afiliada a las marcas mostradas.
-                </small>
 
             </div>
 
@@ -375,6 +372,14 @@ Hero premium, catálogo dinámico, filtros, galería, carrito, pedidos por Whats
                         <button class="catalogo-familia-btn" type="button" data-familia="Accesorios" aria-pressed="false">Accesorios</button>
                     </div>
                 </div>
+
+                <aside id="catalogo-aviso-replicas" class="catalogo-aviso-replicas" role="note" aria-label="Información sobre los productos de calzado">
+                    <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                    <div>
+                        <strong>Información sobre nuestros productos</strong>
+                        <p>Los productos de calzado publicados en ATLAS son réplicas. No son fabricados ni distribuidos oficialmente por las marcas mencionadas. Las marcas se utilizan únicamente para identificar el modelo o estilo del producto.</p>
+                    </div>
+                </aside>
 
                 <div class="catalogo-marcas-bloque">
                     <span class="catalogo-control-etiqueta">Explora por marca</span>
@@ -1060,7 +1065,6 @@ Hero premium, catálogo dinámico, filtros, galería, carrito, pedidos por Whats
                     </div>
 
                     <div class="producto-modal-badges">
-                        <span id="producto-modal-tipo" class="producto-modal-badge"></span>
                         <span id="producto-modal-estado" class="producto-modal-badge producto-modal-badge-estado"></span>
                     </div>
 
@@ -1125,7 +1129,7 @@ Hero premium, catálogo dinámico, filtros, galería, carrito, pedidos por Whats
                             <strong id="producto-modal-tipo-cierre"></strong>
                         </li>
                         <li>
-                            <span>Tipo</span>
+                            <span>Tipo de producto</span>
                             <strong id="producto-modal-tipo-dato"></strong>
                         </li>
                         <li>
@@ -1228,7 +1232,6 @@ Hero premium, catálogo dinámico, filtros, galería, carrito, pedidos por Whats
             <div class="footer-marca">
                 <strong>ATLAS</strong>
                 <p>Calzado, accesorios y moda urbana con pedidos sencillos por WhatsApp.</p>
-                <small>Los productos identificados como réplica se ofrecen como tales. ATLAS no está afiliada a las marcas mostradas.</small>
             </div>
 
             <div class="footer-columna">
@@ -1280,7 +1283,7 @@ Hero premium, catálogo dinámico, filtros, galería, carrito, pedidos por Whats
     <script src="js/productos.js?v=gestor-20260807041644417"></script>
     <script src="js/carrito.js?v=0.7.0"></script>
     <script src="js/whatsapp.js?v=1.0.0"></script>
-    <script src="js/app.js?v=0.7.1"></script>
+    <script src="js/app.js?v=0.7.2"></script>
     <script src="js/pqr.js?v=0.8.0"></script>
 
 </body>

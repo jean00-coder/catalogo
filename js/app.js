@@ -375,7 +375,6 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         const modelo = escaparHTML(producto.modelo || 'Producto sin nombre');
         const color = escaparHTML(producto.color || 'Color por confirmar');
         const accesorio = esAccesorio(producto);
-        const tipo = escaparHTML(producto.tipo || (accesorio ? 'Accesorio' : 'Réplica'));
         const estado = String(producto.estado || 'disponible').toLowerCase();
         const estadoVisible = estado === 'disponible' ? 'Disponible' : escaparHTML(producto.estado);
         const imagenPrincipal = escaparHTML(obtenerImagenes(producto.imagenes)[0] || '');
@@ -401,7 +400,6 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
                         <div><i class="fa-regular fa-image"></i><span>Imagen no disponible</span></div>
                     </div>
                     <div class="producto-badges" aria-hidden="true">
-                        <span class="producto-badge">${tipo}</span>
                         <span class="producto-badge producto-badge-estado">${estadoVisible}</span>
                         ${etiquetaDestacado}
                     </div>
@@ -439,6 +437,7 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         const botonLimpiarBusqueda = document.querySelector('#catalogo-busqueda-limpiar');
         const botonBuscarHeader = document.querySelector('.accion-buscar');
         const familiasContenedor = document.querySelector('#catalogo-familias');
+        const avisoReplicas = document.querySelector('#catalogo-aviso-replicas');
         const marcasContenedor = document.querySelector('#catalogo-marcas');
         const categoriaSelect = document.querySelector('#catalogo-categoria');
         const estadoSelect = document.querySelector('#catalogo-estado');
@@ -464,7 +463,6 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         const camposModal = {
             marca: document.querySelector('#producto-modal-marca'),
             codigo: document.querySelector('#producto-modal-codigo'),
-            tipo: document.querySelector('#producto-modal-tipo'),
             estado: document.querySelector('#producto-modal-estado'),
             titulo: document.querySelector('#producto-modal-titulo'),
             color: document.querySelector('#producto-modal-color'),
@@ -490,6 +488,7 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             buscador,
             botonLimpiarBusqueda,
             familiasContenedor,
+            avisoReplicas,
             marcasContenedor,
             categoriaSelect,
             estadoSelect,
@@ -749,6 +748,7 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         /** Dibuja el catálogo según la búsqueda y filtros actuales. */
         const renderizarCatalogo = () => {
             productosVisibles = obtenerProductosFiltrados();
+            avisoReplicas.hidden = estadoFiltros.familia === 'Accesorios';
             actualizarFamiliaActiva();
             actualizarMarcaActiva();
             actualizarEstadoControles();
@@ -962,7 +962,6 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
 
             camposModal.marca.textContent = producto.marca || 'ATLAS';
             camposModal.codigo.textContent = codigo;
-            camposModal.tipo.textContent = tipo;
             camposModal.estado.textContent = estadoVisible;
             camposModal.titulo.textContent = producto.modelo || 'Producto sin nombre';
             camposModal.color.textContent = producto.color || 'Color por confirmar';

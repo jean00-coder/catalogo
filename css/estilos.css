@@ -661,7 +661,7 @@ CATÁLOGO DINÁMICO
     left: 16px;
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 10px;
     pointer-events: none;
 }
@@ -1490,6 +1490,39 @@ BUSCADOR, MARCAS Y FILTROS — v0.3.5
 .catalogo-familia-btn:focus-visible{
     outline: 3px solid rgba(125,147,170,.5);
     outline-offset: 3px;
+}
+
+
+.catalogo-aviso-replicas{
+    margin-top: 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(216,179,106,.22);
+    border-radius: 16px;
+    color: rgba(245,245,245,.72);
+}
+
+.catalogo-aviso-replicas > i{
+    margin-top: 2px;
+    color: var(--color-acento, #d8b36a);
+    font-size: 1rem;
+}
+
+.catalogo-aviso-replicas strong{
+    display: block;
+    margin-bottom: 4px;
+    color: rgba(255,255,255,.92);
+    font-size: .84rem;
+}
+
+.catalogo-aviso-replicas p{
+    margin: 0;
+    max-width: 920px;
+    font-size: .78rem;
+    line-height: 1.55;
 }
 
 .catalogo-marcas-bloque{
