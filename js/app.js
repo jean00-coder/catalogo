@@ -438,10 +438,23 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         const botonBuscarHeader = document.querySelector('.accion-buscar');
         const familiasContenedor = document.querySelector('#catalogo-familias');
         const avisoReplicas = document.querySelector('#catalogo-aviso-replicas');
-        const marcasContenedor = document.querySelector('#catalogo-marcas');
-        const categoriaSelect = document.querySelector('#catalogo-categoria');
+        const filtrosToggle = document.querySelector('#catalogo-filtros-toggle');
+        const filtrosContador = document.querySelector('#catalogo-filtros-contador');
+        const filtrosPanel = document.querySelector('#catalogo-filtros-panel');
+        const filtrosCerrar = document.querySelector('#catalogo-filtros-cerrar');
+        const filtrosActivos = document.querySelector('#catalogo-filtros-activos');
+        const marcaSelect = document.querySelector('#catalogo-marca');
+        const tallaControl = document.querySelector('#catalogo-talla-control');
+        const tallaSelect = document.querySelector('#catalogo-talla');
+        const colorControl = document.querySelector('#catalogo-color-control');
+        const colorSelect = document.querySelector('#catalogo-color');
+        const materialControl = document.querySelector('#catalogo-material-control');
+        const materialSelect = document.querySelector('#catalogo-material');
         const estadoSelect = document.querySelector('#catalogo-estado');
+        const precioMinInput = document.querySelector('#catalogo-precio-min');
+        const precioMaxInput = document.querySelector('#catalogo-precio-max');
         const ordenSelect = document.querySelector('#catalogo-orden');
+        const destacadoControl = document.querySelector('#catalogo-destacados-control');
         const destacadoCheckbox = document.querySelector('#catalogo-destacados');
         const botonRestablecer = document.querySelector('#catalogo-restablecer');
 
@@ -489,10 +502,23 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             botonLimpiarBusqueda,
             familiasContenedor,
             avisoReplicas,
-            marcasContenedor,
-            categoriaSelect,
+            filtrosToggle,
+            filtrosContador,
+            filtrosPanel,
+            filtrosCerrar,
+            filtrosActivos,
+            marcaSelect,
+            tallaControl,
+            tallaSelect,
+            colorControl,
+            colorSelect,
+            materialControl,
+            materialSelect,
             estadoSelect,
+            precioMinInput,
+            precioMaxInput,
             ordenSelect,
+            destacadoControl,
             destacadoCheckbox,
             botonRestablecer,
             modal,
@@ -530,8 +556,12 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             busqueda: '',
             familia: 'todas',
             marca: 'todas',
-            categoria: 'todas',
+            talla: 'todas',
+            color: 'todos',
+            material: 'todos',
             estado: 'todos',
+            precioMin: null,
+            precioMax: null,
             soloDestacados: false,
             orden: 'recientes'
         };
@@ -576,45 +606,97 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             return Array.from(mapa.values()).sort((a, b) => a.localeCompare(b, 'es-CO', { sensitivity: 'base' }));
         };
 
-        /** Genera los botones de marca según la categoría principal activa. */
-        const crearFiltrosMarca = () => {
-            const base = productosDeFamilia();
-            const marcas = obtenerValoresUnicos('marca', base);
+        const llenarSelect = (select, valores, valorTodos, textoTodos, valorActual) => {
             const fragmento = document.createDocumentFragment();
-            const crearBoton = (texto, valor, cantidad) => {
-                const boton = document.createElement('button');
-                boton.type = 'button';
-                boton.className = 'catalogo-marca-btn';
-                boton.dataset.marca = valor;
-                boton.setAttribute('aria-pressed', valor === estadoFiltros.marca ? 'true' : 'false');
-                boton.innerHTML = `<span>${escaparHTML(texto)}</span><small>${cantidad}</small>`;
-                return boton;
-            };
-            fragmento.append(crearBoton('Todas', 'todas', base.length));
-            marcas.forEach((marca) => {
-                const cantidad = base.filter((producto) => normalizarTexto(producto.marca) === normalizarTexto(marca)).length;
-                fragmento.append(crearBoton(marca, marca, cantidad));
-            });
-            marcasContenedor.replaceChildren(fragmento);
-        };
+            const opcionInicial = document.createElement('option');
+            opcionInicial.value = valorTodos;
+            opcionInicial.textContent = textoTodos;
+            fragmento.append(opcionInicial);
 
-        /** Genera tipos o estilos según la categoría principal. */
-        const crearFiltroCategorias = () => {
-            const base = productosDeFamilia();
-            const categorias = obtenerValoresUnicos('categoria', base);
-            const fragmento = document.createDocumentFragment();
-            const opcionTodas = document.createElement('option');
-            opcionTodas.value = 'todas';
-            opcionTodas.textContent = estadoFiltros.familia === 'Accesorios' ? 'Todos los accesorios' : 'Todos los tipos y estilos';
-            fragmento.append(opcionTodas);
-            categorias.forEach((categoria) => {
+            valores.forEach((valor) => {
                 const opcion = document.createElement('option');
-                opcion.value = categoria;
-                opcion.textContent = categoria;
+                opcion.value = String(valor);
+                opcion.textContent = String(valor);
                 fragmento.append(opcion);
             });
-            categoriaSelect.replaceChildren(fragmento);
-            categoriaSelect.value = 'todas';
+
+            select.replaceChildren(fragmento);
+            const existeActual = [...select.options].some((opcion) => opcion.value === String(valorActual));
+            select.value = existeActual ? String(valorActual) : valorTodos;
+            return select.value;
+        };
+
+        /** Actualiza las opciones disponibles según la familia elegida. */
+        const crearOpcionesFiltros = () => {
+            const base = productosDeFamilia();
+            const familia = normalizarTexto(estadoFiltros.familia);
+            const esCalzado = familia === 'calzado';
+            const esAccesorios = familia === 'accesorios';
+
+            estadoFiltros.marca = llenarSelect(
+                marcaSelect,
+                obtenerValoresUnicos('marca', base),
+                'todas',
+                'Todas las marcas',
+                estadoFiltros.marca
+            );
+
+            const tallas = [...new Set(base.flatMap((producto) => (
+                Array.isArray(producto.tallas) ? producto.tallas : []
+            )).map(Number).filter(Number.isFinite))].sort((a, b) => a - b);
+            estadoFiltros.talla = llenarSelect(tallaSelect, tallas, 'todas', 'Todas las tallas', estadoFiltros.talla);
+
+            estadoFiltros.color = llenarSelect(
+                colorSelect,
+                obtenerValoresUnicos('color', base),
+                'todos',
+                'Todos los colores',
+                estadoFiltros.color
+            );
+
+            estadoFiltros.material = llenarSelect(
+                materialSelect,
+                obtenerValoresUnicos('materialCorrea', base),
+                'todos',
+                'Todos los materiales',
+                estadoFiltros.material
+            );
+
+            tallaControl.hidden = !esCalzado;
+            colorControl.hidden = !esAccesorios;
+            materialControl.hidden = !esAccesorios;
+            destacadoControl.hidden = esAccesorios;
+
+            if (!esCalzado) estadoFiltros.talla = 'todas';
+            if (!esAccesorios) {
+                estadoFiltros.color = 'todos';
+                estadoFiltros.material = 'todos';
+            }
+            if (esAccesorios) {
+                estadoFiltros.soloDestacados = false;
+                destacadoCheckbox.checked = false;
+            }
+
+            tallaSelect.value = estadoFiltros.talla;
+            colorSelect.value = estadoFiltros.color;
+            materialSelect.value = estadoFiltros.material;
+        };
+
+        const abrirFiltros = () => {
+            filtrosPanel.hidden = false;
+            filtrosToggle.setAttribute('aria-expanded', 'true');
+            filtrosToggle.classList.add('activo');
+        };
+
+        const cerrarFiltros = () => {
+            filtrosPanel.hidden = true;
+            filtrosToggle.setAttribute('aria-expanded', 'false');
+            filtrosToggle.classList.remove('activo');
+        };
+
+        const sincronizarPanelFiltros = () => {
+            if (window.matchMedia('(min-width: 901px)').matches) abrirFiltros();
+            else cerrarFiltros();
         };
 
         const actualizarFamiliaActiva = () => {
@@ -663,11 +745,11 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
                         'es-CO',
                         { sensitivity: 'base' }
                     ));
-                case 'marca':
-                    return resultado.sort((a, b) => String(a.marca || '').localeCompare(
-                        String(b.marca || ''),
-                        'es-CO',
-                        { sensitivity: 'base' }
+                case 'destacados':
+                    return resultado.sort((a, b) => (
+                        Number(Boolean(b.destacado)) - Number(Boolean(a.destacado))
+                        || obtenerTiempoCreacion(b) - obtenerTiempoCreacion(a)
+                        || Number(b.id || 0) - Number(a.id || 0)
                     ));
                 case 'recientes':
                 default:
@@ -685,53 +767,99 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
                     || normalizarTexto(obtenerFamiliaProducto(producto)) === normalizarTexto(estadoFiltros.familia);
                 const coincideMarca = estadoFiltros.marca === 'todas'
                     || normalizarTexto(producto.marca) === normalizarTexto(estadoFiltros.marca);
-                const coincideCategoria = estadoFiltros.categoria === 'todas'
-                    || normalizarTexto(producto.categoria) === normalizarTexto(estadoFiltros.categoria);
+                const coincideTalla = estadoFiltros.talla === 'todas'
+                    || (Array.isArray(producto.tallas) && producto.tallas.some((talla) => String(talla) === String(estadoFiltros.talla)));
+                const coincideColor = estadoFiltros.color === 'todos'
+                    || normalizarTexto(producto.color) === normalizarTexto(estadoFiltros.color);
+                const coincideMaterial = estadoFiltros.material === 'todos'
+                    || normalizarTexto(producto.materialCorrea) === normalizarTexto(estadoFiltros.material);
                 const coincideEstado = estadoFiltros.estado === 'todos'
                     || normalizarTexto(producto.estado) === normalizarTexto(estadoFiltros.estado);
+                const precio = Number(producto.precio);
+                const coincidePrecioMin = estadoFiltros.precioMin === null
+                    || (Number.isFinite(precio) && precio >= estadoFiltros.precioMin);
+                const coincidePrecioMax = estadoFiltros.precioMax === null
+                    || (Number.isFinite(precio) && precio <= estadoFiltros.precioMax);
                 const coincideDestacado = !estadoFiltros.soloDestacados
                     || producto.destacado === true;
 
                 return coincideBusqueda(producto)
                     && coincideFamilia
                     && coincideMarca
-                    && coincideCategoria
+                    && coincideTalla
+                    && coincideColor
+                    && coincideMaterial
                     && coincideEstado
+                    && coincidePrecioMin
+                    && coincidePrecioMax
                     && coincideDestacado;
             });
 
             return ordenarProductos(filtrados);
         };
 
-        /** Activa visualmente el botón de marca seleccionado. */
-        const actualizarMarcaActiva = () => {
-            marcasContenedor.querySelectorAll('[data-marca]').forEach((boton) => {
-                const activo = normalizarTexto(boton.dataset.marca) === normalizarTexto(estadoFiltros.marca);
-                boton.classList.toggle('activo', activo);
-                boton.setAttribute('aria-pressed', activo ? 'true' : 'false');
-            });
+        const obtenerCantidadFiltrosActivos = () => [
+            estadoFiltros.marca !== 'todas',
+            estadoFiltros.talla !== 'todas',
+            estadoFiltros.color !== 'todos',
+            estadoFiltros.material !== 'todos',
+            estadoFiltros.estado !== 'todos',
+            estadoFiltros.precioMin !== null,
+            estadoFiltros.precioMax !== null,
+            estadoFiltros.soloDestacados
+        ].filter(Boolean).length;
+
+        const crearChipFiltro = (clave, texto) => {
+            const boton = document.createElement('button');
+            boton.type = 'button';
+            boton.className = 'catalogo-filtro-chip';
+            boton.dataset.quitarFiltro = clave;
+            boton.innerHTML = `<span>${escaparHTML(texto)}</span><i class="fa-solid fa-xmark" aria-hidden="true"></i>`;
+            return boton;
         };
 
-        /** Actualiza el contador y la visibilidad del botón para limpiar búsqueda. */
+        const renderizarFiltrosActivos = () => {
+            const fragmento = document.createDocumentFragment();
+            if (estadoFiltros.marca !== 'todas') fragmento.append(crearChipFiltro('marca', estadoFiltros.marca));
+            if (estadoFiltros.talla !== 'todas') fragmento.append(crearChipFiltro('talla', `Talla ${estadoFiltros.talla}`));
+            if (estadoFiltros.color !== 'todos') fragmento.append(crearChipFiltro('color', estadoFiltros.color));
+            if (estadoFiltros.material !== 'todos') fragmento.append(crearChipFiltro('material', estadoFiltros.material));
+            if (estadoFiltros.estado !== 'todos') {
+                fragmento.append(crearChipFiltro('estado', estadoFiltros.estado === 'disponible' ? 'Disponible' : 'Agotado'));
+            }
+            if (estadoFiltros.precioMin !== null) {
+                fragmento.append(crearChipFiltro('precioMin', `Desde ${formatearPrecio(estadoFiltros.precioMin)}`));
+            }
+            if (estadoFiltros.precioMax !== null) {
+                fragmento.append(crearChipFiltro('precioMax', `Hasta ${formatearPrecio(estadoFiltros.precioMax)}`));
+            }
+            if (estadoFiltros.soloDestacados) fragmento.append(crearChipFiltro('destacados', 'Destacados'));
+            filtrosActivos.replaceChildren(fragmento);
+            filtrosActivos.hidden = filtrosActivos.childElementCount === 0;
+        };
+
+        /** Actualiza contador, chips y estado de los controles. */
         const actualizarEstadoControles = () => {
             const cantidad = productosVisibles.length;
             const total = productosActivos.length;
+            const cantidadFiltros = obtenerCantidadFiltrosActivos();
             const hayFiltros = Boolean(
                 estadoFiltros.busqueda
                 || estadoFiltros.familia !== 'todas'
-                || estadoFiltros.marca !== 'todas'
-                || estadoFiltros.categoria !== 'todas'
-                || estadoFiltros.estado !== 'todos'
-                || estadoFiltros.soloDestacados
+                || cantidadFiltros > 0
                 || estadoFiltros.orden !== 'recientes'
             );
 
             resumen.textContent = cantidad === total && !hayFiltros
-                ? `${total} ${total === 1 ? 'producto disponible' : 'productos disponibles'}`
-                : `Mostrando ${cantidad} de ${total} ${total === 1 ? 'producto' : 'productos'}`;
+                ? `${total} ${total === 1 ? 'producto encontrado' : 'productos encontrados'}`
+                : `${cantidad} ${cantidad === 1 ? 'producto encontrado' : 'productos encontrados'} de ${total}`;
 
+            filtrosContador.textContent = String(cantidadFiltros);
+            filtrosContador.hidden = cantidadFiltros === 0;
+            filtrosToggle.classList.toggle('tiene-filtros', cantidadFiltros > 0);
             botonLimpiarBusqueda.hidden = buscador.value.length === 0;
             botonRestablecer.disabled = !hayFiltros;
+            renderizarFiltrosActivos();
         };
 
         /** Registra el control de error para las imágenes recién renderizadas. */
@@ -750,7 +878,6 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             productosVisibles = obtenerProductosFiltrados();
             avisoReplicas.hidden = estadoFiltros.familia === 'Accesorios';
             actualizarFamiliaActiva();
-            actualizarMarcaActiva();
             actualizarEstadoControles();
 
             if (productosVisibles.length === 0) {
@@ -1053,24 +1180,27 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             estadoFiltros.busqueda = '';
             estadoFiltros.familia = 'todas';
             estadoFiltros.marca = 'todas';
-            estadoFiltros.categoria = 'todas';
+            estadoFiltros.talla = 'todas';
+            estadoFiltros.color = 'todos';
+            estadoFiltros.material = 'todos';
             estadoFiltros.estado = 'todos';
+            estadoFiltros.precioMin = null;
+            estadoFiltros.precioMax = null;
             estadoFiltros.soloDestacados = false;
             estadoFiltros.orden = 'recientes';
 
             buscador.value = '';
-            crearFiltrosMarca();
-            crearFiltroCategorias();
-            categoriaSelect.value = 'todas';
             estadoSelect.value = 'todos';
+            precioMinInput.value = '';
+            precioMaxInput.value = '';
             destacadoCheckbox.checked = false;
             ordenSelect.value = 'recientes';
-
+            crearOpcionesFiltros();
             renderizarCatalogo();
         };
 
-        crearFiltrosMarca();
-        crearFiltroCategorias();
+        crearOpcionesFiltros();
+        sincronizarPanelFiltros();
 
         if (productosActivos.length === 0) {
             grid.replaceChildren();
@@ -1103,25 +1233,37 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             if (!boton || !familiasContenedor.contains(boton)) return;
             estadoFiltros.familia = boton.dataset.familia || 'todas';
             estadoFiltros.marca = 'todas';
-            estadoFiltros.categoria = 'todas';
-            crearFiltrosMarca();
-            crearFiltroCategorias();
+            estadoFiltros.talla = 'todas';
+            estadoFiltros.color = 'todos';
+            estadoFiltros.material = 'todos';
+            crearOpcionesFiltros();
             renderizarCatalogo();
         });
 
-        marcasContenedor.addEventListener('click', (evento) => {
-            const boton = evento.target.closest('[data-marca]');
+        filtrosToggle.addEventListener('click', () => {
+            if (filtrosPanel.hidden) abrirFiltros();
+            else cerrarFiltros();
+        });
 
-            if (!boton || !marcasContenedor.contains(boton)) {
-                return;
-            }
+        filtrosCerrar.addEventListener('click', cerrarFiltros);
 
-            estadoFiltros.marca = boton.dataset.marca || 'todas';
+        marcaSelect.addEventListener('change', () => {
+            estadoFiltros.marca = marcaSelect.value;
             renderizarCatalogo();
         });
 
-        categoriaSelect.addEventListener('change', () => {
-            estadoFiltros.categoria = categoriaSelect.value;
+        tallaSelect.addEventListener('change', () => {
+            estadoFiltros.talla = tallaSelect.value;
+            renderizarCatalogo();
+        });
+
+        colorSelect.addEventListener('change', () => {
+            estadoFiltros.color = colorSelect.value;
+            renderizarCatalogo();
+        });
+
+        materialSelect.addEventListener('change', () => {
+            estadoFiltros.material = materialSelect.value;
             renderizarCatalogo();
         });
 
@@ -1129,6 +1271,17 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             estadoFiltros.estado = estadoSelect.value;
             renderizarCatalogo();
         });
+
+        const actualizarPrecio = () => {
+            const minimo = Number(precioMinInput.value);
+            const maximo = Number(precioMaxInput.value);
+            estadoFiltros.precioMin = precioMinInput.value && Number.isFinite(minimo) ? Math.max(0, minimo) : null;
+            estadoFiltros.precioMax = precioMaxInput.value && Number.isFinite(maximo) ? Math.max(0, maximo) : null;
+            renderizarCatalogo();
+        };
+
+        precioMinInput.addEventListener('input', actualizarPrecio);
+        precioMaxInput.addEventListener('input', actualizarPrecio);
 
         destacadoCheckbox.addEventListener('change', () => {
             estadoFiltros.soloDestacados = destacadoCheckbox.checked;
@@ -1138,6 +1291,31 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         ordenSelect.addEventListener('change', () => {
             estadoFiltros.orden = ordenSelect.value;
             renderizarCatalogo();
+        });
+
+        filtrosActivos.addEventListener('click', (evento) => {
+            const boton = evento.target.closest('[data-quitar-filtro]');
+            if (!boton) return;
+
+            const clave = boton.dataset.quitarFiltro;
+            if (clave === 'marca') { estadoFiltros.marca = 'todas'; marcaSelect.value = 'todas'; }
+            if (clave === 'talla') { estadoFiltros.talla = 'todas'; tallaSelect.value = 'todas'; }
+            if (clave === 'color') { estadoFiltros.color = 'todos'; colorSelect.value = 'todos'; }
+            if (clave === 'material') { estadoFiltros.material = 'todos'; materialSelect.value = 'todos'; }
+            if (clave === 'estado') { estadoFiltros.estado = 'todos'; estadoSelect.value = 'todos'; }
+            if (clave === 'precioMin') { estadoFiltros.precioMin = null; precioMinInput.value = ''; }
+            if (clave === 'precioMax') { estadoFiltros.precioMax = null; precioMaxInput.value = ''; }
+            if (clave === 'destacados') { estadoFiltros.soloDestacados = false; destacadoCheckbox.checked = false; }
+            renderizarCatalogo();
+        });
+
+        let modoPanelEscritorio = window.matchMedia('(min-width: 901px)').matches;
+        window.addEventListener('resize', () => {
+            const ahoraEsEscritorio = window.matchMedia('(min-width: 901px)').matches;
+            if (ahoraEsEscritorio !== modoPanelEscritorio) {
+                modoPanelEscritorio = ahoraEsEscritorio;
+                sincronizarPanelFiltros();
+            }
         });
 
         botonRestablecer.addEventListener('click', restablecerFiltros);

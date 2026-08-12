@@ -985,3 +985,87 @@ IDENTIFICACION, PRIVACIDAD Y PQR RESPONSIVE - v0.8.0
         padding-inline: 10px;
     }
 }
+
+
+/*=========================================================
+FILTROS ORGANIZADOS RESPONSIVE — v0.7.3
+=========================================================*/
+
+@media (max-width: 1050px){
+    .catalogo-filtros-grid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px){
+    .catalogo-filtros-cerrar{
+        display: grid;
+    }
+}
+
+@media (max-width: 600px){
+    .catalogo-acciones-filtros{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .catalogo-filtros-toggle,
+    .catalogo-orden-control{
+        width: 100%;
+        min-width: 0;
+    }
+
+    .catalogo-filtros-toggle{
+        justify-content: center;
+    }
+
+    .catalogo-orden-control{
+        margin-left: 0;
+        padding-left: 12px;
+    }
+
+    .catalogo-orden-control select{
+        width: 100%;
+        min-width: 0;
+        font-size: .76rem;
+    }
+
+    .catalogo-filtros-panel{
+        margin-inline: -4px;
+        padding: 16px 14px;
+        border-radius: 16px;
+    }
+
+    .catalogo-filtros-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .catalogo-precio-campos{
+        grid-template-columns: 1fr auto 1fr;
+    }
+
+    .catalogo-filtros-pie,
+    .catalogo-filtros-pie .catalogo-restablecer{
+        width: 100%;
+    }
+
+    .catalogo-filtros-pie .catalogo-restablecer{
+        justify-content: center;
+    }
+
+    .catalogo-filtros-activos{
+        margin-inline: -14px;
+        padding: 0 14px 4px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .catalogo-filtros-activos::-webkit-scrollbar{
+        display: none;
+    }
+
+    .catalogo-filtro-chip{
+        flex: 0 0 auto;
+    }
+}
