@@ -3,7 +3,7 @@ PROYECTO: ATLAS
 
 ARCHIVO: variables.css
 
-VERSIÓN: 1.0.0
+VERSIÓN: 1.1.0
 
 FUNCIÓN:
 Variables globales del proyecto.
@@ -23,18 +23,25 @@ AQUÍ PUEDES CAMBIAR:
        COLORES
     ========================================== */
 
-    --color-fondo: #0B0B0B;
-    --color-fondo-secundario: #121212;
+    --color-fondo: #07101A;
+    --color-fondo-secundario: #0D1722;
+    --color-superficie: #122131;
+    --color-superficie-2: #192B3D;
 
-    --color-blanco: #F5F5F5;
+    --color-blanco: #F5F7FA;
 
-    --color-azul: #5F738A;
+    --color-azul: #8EA5BA;
+    --color-azul-profundo: #6F879E;
+    --color-azul-bruma: #B8C7D5;
 
-    --color-plateado: #BFC5CC;
+    --color-plateado: #D5DEE7;
 
-    --color-linea: rgba(255,255,255,.08);
+    --color-linea: rgba(190, 210, 228, .12);
 
-    --color-hover: #7D93AA;
+    --color-hover: #B2C4D4;
+    --color-overlay: rgba(7, 16, 26, .78);
+    --color-cristal: rgba(18, 33, 49, .58);
+    --color-cristal-fuerte: rgba(12, 24, 36, .82);
 
 
 
@@ -64,9 +71,9 @@ AQUÍ PUEDES CAMBIAR:
        SOMBRAS
     ========================================== */
 
-    --sombra-suave: 0 10px 30px rgba(0,0,0,.30);
+    --sombra-suave: 0 14px 40px rgba(2, 8, 15, .28);
 
-    --sombra-card: 0 15px 45px rgba(0,0,0,.45);
+    --sombra-card: 0 26px 72px rgba(3, 10, 18, .34);
 
 
 

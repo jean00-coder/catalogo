@@ -38,12 +38,27 @@ body{
     max-width: 100%;
     min-width: 0;
 
-    background: var(--color-fondo);
+    background:
+        radial-gradient(circle at 8% 0%, rgba(142,165,186,.14), transparent 26%),
+        radial-gradient(circle at 92% 4%, rgba(95,115,138,.13), transparent 24%),
+        linear-gradient(180deg, #07101A 0%, #0B1520 38%, #0C1723 100%);
     color: var(--color-blanco);
     font-family: var(--fuente-principal);
 
     overflow-x: hidden;
     position: relative;
+}
+
+body::before{
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 15% 18%, rgba(184,199,213,.05), transparent 20%),
+        radial-gradient(circle at 78% 32%, rgba(142,165,186,.06), transparent 24%),
+        radial-gradient(circle at 50% 100%, rgba(111,135,158,.06), transparent 28%);
+    z-index: -1;
 }
 
 /* Evita que la página se desplace detrás del menú móvil. */
@@ -96,6 +111,56 @@ h4{
 }
 
 
+#hero,
+.catalogo-intro,
+.catalogo-seccion,
+.informacion-seccion,
+.politicas-seccion,
+.footer-atlas{
+    position: relative;
+    isolation: isolate;
+}
+
+#hero::after,
+.catalogo-intro::before,
+.catalogo-intro::after,
+.catalogo-seccion::before,
+.informacion-seccion::before,
+.informacion-seccion::after,
+.politicas-seccion::before,
+.footer-atlas::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+#hero::after{
+    bottom: -1px;
+    height: clamp(90px, 12vw, 170px);
+    background: linear-gradient(180deg, rgba(7,16,26,0) 0%, rgba(10,18,28,.68) 58%, rgba(13,23,34,1) 100%);
+    z-index: 1;
+}
+
+.catalogo-intro::before,
+.catalogo-seccion::before,
+.informacion-seccion::before,
+.politicas-seccion::before,
+.footer-atlas::before{
+    top: 0;
+    height: clamp(70px, 9vw, 130px);
+    background: linear-gradient(180deg, rgba(12,21,32,0.55) 0%, rgba(12,21,32,0) 100%);
+}
+
+.catalogo-intro::after,
+.informacion-seccion::after{
+    bottom: -1px;
+    height: clamp(80px, 10vw, 150px);
+    background: linear-gradient(180deg, rgba(12,21,32,0) 0%, rgba(12,21,32,.72) 100%);
+}
+
+
 
 /*=========================================================
 SCROLL PERSONALIZADO
@@ -106,7 +171,7 @@ SCROLL PERSONALIZADO
 }
 
 ::-webkit-scrollbar-track{
-    background: #090909;
+    background: #0A141D;
 }
 
 ::-webkit-scrollbar-thumb{
@@ -136,11 +201,11 @@ HEADER
     top: 0;
     z-index: 1000;
     width: 100%;
-    background: rgba(11,11,11,.86);
-    border-bottom: 1px solid var(--color-linea);
+    background: rgba(10, 18, 27, .72);
+    border-bottom: 1px solid rgba(190, 210, 228, .10);
     box-shadow: 0 0 0 rgba(0,0,0,0);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     transition:
         background-color var(--transicion),
         border-color var(--transicion),
@@ -153,9 +218,9 @@ Se activa desde app.js después de desplazarse 32 píxeles.
 No cambia la altura del Header, por lo que evita saltos visuales.
 */
 #header.header-scroll{
-    background: rgba(11,11,11,.97);
+    background: rgba(10, 18, 27, .94);
     border-bottom-color: rgba(191,197,204,.18);
-    box-shadow: 0 14px 36px rgba(0,0,0,.32);
+    box-shadow: 0 14px 36px rgba(1, 8, 14, .34);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
 }
@@ -318,8 +383,9 @@ HERO PREMIUM
     align-items: stretch;
     overflow: hidden;
     background:
-        radial-gradient(circle at 72% 45%, rgba(95,115,138,.20), transparent 32%),
-        linear-gradient(135deg, #0b0b0b 0%, #101214 100%);
+        radial-gradient(circle at 72% 45%, rgba(142,165,186,.18), transparent 30%),
+        radial-gradient(circle at 12% 28%, rgba(95,115,138,.12), transparent 24%),
+        linear-gradient(135deg, #07101A 0%, #0B1520 55%, #0D1722 100%);
 }
 
 /* Contenedor de las fotografías */
@@ -514,12 +580,11 @@ INTRODUCCIÓN DEL CATÁLOGO
 }
 
 .catalogo-intro{
-    padding: clamp(72px, 9vw, 120px) 0;
+    padding: clamp(84px, 9vw, 126px) 0;
     background:
-        linear-gradient(180deg, rgba(255,255,255,.015), transparent),
-        var(--color-fondo-secundario);
-    border-top: 1px solid var(--color-linea);
-    border-bottom: 1px solid var(--color-linea);
+        radial-gradient(circle at 18% 18%, rgba(142,165,186,.10), transparent 25%),
+        linear-gradient(180deg, rgba(255,255,255,.018) 0%, rgba(255,255,255,.008) 24%, rgba(13,23,34,.12) 100%),
+        linear-gradient(180deg, #0D1722 0%, #0D1824 100%);
 }
 
 .catalogo-intro-contenido{
@@ -559,10 +624,11 @@ CATÁLOGO DINÁMICO
 
 .catalogo-seccion{
     min-height: 60vh;
-    padding: clamp(76px, 10vw, 132px) 0;
+    padding: clamp(86px, 10vw, 140px) 0;
     background:
-        radial-gradient(circle at 15% 5%, rgba(95,115,138,.13), transparent 28%),
-        var(--color-fondo);
+        radial-gradient(circle at 15% 5%, rgba(142,165,186,.14), transparent 26%),
+        radial-gradient(circle at 85% 0%, rgba(95,115,138,.11), transparent 22%),
+        linear-gradient(180deg, rgba(10,19,30,.92) 0%, rgba(12,24,36,.95) 48%, rgba(10,20,31,.98) 100%);
 }
 
 .seccion-cabecera{
@@ -588,20 +654,25 @@ CATÁLOGO DINÁMICO
 .producto-card{
     min-width: 0;
     overflow: hidden;
-    background: linear-gradient(180deg, #151515 0%, #101010 100%);
-    border: 1px solid rgba(255,255,255,.09);
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,.035) 100%),
+        linear-gradient(160deg, rgba(20,35,52,.70), rgba(11,20,32,.56));
+    border: 1px solid rgba(210, 226, 240, .13);
     border-radius: 24px;
     box-shadow: var(--sombra-card);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     transition:
         transform var(--transicion),
         border-color var(--transicion),
-        box-shadow var(--transicion);
+        box-shadow var(--transicion),
+        background var(--transicion);
 }
 
 .producto-card:hover{
     transform: translateY(-7px);
-    border-color: rgba(125,147,170,.46);
-    box-shadow: 0 24px 64px rgba(0,0,0,.55);
+    border-color: rgba(178,196,212,.34);
+    box-shadow: 0 28px 70px rgba(2, 9, 16, .38);
 }
 
 .producto-media{
@@ -609,8 +680,9 @@ CATÁLOGO DINÁMICO
     aspect-ratio: 1 / 1;
     overflow: hidden;
     background:
-        linear-gradient(135deg, rgba(95,115,138,.16), rgba(255,255,255,.02)),
-        #17191b;
+        radial-gradient(circle at top, rgba(142,165,186,.18), transparent 34%),
+        linear-gradient(135deg, rgba(95,115,138,.18), rgba(255,255,255,.03)),
+        #152331;
 }
 
 .producto-media[data-accion="abrir-producto"]{
@@ -668,15 +740,15 @@ CATÁLOGO DINÁMICO
 
 .producto-badge{
     padding: 7px 10px;
-    background: rgba(11,11,11,.78);
-    border: 1px solid rgba(255,255,255,.13);
+    background: rgba(10,18,27,.58);
+    border: 1px solid rgba(255,255,255,.14);
     border-radius: 999px;
     color: #ffffff;
     font-size: .68rem;
     font-weight: 700;
     letter-spacing: .7px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .producto-badge-estado{
@@ -763,50 +835,76 @@ CATÁLOGO DINÁMICO
 
 .producto-btn{
     min-height: 46px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
     gap: 8px;
-    padding: 11px 14px;
+    padding: 11px 16px;
+
     border-radius: var(--radio-boton);
+
     font-size: .82rem;
     font-weight: 700;
+    letter-spacing: .2px;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
     transition:
-        background-color var(--transicion),
+        background var(--transicion),
         border-color var(--transicion),
         color var(--transicion),
+        box-shadow var(--transicion),
         transform var(--transicion),
         opacity var(--transicion);
 }
 
 .producto-btn-detalles{
-    background: var(--color-azul);
-    border: 1px solid var(--color-azul);
-    color: #ffffff;
+    background:
+        linear-gradient(135deg, rgba(111,135,157,.95), rgba(142,165,186,.95));
+    border: 1px solid rgba(255,255,255,.18);
+    color: #08111A;
+    box-shadow:
+        0 10px 24px rgba(44,67,88,.28),
+        inset 0 1px 0 rgba(255,255,255,.22);
 }
 
 .producto-btn-detalles:hover{
-    background: var(--color-hover);
-    border-color: var(--color-hover);
-    transform: translateY(-2px);
+    background:
+        linear-gradient(135deg, rgba(142,165,186,1), rgba(167,187,204,1));
+    border-color: rgba(255,255,255,.32);
+    box-shadow:
+        0 14px 32px rgba(44,67,88,.38),
+        inset 0 1px 0 rgba(255,255,255,.28);
+    transform: translateY(-3px);
 }
 
 .producto-btn-carrito{
-    background: transparent;
-    border: 1px solid rgba(255,255,255,.18);
-    color: rgba(245,245,245,.82);
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.16);
+    color: rgba(243,247,251,.90);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 8px 20px rgba(0,0,0,.12);
 }
 
 .producto-btn-carrito:hover{
-    background: rgba(255,255,255,.08);
-    border-color: rgba(255,255,255,.34);
+    background: rgba(255,255,255,.12);
+    border-color: rgba(255,255,255,.30);
     color: #ffffff;
-    transform: translateY(-2px);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.14),
+        0 12px 28px rgba(0,0,0,.20);
+    transform: translateY(-3px);
 }
 
 .producto-btn:disabled{
     cursor: not-allowed;
-    opacity: .62;
+    opacity: .48;
+    transform: none;
+    box-shadow: none;
 }
 
 .producto-detalles{
@@ -925,11 +1023,13 @@ MODAL DE PRODUCTO Y GALERÍA
     max-height: min(900px, 92dvh);
     overflow-y: auto;
     background:
-        radial-gradient(circle at 8% 6%, rgba(95,115,138,.16), transparent 30%),
-        #101010;
+        radial-gradient(circle at 8% 6%, rgba(142,165,186,.13), transparent 30%),
+        linear-gradient(180deg, rgba(16,27,39,.96) 0%, rgba(10,18,27,.98) 100%);
     border: 1px solid rgba(255,255,255,.12);
     border-radius: 28px;
-    box-shadow: 0 36px 110px rgba(0,0,0,.72);
+    box-shadow: 0 36px 110px rgba(0,0,0,.62);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     transform: translateY(22px) scale(.985);
     transition: transform var(--transicion);
 }
@@ -975,7 +1075,7 @@ MODAL DE PRODUCTO Y GALERÍA
 .producto-modal-galeria{
     min-width: 0;
     padding: clamp(18px, 2.4vw, 30px);
-    background: rgba(255,255,255,.02);
+    background: rgba(255,255,255,.028);
     border-right: 1px solid rgba(255,255,255,.08);
 }
 
@@ -1352,11 +1452,13 @@ BUSCADOR, MARCAS Y FILTROS — v0.3.5
     margin-bottom: clamp(34px, 5vw, 58px);
     padding: clamp(20px, 3vw, 30px);
     background:
-        linear-gradient(135deg, rgba(95,115,138,.12), rgba(255,255,255,.018)),
-        #111213;
-    border: 1px solid rgba(255,255,255,.09);
+        linear-gradient(135deg, rgba(142,165,186,.11), rgba(255,255,255,.03)),
+        rgba(12, 21, 32, .58);
+    border: 1px solid rgba(210,226,240,.12);
     border-radius: 24px;
-    box-shadow: 0 18px 50px rgba(0,0,0,.28);
+    box-shadow: 0 20px 54px rgba(2, 9, 16, .24);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
 }
 
 .catalogo-busqueda-fila{
@@ -1374,10 +1476,12 @@ BUSCADOR, MARCAS Y FILTROS — v0.3.5
     align-items: center;
     gap: 12px;
     padding: 0 16px;
-    background: rgba(0,0,0,.24);
-    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.14);
     border-radius: 16px;
-    color: rgba(245,245,245,.58);
+    color: rgba(245,245,245,.66);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     transition:
         border-color var(--transicion),
         box-shadow var(--transicion),
@@ -1385,8 +1489,8 @@ BUSCADOR, MARCAS Y FILTROS — v0.3.5
 }
 
 .catalogo-buscador:focus-within{
-    background: rgba(0,0,0,.34);
-    border-color: rgba(125,147,170,.78);
+    background: rgba(255,255,255,.10);
+    border-color: rgba(169,189,207,.52);
     box-shadow: 0 0 0 4px rgba(95,115,138,.14);
 }
 
@@ -1415,8 +1519,8 @@ BUSCADOR, MARCAS Y FILTROS — v0.3.5
     height: 34px;
     display: grid;
     place-items: center;
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
     border-radius: 50%;
     color: rgba(245,245,245,.72);
     transition: var(--transicion);
@@ -1553,12 +1657,14 @@ BUSCADOR, MARCAS Y FILTROS — v0.3.5
     justify-content: center;
     gap: 9px;
     padding: 9px 14px;
-    background: rgba(255,255,255,.035);
-    border: 1px solid rgba(255,255,255,.09);
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.10);
     border-radius: 999px;
-    color: rgba(245,245,245,.7);
+    color: rgba(245,245,245,.76);
     font-size: .82rem;
     font-weight: 700;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: var(--transicion);
 }
 
@@ -1568,16 +1674,16 @@ BUSCADOR, MARCAS Y FILTROS — v0.3.5
     display: inline-grid;
     place-items: center;
     padding: 0 6px;
-    background: rgba(255,255,255,.07);
+    background: rgba(255,255,255,.08);
     border-radius: 999px;
-    color: rgba(245,245,245,.56);
+    color: rgba(245,245,245,.64);
     font-size: .67rem;
 }
 
 .catalogo-marca-btn:hover,
 .catalogo-marca-btn.activo{
-    background: var(--color-azul);
-    border-color: var(--color-azul);
+    background: rgba(142,165,186,.22);
+    border-color: rgba(169,189,207,.45);
     color: #fff;
     transform: translateY(-1px);
 }
@@ -1609,14 +1715,16 @@ BUSCADOR, MARCAS Y FILTROS — v0.3.5
     background:
         linear-gradient(45deg, transparent 50%, rgba(245,245,245,.58) 50%) calc(100% - 18px) 21px / 6px 6px no-repeat,
         linear-gradient(135deg, rgba(245,245,245,.58) 50%, transparent 50%) calc(100% - 12px) 21px / 6px 6px no-repeat,
-        rgba(0,0,0,.22);
-    border: 1px solid rgba(255,255,255,.1);
+        rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
     border-radius: 14px;
     outline: 0;
-    color: rgba(245,245,245,.84);
+    color: rgba(245,245,245,.88);
     font: inherit;
     font-size: .82rem;
     cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: var(--transicion);
 }
 
@@ -1636,14 +1744,16 @@ BUSCADOR, MARCAS Y FILTROS — v0.3.5
     align-items: center;
     gap: 10px;
     padding: 0 14px;
-    background: rgba(0,0,0,.22);
-    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
     border-radius: 14px;
-    color: rgba(245,245,245,.76);
+    color: rgba(245,245,245,.80);
     font-size: .8rem;
     font-weight: 700;
     white-space: nowrap;
     cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .catalogo-destacados-control input{
@@ -1731,10 +1841,12 @@ CARRITO LATERAL — v0.4.0
     grid-template-rows: auto minmax(0, 1fr) auto;
     overflow: hidden;
     background:
-        radial-gradient(circle at 100% 0%, rgba(95,115,138,.16), transparent 32%),
-        #101010;
+        radial-gradient(circle at 100% 0%, rgba(142,165,186,.12), transparent 32%),
+        linear-gradient(180deg, rgba(12,23,34,.96) 0%, rgba(9,17,26,.985) 100%);
     border-left: 1px solid rgba(255,255,255,.11);
-    box-shadow: -30px 0 90px rgba(0,0,0,.62);
+    box-shadow: -30px 0 90px rgba(0,0,0,.48);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -2149,11 +2261,11 @@ INFORMACIÓN COMERCIAL Y POLÍTICAS — v0.6.0
 =========================================================*/
 
 .informacion-seccion{
-    padding: 110px 0;
+    padding: 118px 0;
     background:
-        radial-gradient(circle at 10% 10%, rgba(95,115,138,.16), transparent 30%),
-        #101010;
-    border-top: 1px solid var(--color-linea);
+        radial-gradient(circle at 10% 10%, rgba(95,115,138,.13), transparent 30%),
+        radial-gradient(circle at 90% 0%, rgba(142,165,186,.10), transparent 28%),
+        linear-gradient(180deg, #0C1723 0%, #0A1520 100%);
 }
 
 .informacion-cabecera{
@@ -2169,9 +2281,11 @@ INFORMACIÓN COMERCIAL Y POLÍTICAS — v0.6.0
 .informacion-card{
     min-width: 0;
     padding: 26px;
-    background: rgba(255,255,255,.025);
+    background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.02));
     border: 1px solid rgba(255,255,255,.09);
     border-radius: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
 .informacion-icono{
@@ -2206,9 +2320,11 @@ INFORMACIÓN COMERCIAL Y POLÍTICAS — v0.6.0
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    background: linear-gradient(120deg, rgba(95,115,138,.18), rgba(255,255,255,.035));
+    background: linear-gradient(120deg, rgba(95,115,138,.18), rgba(255,255,255,.04));
     border: 1px solid rgba(125,147,170,.22);
     border-radius: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
 .informacion-cta > div{
@@ -2249,9 +2365,10 @@ INFORMACIÓN COMERCIAL Y POLÍTICAS — v0.6.0
 }
 
 .politicas-seccion{
-    padding: 110px 0;
-    background: #0b0b0b;
-    border-top: 1px solid var(--color-linea);
+    padding: 118px 0;
+    background:
+        radial-gradient(circle at 12% 8%, rgba(142,165,186,.08), transparent 26%),
+        linear-gradient(180deg, #0A1520 0%, #09111A 100%);
 }
 
 .politicas-contenedor{
@@ -2276,11 +2393,16 @@ INFORMACIÓN COMERCIAL Y POLÍTICAS — v0.6.0
 }
 
 .politicas-lista{
-    border-top: 1px solid rgba(255,255,255,.1);
+    border-top: 1px solid rgba(255,255,255,.08);
+    background: linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,.005));
+    border-radius: 18px;
+    overflow: hidden;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 }
 
 .politica-item{
-    border-bottom: 1px solid rgba(255,255,255,.1);
+    border-bottom: 1px solid rgba(255,255,255,.08);
 }
 
 .politica-item summary{
@@ -2345,9 +2467,9 @@ INFORMACIÓN COMERCIAL Y POLÍTICAS — v0.6.0
 }
 
 .footer-atlas{
-    padding: 72px 0 24px;
-    background: #080808;
-    border-top: 1px solid rgba(255,255,255,.1);
+    padding: 86px 0 24px;
+    background:
+        linear-gradient(180deg, #09111A 0%, #060C13 100%);
 }
 
 .footer-grid{
@@ -3161,10 +3283,12 @@ FILTROS ORGANIZADOS — v0.7.3
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: rgba(0,0,0,.22);
-    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
     border-radius: 14px;
     color: rgba(245,245,245,.84);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .catalogo-filtros-toggle{
@@ -3179,8 +3303,8 @@ FILTROS ORGANIZADOS — v0.7.3
 .catalogo-filtros-toggle:hover,
 .catalogo-filtros-toggle.activo,
 .catalogo-filtros-toggle.tiene-filtros{
-    border-color: rgba(125,147,170,.72);
-    background: rgba(95,115,138,.14);
+    border-color: rgba(169,189,207,.48);
+    background: rgba(142,165,186,.16);
 }
 
 .catalogo-filtros-contador{
@@ -3261,9 +3385,11 @@ FILTROS ORGANIZADOS — v0.7.3
 .catalogo-filtros-panel{
     margin-top: 16px;
     padding: 20px;
-    background: rgba(255,255,255,.025);
-    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.10);
     border-radius: 18px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 }
 
 .catalogo-filtros-panel[hidden]{
@@ -3333,13 +3459,15 @@ FILTROS ORGANIZADOS — v0.7.3
     width: 100%;
     min-height: 48px;
     padding: 0 10px 0 27px;
-    background: rgba(0,0,0,.22);
-    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
     border-radius: 14px;
     outline: 0;
-    color: rgba(245,245,245,.84);
+    color: rgba(245,245,245,.88);
     font: inherit;
     font-size: .78rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .catalogo-precio-campos input:focus{
@@ -3388,4 +3516,18 @@ FILTROS ORGANIZADOS — v0.7.3
     clip: rect(0,0,0,0) !important;
     white-space: nowrap !important;
     border: 0 !important;
+}
+
+
+@media (max-width: 600px){
+    #hero::after,
+    .catalogo-intro::before,
+    .catalogo-intro::after,
+    .catalogo-seccion::before,
+    .informacion-seccion::before,
+    .informacion-seccion::after,
+    .politicas-seccion::before,
+    .footer-atlas::before{
+        height: 72px;
+    }
 }
