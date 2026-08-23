@@ -3,7 +3,7 @@ PROYECTO: ATLAS
 
 ARCHIVO: carrito.js
 
-VERSIÓN: 0.7.0
+VERSIÓN: 0.8.0
 
 FUNCIÓN:
 Administrar el carrito lateral, cantidades, variantes, total y
@@ -532,9 +532,21 @@ persistencia local en el navegador.
         obtenerTotal
     };
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', iniciar);
-    } else {
+    const iniciarConCatalogo = async () => {
+        try {
+            if (window.ATLAS_CATALOGO_LISTO && typeof window.ATLAS_CATALOGO_LISTO.then === 'function') {
+                await window.ATLAS_CATALOGO_LISTO;
+            }
+        } catch (error) {
+            console.warn('ATLAS: carrito iniciado con el respaldo local.', error);
+        }
+
         iniciar();
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', iniciarConCatalogo);
+    } else {
+        iniciarConCatalogo();
     }
 })();

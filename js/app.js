@@ -3,7 +3,7 @@ PROYECTO: ATLAS
 
 ARCHIVO: app.js
 
-VERSIÓN: 0.6.2
+VERSIÓN: 0.8.0
 
 FUNCIÓN:
 Controlar el Hero, menú móvil, Header, catálogo, modal y conexión con el carrito.
@@ -547,7 +547,7 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             resumen.textContent = 'No fue posible cargar el catálogo.';
             estadoVacio.hidden = false;
             estadoVacioTitulo.textContent = 'No fue posible cargar los productos';
-            estadoVacioTexto.textContent = 'Revisa el archivo js/productos.js.';
+            estadoVacioTexto.textContent = 'Recarga la página. Si el problema continúa, revisa la conexión del catálogo.';
             return;
         }
 
@@ -1207,7 +1207,7 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
             resumen.textContent = '0 productos disponibles';
             estadoVacio.hidden = false;
             estadoVacioTitulo.textContent = 'No hay productos disponibles';
-            estadoVacioTexto.textContent = 'Agrega productos activos desde ATLAS Gestor Local.';
+            estadoVacioTexto.textContent = 'Publica productos desde ATLAS Gestor para mostrarlos aquí.';
             return;
         }
 
@@ -1517,10 +1517,23 @@ CATÁLOGO DINÁMICO, BÚSQUEDA, FILTROS Y MODAL DE PRODUCTO
         }
     };
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', iniciarCatalogo);
-    } else {
+    const iniciarCatalogoConDatos = async () => {
+        try {
+            if (window.ATLAS_CATALOGO_LISTO && typeof window.ATLAS_CATALOGO_LISTO.then === 'function') {
+                await window.ATLAS_CATALOGO_LISTO;
+            }
+        } catch (error) {
+            // supabase-catalogo.js conserva productos.js como respaldo.
+            console.warn('ATLAS: se inicia el catálogo con el respaldo local.', error);
+        }
+
         iniciarCatalogo();
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', iniciarCatalogoConDatos);
+    } else {
+        iniciarCatalogoConDatos();
     }
 })();
 

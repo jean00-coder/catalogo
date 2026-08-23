@@ -492,7 +492,7 @@ Hero premium, catálogo dinámico, filtros, galería, carrito, pedidos por Whats
             <div id="catalogo-vacio" class="catalogo-vacio" hidden>
                 <i class="fa-solid fa-box-open" aria-hidden="true"></i>
                 <h3>No hay productos disponibles</h3>
-                <p>Agrega productos activos dentro de <code>js/productos.js</code>.</p>
+                <p>Publica productos desde ATLAS Gestor para mostrarlos en el catálogo.</p>
             </div>
 
         </div>
@@ -1334,10 +1334,14 @@ Hero premium, catálogo dinámico, filtros, galería, carrito, pedidos por Whats
 
     <!-- JavaScript -->
     <script src="js/config.js?v=0.5.0"></script>
+    <!-- Respaldo histórico durante la migración gradual a Supabase. -->
     <script src="js/productos.js?v=gestor-20260813053859126"></script>
-    <script src="js/carrito.js?v=0.7.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin="anonymous"></script>
+    <script src="js/supabase-config.js?v=0.8.0"></script>
+    <script src="js/supabase-catalogo.js?v=0.8.0"></script>
+    <script src="js/carrito.js?v=0.8.0"></script>
     <script src="js/whatsapp.js?v=1.0.0"></script>
-    <script src="js/app.js?v=0.7.3"></script>
+    <script src="js/app.js?v=0.8.0"></script>
     <script src="js/pqr.js?v=0.8.0"></script>
 
 </body>
